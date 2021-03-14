@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="205.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InitController">
+   <children>
+      <Button layoutX="233.0" layoutY="225.0" mnemonicParsing="false" onAction="#plot" prefHeight="31.0" prefWidth="452.0" text="Построить график" AnchorPane.leftAnchor="233.0" AnchorPane.topAnchor="225.0" />
+      <TextField fx:id="LTextField" layoutX="62.0" layoutY="14.0" prefWidth="150.0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="15.0" />
+      <TextField fx:id="RTextField" layoutX="60.0" layoutY="56.0" prefWidth="150.0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="55.0" />
+      <TextField fx:id="nTextField" layoutX="113.0" layoutY="121.0" prefWidth="150.0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="95.0" />
+      <TextField fx:id="kTextField" layoutX="113.0" layoutY="169.0" prefWidth="150.0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="135.0" />
+      <TextField fx:id="NTextField" layoutX="60.0" layoutY="225.0" prefWidth="150.0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="225.0" />
+      <Label alignment="CENTER" layoutX="14.0" layoutY="20.0" prefHeight="21.0" prefWidth="35.0" text="L" textAlignment="CENTER" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="55.0" prefHeight="21.0" prefWidth="35.0" text="R" textAlignment="CENTER" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="55.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="95.0" prefHeight="21.0" prefWidth="35.0" text="n" textAlignment="CENTER" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="95.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="135.0" prefHeight="21.0" prefWidth="35.0" text="k" textAlignment="CENTER" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="135.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="175.0" prefHeight="21.0" prefWidth="35.0" text="z" textAlignment="CENTER" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="175.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="215.0" prefHeight="21.0" prefWidth="35.0" textAlignment="CENTER" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="215.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="255.0" prefHeight="21.0" prefWidth="35.0" textAlignment="CENTER" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="255.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="5.0" layoutY="207.0" prefHeight="68.0" prefWidth="45.0" text="Кол-во точек разбиения" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="207.0">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Label>
+      <Button layoutX="233.0" layoutY="95.0" mnemonicParsing="false" onAction="#uTheory" prefHeight="31.0" prefWidth="452.0" text="Вычислить" AnchorPane.leftAnchor="233.0" AnchorPane.topAnchor="95.0" />
+      <TextField layoutX="250.0" layoutY="55.0" prefHeight="31.0" prefWidth="200.0" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="55.0" fx:id="xTextField" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="229.0" layoutY="15.0" prefHeight="31.0" prefWidth="452.0" text="Вычисление аналитического значения u(r, z), r ∈ [0, R], z ∈ [0, L]" AnchorPane.leftAnchor="229.0" AnchorPane.topAnchor="15.0" />
+      <TextField fx:id="uTextField" editable="false" layoutX="485.0" layoutY="55.0" prefHeight="31.0" prefWidth="200.0" AnchorPane.leftAnchor="485.0" />
+      <Label layoutX="235.0" layoutY="60.0" text="r" AnchorPane.leftAnchor="235.0" AnchorPane.topAnchor="60.0" />
+      <Label layoutX="469.0" layoutY="60.0" prefHeight="21.0" prefWidth="7.0" text="u" AnchorPane.leftAnchor="469.0" AnchorPane.topAnchor="60.0" />
+      <TextField fx:id="zTextField" layoutX="60.0" layoutY="175.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>
