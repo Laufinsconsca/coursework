@@ -2,6 +2,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Point;
 
 import java.net.URL;
 import java.util.*;
@@ -79,7 +80,8 @@ public class InitController implements Initializable, aWindow {
         try {
             readInitialConditions();
             PlotController controller = (PlotController) getController();
-            controller.setSeries(getSeries(z), "тестовый график");
+            //todo
+            //controller.setSeries(getSeries(z), "тестовый график");
             controller.getStage().show();
         } catch (NumberFormatException e) {
             WarningWindows.showWarning("Ошибка ввода начальных условий");
@@ -89,7 +91,7 @@ public class InitController implements Initializable, aWindow {
     private List<Point> getSeries(double t) {
         List<Point> list = new ArrayList<>();
         for (double i = 0; i < L; i += L/N) {
-            list.add(new Point(i, uExp(i, t)));
+            //list.add(new Point(i, uExp(i, t)));
         }
         return list;
     }
