@@ -2,9 +2,9 @@ package service.impl;
 
 
 import dto.InputDataDto;
-import method.AnalyticalMethod;
-import method.CrankNicholsonScheme;
-import method.ImplicitDifferenceScheme;
+import method.impl.AnalyticalMethod;
+import method.impl.CrankNicholsonScheme;
+import method.impl.ImplicitDifferenceScheme;
 import method.Method;
 import model.CalculationResult;
 import service.PlotService;

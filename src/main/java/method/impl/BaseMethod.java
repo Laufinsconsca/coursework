@@ -1,6 +1,7 @@
-package method;
+package method.impl;
 
 import dto.InputDataDto;
+import method.Method;
 import model.Point;
 
 import java.util.ArrayList;

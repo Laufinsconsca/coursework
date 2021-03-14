@@ -1,7 +1,8 @@
-package method;
+package method.impl;
 
 
 import dto.InputDataDto;
+import method.Method;
 import model.Point;
 import org.apache.commons.math3.special.BesselJ;
 

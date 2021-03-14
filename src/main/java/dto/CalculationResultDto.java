@@ -3,6 +3,8 @@ package dto;
 import lombok.*;
 import model.Point;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class CalculationResultDto {
 
     private Integer idCalculationResult;
     private String name;
-    private Date date;
+    private Time date;
     private Integer numberPoint;
     private Integer numberOfMembers;
     private double lambda;
