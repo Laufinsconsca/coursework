@@ -65,15 +65,4 @@ public class CrankNicolsonScheme extends BaseMethod implements Method {
         }
         return getTabulatedFunction(U, Math.round((float) (z * K / L)));
     }
-
-    private TabulatedFunction getTabulatedFunction(Matrix<Complex> U, int k) {
-        // k - временной слой
-        List<Point> points = new ArrayList<>();
-        double h_r = R / J;
-        double h_z = L / K;
-        for (int j = 0; j < J; j++) {
-            points.add(new Point(h_r * j, h_z * k, U.get(j + 1, k + 1).get()));
-        }
-        return new ArrayTabulatedFunction(FXCollections.observableList(points), z);
-    }
 }

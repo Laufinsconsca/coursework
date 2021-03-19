@@ -99,6 +99,7 @@ public class InitController implements Initializable, aWindow {
             calculationResultDto = MethodHelper.doCalculation(inputDataDto);
             controller.setSeries(calculationResultDto.getAnalyticalSolution(), "аналитическое\nрешение");
             controller.addSeries(calculationResultDto.getSolutionByTheCrankNicholsonScheme(), "метод\nКранка-Николсона");
+            controller.addSeries(calculationResultDto.getImplicitSchemaSolution(), "неяная\nсхема");
             controller.getStage().show();
         } catch (NumberFormatException e) {
             WarningWindows.showWarning("Ошибка ввода начальных условий");

@@ -1,9 +1,17 @@
 package method.impl;
 
+import complex.Complex;
 import dto.InputDataDto;
+import javafx.collections.FXCollections;
+import matrices.matrix.Matrix;
 import method.Method;
+import model.Point;
 import org.apache.commons.math3.special.BesselJ;
+import tabulatedFunctions.ArrayTabulatedFunction;
 import tabulatedFunctions.TabulatedFunction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseMethod implements Method {
     protected static final double ksi_0_1 = 2.404825557695773;
@@ -28,5 +36,18 @@ public abstract class BaseMethod implements Method {
 
     protected double ψ(double r, double R) {
         return BesselJ.value(0, ksi_0_1 * r / R);
+        //double a = 0.1*R;
+        //return Math.exp(-r*r/a*a);
+    }
+
+    protected TabulatedFunction getTabulatedFunction(Matrix<Complex> U, int k) {
+        // k - временной слой
+        List<Point> points = new ArrayList<>();
+        double h_r = R / J;
+        double h_z = L / K;
+        for (int j = 0; j < J + 1; j++) {
+            points.add(new Point(h_r * j, h_z * k, U.get(j + 1, k + 1).get()));
+        }
+        return new ArrayTabulatedFunction(FXCollections.observableList(points), z);
     }
 }
