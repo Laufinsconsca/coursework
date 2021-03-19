@@ -1,6 +1,6 @@
 package method;
 
-import dto.CalculationResultDto;
+import dto.ResultDataDto;
 import dto.InputDataDto;
 import method.impl.AnalyticalMethod;
 import method.impl.CrankNicolsonScheme;
@@ -9,15 +9,15 @@ import method.impl.ImplicitDifferenceScheme;
 import java.sql.Time;
 import java.time.LocalTime;
 
-public class MethodHelper {
+public class Calculator {
     private static final int i = 0;
 
-    public static CalculationResultDto doCalculation(InputDataDto inputDataDto) {
+    public static ResultDataDto doCalculation(InputDataDto inputDataDto) {
 
         Method analyticalMethod = new AnalyticalMethod();
         Method crankNicolsonScheme = new CrankNicolsonScheme();
         Method implicitDifferenceScheme = new ImplicitDifferenceScheme();
-        return CalculationResultDto.builder()
+        return ResultDataDto.builder()
                 .idCalculationResult(i)
                 .name("Calc№ " + i)
                 .date(Time.valueOf(LocalTime.now()))
@@ -29,8 +29,8 @@ public class MethodHelper {
                 .radius(inputDataDto.getR())
                 .z(inputDataDto.getZ())
                 .analyticalSolution(analyticalMethod.doCalculation(inputDataDto))
-                .solutionByTheCrankNicholsonScheme(crankNicolsonScheme.doCalculation(inputDataDto))
-                .implicitSchemaSolution(implicitDifferenceScheme.doCalculation(inputDataDto))
+                .crankNicolsonSchemeSolution(crankNicolsonScheme.doCalculation(inputDataDto))
+                .implicitSchemeSolution(implicitDifferenceScheme.doCalculation(inputDataDto))
                 .build();
     }
 }

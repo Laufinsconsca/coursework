@@ -1,7 +1,7 @@
 package matrices.matrix;
 
 import exceptions.IllegalTypeException;
-import exceptions.IncompatibleDimensions;
+import exceptions.IncompatibleDimensionsException;
 import matrices.element.Element;
 
 import java.io.*;
@@ -9,11 +9,11 @@ import java.util.Arrays;
 
 public interface Tensor<T> extends Serializable {
 
-    Matrix<T> add(Matrix<T> elements) throws IncompatibleDimensions;
+    Matrix<T> add(Matrix<T> elements) throws IncompatibleDimensionsException;
 
-    Matrix<T> subtract(Matrix<T> elements) throws IncompatibleDimensions;
+    Matrix<T> subtract(Matrix<T> elements) throws IncompatibleDimensionsException;
 
-    Matrix<T> multiply(Matrix<T> elements) throws IncompatibleDimensions;
+    Matrix<T> multiply(Matrix<T> elements) throws IncompatibleDimensionsException;
 
     Matrix<T> multiply(double multiplyOnThe);
 

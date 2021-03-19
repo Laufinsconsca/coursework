@@ -4,7 +4,6 @@ import complex.Complex;
 import dto.InputDataDto;
 import matrices.matrix.Matrix;
 import method.Method;
-import tabulatedFunctions.ArrayTabulatedFunction;
 import tabulatedFunctions.TabulatedFunction;
 
 public class ImplicitDifferenceScheme extends BaseMethod implements Method {

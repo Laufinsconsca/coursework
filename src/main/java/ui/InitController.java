@@ -1,22 +1,28 @@
 package ui;
 
 import complex.Complex;
-import dto.CalculationResultDto;
+import dto.ResultDataDto;
 import dto.InputDataDto;
+import exceptions.NoGraphsToPlotException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.util.Pair;
-import method.MethodHelper;
+import method.Calculator;
 import tabulatedFunctions.TabulatedFunction;
 
 import java.net.URL;
 import java.util.*;
 
 public class InitController implements Initializable, aWindow {
+    private final Map<String, aWindow> controllerMap = new HashMap<>();
+    @FXML
+    private TextField LTextField, RTextField, nTextField, λTextField, JTextField, KTextField, rTextField, zTextField;
+    public TextField uImplicitSchemeTextField;
+    public TextField uCrankNicolsonSchemeTextField;
+    public TextField uAnalyticalSolutionTextField;
     @FXML
     AnchorPane mainPane;
     private Stage stage;
@@ -24,10 +30,7 @@ public class InitController implements Initializable, aWindow {
     private Complex u;
     private Integer J, K;
     private InputDataDto inputDataDto;
-    private CalculationResultDto calculationResultDto;
-    @FXML
-    private TextField LTextField, RTextField, nTextField, λTextField, JTextField, KTextField, rTextField, uTextField, zTextField;
-    private final Map<String, aWindow> controllerMap = new HashMap<>();
+    private ResultDataDto resultDataDto;
     @FXML
     private CheckBox analyticalSolutionCheckBox, implicitSchemeCheckBox, crankNicolsonSchemeCheckBox;
 
@@ -70,7 +73,6 @@ public class InitController implements Initializable, aWindow {
     }
 
     private aWindow getController(String path) {
-        aWindow controller = controllerMap.get(path + ".fxml");
         return controllerMap.get(path + ".fxml");
     }
 
@@ -86,12 +88,14 @@ public class InitController implements Initializable, aWindow {
     }
 
     @FXML
-    private void uTheory() {
+    private void calculate() {
         try {
             readInitialConditions();
             r = Double.parseDouble(rTextField.getText());
-            calculationResultDto = MethodHelper.doCalculation(inputDataDto);
-            uTextField.setText(calculationResultDto.getAnalyticalSolution().apply(r).abs() + "");
+            resultDataDto = Calculator.doCalculation(inputDataDto);
+            uAnalyticalSolutionTextField.setText(resultDataDto.getAnalyticalSolution().apply(r).abs() + "");
+            uImplicitSchemeTextField.setText(resultDataDto.getImplicitSchemeSolution().apply(r).abs() + "");
+            uCrankNicolsonSchemeTextField.setText(resultDataDto.getCrankNicolsonSchemeSolution().apply(r).abs() + "");
         } catch (NumberFormatException e) {
             WarningWindows.showWarning("Ошибка ввода начальных условий");
         }
@@ -106,16 +110,19 @@ public class InitController implements Initializable, aWindow {
         try {
             readInitialConditions();
             PlotController controller = (PlotController) getController();
-            calculationResultDto = MethodHelper.doCalculation(inputDataDto);
+            resultDataDto = Calculator.doCalculation(inputDataDto);
             List<TabulatedFunction> functions = new ArrayList<>();
             if (analyticalSolutionCheckBox.isSelected()) {
-                functions.add(calculationResultDto.getAnalyticalSolution());
+                functions.add(resultDataDto.getAnalyticalSolution());
             }
             if (implicitSchemeCheckBox.isSelected()) {
-                functions.add(calculationResultDto.getImplicitSchemaSolution());
+                functions.add(resultDataDto.getImplicitSchemeSolution());
             }
             if (crankNicolsonSchemeCheckBox.isSelected()) {
-                functions.add(calculationResultDto.getSolutionByTheCrankNicholsonScheme());
+                functions.add(resultDataDto.getCrankNicolsonSchemeSolution());
+            }
+            if (functions.isEmpty()) {
+                throw new NoGraphsToPlotException();
             }
             boolean isFirst = true;
             for (TabulatedFunction function : functions) {
@@ -129,6 +136,8 @@ public class InitController implements Initializable, aWindow {
             controller.getStage().show();
         } catch (NumberFormatException e) {
             WarningWindows.showWarning("Ошибка ввода начальных условий");
+        } catch (NoGraphsToPlotException ex) {
+            WarningWindows.showWarning("К построению не выбран ни один из графиков");
         }
     }
 }

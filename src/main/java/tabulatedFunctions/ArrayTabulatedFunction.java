@@ -17,8 +17,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     private static final long serialVersionUID = 3990511369369675738L;
     private final double[] rValues;
     private final Complex[] uValues;
-    private double z;
     private final int count;
+    private double z;
     private String name;
 
     public ArrayTabulatedFunction(ObservableList<Point> points, double z) {
@@ -198,8 +198,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     public TabulatedFunction copy() {
-        ArrayTabulatedFunction function = new ArrayTabulatedFunction(rValues, z, uValues);
-        return function;
+        return new ArrayTabulatedFunction(rValues, z, uValues);
     }
 
     @Override

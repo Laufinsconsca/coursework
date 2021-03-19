@@ -35,10 +35,8 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     @Override
     public Complex apply(double r) {
-        if (r < leftBound()) {
-            return extrapolateLeft(r);
-        } else if (r > rightBound()) {
-            return extrapolateRight(r);
+        if (r > rightBound() || r < leftBound()) {
+            return new Complex(Double.NaN, 0);
         } else if (indexOfR(r) != -1) {
             return getU(indexOfR(r));
         } else {

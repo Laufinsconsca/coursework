@@ -8,10 +8,8 @@ import java.sql.Time;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
 @Data
-public class CalculationResultDto {
+public class ResultDataDto {
 
     private Integer idCalculationResult;
     private String name;
@@ -24,6 +22,6 @@ public class CalculationResultDto {
     private double radius;
     private double z;
     private TabulatedFunction analyticalSolution;
-    private TabulatedFunction implicitSchemaSolution;
-    private TabulatedFunction solutionByTheCrankNicholsonScheme;
+    private TabulatedFunction implicitSchemeSolution;
+    private TabulatedFunction crankNicolsonSchemeSolution;
 }

@@ -2,7 +2,7 @@ package matrices.matrix;
 
 import complex.Complex;
 import exceptions.IllegalTypeException;
-import exceptions.IncompatibleDimensions;
+import exceptions.IncompatibleDimensionsException;
 import matrices.element.Element;
 import matrices.element.factory.ElementFactory;
 
@@ -72,7 +72,7 @@ public class Matrix<T> implements Serializable {
 
     private void calculate(Matrix<T> l, Function<Element<T>[], Element<T>> f) {
         if (l.getCountColumns() != columns || l.getCountRows() != rows)
-            throw new IncompatibleDimensions();
+            throw new IncompatibleDimensionsException();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 this.set(f.apply(new Element[]{this.elements[i][j], l.get(i + 1, j + 1)}), i + 1, j + 1);
@@ -80,15 +80,15 @@ public class Matrix<T> implements Serializable {
         }
     }
 
-    public void add(Matrix<T> elements) throws IncompatibleDimensions {
+    public void add(Matrix<T> elements) throws IncompatibleDimensionsException {
         calculate(elements, element -> element[0].add(element[1]));
     }
 
-    public void subtract(Matrix<T> elements) throws IncompatibleDimensions {
+    public void subtract(Matrix<T> elements) throws IncompatibleDimensionsException {
         calculate(elements, element -> element[0].subtract(element[1]));
     }
 
-    public void multiply(Matrix<T> elements) throws IncompatibleDimensions {
+    public void multiply(Matrix<T> elements) throws IncompatibleDimensionsException {
         for (int i = 0; i < this.getCountRows(); i++) {
             for (int j = 0; j < elements.getCountColumns(); j++) {
                 for (int k = 0; k < this.getCountColumns(); k++) {

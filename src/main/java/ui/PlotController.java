@@ -13,7 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -37,6 +36,7 @@ import java.util.*;
 @AutoInitializableController(name = "Построение графика", type = Item.CONTROLLER, pathFXML = "plot.fxml")
 public class PlotController implements Initializable, aWindow {
     private final Map<TabulatedFunction, Color> functionColorMap = new HashMap<>();
+    private final double strokeWidth = 0.5;
     private Stage stage;
     @FXML
     private StackPane stackPane;
@@ -44,7 +44,6 @@ public class PlotController implements Initializable, aWindow {
     private LineChart<Double, Double> lineChart;
     private AnchorPane detailsWindow;
     private PlotController.DetailsPopup detailsPopup;
-    private final double strokeWidth = 0.5;
 
     public static void removeLegend(LineChart<Double, Double> lineChart) {
         ((Legend) lineChart.lookup(".chart-legend")).getItems().clear();

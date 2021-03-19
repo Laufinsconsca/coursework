@@ -27,19 +27,13 @@ public interface TabulatedFunction extends Iterable<Point> {
 
     double rightBound();
 
-    TabulatedFunction copy();
-
     int floorIndexOfR(double r);
-
-    default boolean isCanBeComposed(TabulatedFunction function) {
-        return Math.abs(leftBound() - function.leftBound()) < 1E-12
-                && Math.abs(rightBound() - function.rightBound()) < 1E-12
-                && getCount() == function.getCount();
-    }
 
     default String getName() {
         return "TF(x)";
     }
 
     void setName(String name);
+
+    TabulatedFunction copy();
 }

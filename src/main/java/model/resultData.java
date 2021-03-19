@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Data
-public class CalculationResult {
+public class resultData {
 
     private Integer idCalculationResult;
     private String name;
