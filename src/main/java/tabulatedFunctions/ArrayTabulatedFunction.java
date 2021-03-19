@@ -31,6 +31,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         points.sorted((o1, o2) -> (int) Math.signum(o1.getR() - o2.getR()));
         rValues = new double[points.size()];
         uValues = new Complex[points.size()];
+        this.z = z;
         count = points.size();
         int i = 0;
         for (Point point : points) {
@@ -56,7 +57,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
                 throw new NaNException();
             }
         }
-        this.count = rValues.length;
+        count = rValues.length;
+        this.z = z;
         this.rValues = Arrays.copyOf(rValues, count);
         this.uValues = Arrays.copyOf(uValues, count);
     }
@@ -93,13 +95,13 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     }
 
     @Override
-    protected Complex extrapolateLeft(double x) {
-        return interpolate(x, rValues[0], rValues[1], uValues[0], uValues[1]);
+    protected Complex extrapolateLeft(double r) {
+        return interpolate(r, rValues[0], rValues[1], uValues[0], uValues[1]);
     }
 
     @Override
-    protected Complex extrapolateRight(double x) {
-        return interpolate(x, rValues[count - 2], rValues[count - 1], uValues[count - 2], uValues[count - 1]);
+    protected Complex extrapolateRight(double r) {
+        return interpolate(r, rValues[count - 2], rValues[count - 1], uValues[count - 2], uValues[count - 1]);
     }
 
     @Override
@@ -163,10 +165,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     }
 
     @Override
-    public int indexOfR(double x) {
+    public int indexOfR(double r) {
         int i;
         for (i = 0; i < count; i++) {
-            if (rValues[i] == x) {
+            if (rValues[i] == r) {
                 return i;
             }
         }

@@ -2,15 +2,9 @@ package method.impl;
 
 import complex.Complex;
 import dto.InputDataDto;
-import javafx.collections.FXCollections;
 import matrices.matrix.Matrix;
 import method.Method;
-import model.Point;
-import tabulatedFunctions.ArrayTabulatedFunction;
 import tabulatedFunctions.TabulatedFunction;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CrankNicolsonScheme extends BaseMethod implements Method {
     @Override
@@ -63,6 +57,8 @@ public class CrankNicolsonScheme extends BaseMethod implements Method {
                 U.set(α.get(1, j + 1).multiply(U.get(j + 2, k + 1)).add(β.get(1, j + 1)), j + 1, k + 1);
             }
         }
-        return getTabulatedFunction(U, Math.round((float) (z * K / L)));
+        TabulatedFunction crankNicolsonSchemeSolution = getTabulatedFunction(U, Math.round((float) (z * K / L)));
+        crankNicolsonSchemeSolution.setName("схема\nКранка-Николсона");
+        return crankNicolsonSchemeSolution;
     }
 }

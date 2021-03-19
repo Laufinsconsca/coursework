@@ -4,7 +4,6 @@ import complex.Complex;
 
 public class Point {
 
-    //    private BigInteger idPoint;
     private double r;
     private double z;
     private Complex u;
@@ -16,14 +15,6 @@ public class Point {
 
     public Point() {
     }
-
-//    public BigInteger getIdPoint() {
-//        return idPoint;
-//    }
-//
-//    public void setIdPoint(BigInteger idPoint) {
-//        this.idPoint = idPoint;
-//    }
 
     public double getR() {
         return r;

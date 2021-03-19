@@ -5,15 +5,16 @@ import dto.CalculationResultDto;
 import dto.InputDataDto;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import method.MethodHelper;
+import tabulatedFunctions.TabulatedFunction;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class InitController implements Initializable, aWindow {
     @FXML
@@ -27,10 +28,19 @@ public class InitController implements Initializable, aWindow {
     @FXML
     private TextField LTextField, RTextField, nTextField, λTextField, JTextField, KTextField, rTextField, uTextField, zTextField;
     private final Map<String, aWindow> controllerMap = new HashMap<>();
+    @FXML
+    private CheckBox analyticalSolutionCheckBox, implicitSchemeCheckBox, crankNicolsonSchemeCheckBox;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         new Initializer(stage).initializeWindowControllers(controllerMap);
+        LTextField.setText("5");
+        RTextField.setText("6");
+        zTextField.setText("5");
+        nTextField.setText("1.4");
+        λTextField.setText("1");
+        JTextField.setText("10");
+        KTextField.setText("10");
         mainPane.setStyle("-fx-background-color: #cde0cd");
     }
 
@@ -97,9 +107,25 @@ public class InitController implements Initializable, aWindow {
             readInitialConditions();
             PlotController controller = (PlotController) getController();
             calculationResultDto = MethodHelper.doCalculation(inputDataDto);
-            controller.setSeries(calculationResultDto.getAnalyticalSolution(), "аналитическое\nрешение");
-            controller.addSeries(calculationResultDto.getSolutionByTheCrankNicholsonScheme(), "метод\nКранка-Николсона");
-            controller.addSeries(calculationResultDto.getImplicitSchemaSolution(), "неяная\nсхема");
+            List<TabulatedFunction> functions = new ArrayList<>();
+            if (analyticalSolutionCheckBox.isSelected()) {
+                functions.add(calculationResultDto.getAnalyticalSolution());
+            }
+            if (implicitSchemeCheckBox.isSelected()) {
+                functions.add(calculationResultDto.getImplicitSchemaSolution());
+            }
+            if (crankNicolsonSchemeCheckBox.isSelected()) {
+                functions.add(calculationResultDto.getSolutionByTheCrankNicholsonScheme());
+            }
+            boolean isFirst = true;
+            for (TabulatedFunction function : functions) {
+                if (isFirst) {
+                    controller.setSeries(function);
+                    isFirst = false;
+                } else {
+                    controller.addSeries(function);
+                }
+            }
             controller.getStage().show();
         } catch (NumberFormatException e) {
             WarningWindows.showWarning("Ошибка ввода начальных условий");

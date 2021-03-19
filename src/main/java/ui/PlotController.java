@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -53,6 +54,7 @@ public class PlotController implements Initializable, aWindow {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         detailsWindow = new AnchorPane();
         lineChart.setCreateSymbols(false);
+        lineChart.getYAxis().setLabel("|u(r,z)|");
         bindMouseEvents(lineChart, this.strokeWidth);
         ChartPanManager panner = new ChartPanManager(lineChart);
         panner.setMouseFilter(mouseEvent -> {
@@ -78,25 +80,27 @@ public class PlotController implements Initializable, aWindow {
         this.stage = stage;
     }
 
-    public void addSeries(TabulatedFunction function, String name) {
+    public void addSeries(TabulatedFunction function) {
         ObservableList<XYChart.Data<Double, Double>> data = FXCollections.observableArrayList();
         for (Point point : function) {
             data.add(new XYChart.Data<>(point.getR(), point.getU().abs()));
         }
         XYChart.Series<Double, Double> series = new XYChart.Series<>();
+        if (Objects.isNull(lineChart.getXAxis().getLabel())) {
+            lineChart.getXAxis().setLabel("r, радиус (при z = " + function.getZ() + ")");
+        }
         series.setData(data);
-        series.setName(name);
+        series.setName(function.getName());
         lineChart.getData().add(series);
-        removeLegend(lineChart);
+        //removeLegend(lineChart);
         functionColorMap.putIfAbsent(function, getColorFromCSS(series));
-        function.setName(name);
         detailsPopup.addPopupRow(function);
     }
 
-    public void setSeries(TabulatedFunction function, String name) {
+    public void setSeries(TabulatedFunction function) {
         lineChart.getData().clear();
         detailsPopup.clear();
-        addSeries(function, name);
+        addSeries(function);
     }
 
     private Color getColorFromCSS(XYChart.Series<Double, Double> series) {
@@ -242,22 +246,22 @@ public class PlotController implements Initializable, aWindow {
             }
         }
 
-        private HBox buildPopupRow(MouseEvent event, double x, TabulatedFunction function) {
+        private HBox buildPopupRow(MouseEvent event, double r, TabulatedFunction function) {
             Label seriesName = new Label(function.getName());
             seriesName.setTextFill(functionColorMap.get(function));
 
-            double y = function.apply(x).abs();
+            double u = function.apply(r).abs();
 
-            double yValueLower = normalizeYValue(lineChart, event.getY() - 2);
-            double yValueUpper = normalizeYValue(lineChart, event.getY() + 2);
-            double yValueUnderMouse = lineChart.getYAxis().getValueForDisplay(event.getY()).doubleValue();
+            double yValueLower = normalizeYValue(lineChart, event.getY() - 3);
+            double yValueUpper = normalizeYValue(lineChart, event.getY() + 3);
+            double yValueUnderMouse = lineChart.getYAxis().getValueForDisplay(event.getY());
 
             // make series name bold when mouse is near given chart's line
-            if (isMouseNearLine(y, yValueUnderMouse, Math.abs(yValueLower - yValueUpper))) {
+            if (isMouseNearLine(u, yValueUnderMouse, Math.abs(yValueLower - yValueUpper))) {
                 seriesName.setStyle("-fx-font-weight: bold");
             }
 
-            return new HBox(10, seriesName, new Label("x: [" + x + "]\ny: [" + y + "]"));
+            return new HBox(10, seriesName, new Label("r: [" + r + "]\nu: [" + u + "]"));
         }
 
         private double normalizeYValue(LineChart<Double, Double> lineChart, double value) {

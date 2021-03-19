@@ -24,7 +24,9 @@ public class AnalyticalMethod extends BaseMethod implements Method {
         for (double j = 0; j <= N; j++) {
             points.add(new Point(j * h_r, z, u(j * h_r, z, λ, n, R, ksi_0_1)));
         }
-        return new ArrayTabulatedFunction(FXCollections.observableList(points), z);
+        TabulatedFunction analyticalSolution = new ArrayTabulatedFunction(FXCollections.observableList(points), z);
+        analyticalSolution.setName("аналитическое\nрешение");
+        return analyticalSolution;
     }
 
     private Complex u(double r, double z, double λ, double n, double R, double bessel_root) {

@@ -15,6 +15,7 @@ import java.util.List;
 
 public abstract class BaseMethod implements Method {
     protected static final double ksi_0_1 = 2.404825557695773;
+    protected static final double ksi_0_2 = 5.5200781102863115;
     protected TabulatedFunction tabulatedFunction;
     protected Integer J;
     protected Integer K;

@@ -11,6 +11,8 @@ public interface TabulatedFunction extends Iterable<Point> {
 
     double getR(int index);
 
+    double getZ();
+
     Complex getU(int index);
 
     void setU(int index, Complex value);

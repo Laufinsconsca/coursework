@@ -1,6 +1,5 @@
 package service.impl;
 
-
 import dto.InputDataDto;
 import method.Method;
 import method.impl.AnalyticalMethod;
@@ -30,8 +29,6 @@ public class PlotServiceImpl implements PlotService {
                     .implicitSchemaSolution(implicitDifferenceScheme.doCalculation(inputDataDto))
                     .solutionByTheCrankNicholsonScheme(crankNicolsonScheme.doCalculation(inputDataDto))
                     .build();
-
-
             return "result";
         } catch (Exception e) {
             return "error";

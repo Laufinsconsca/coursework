@@ -30,7 +30,7 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
     protected abstract Complex interpolate(double x, int floorIndex);
 
     protected Complex interpolate(double r, double leftR, double rightR, Complex leftU, Complex rightU) {
-        return leftU.plus(rightU.minus(leftU)).scale((r - leftR) / (rightR - leftR));
+        return rightU.minus(leftU).scale((r - leftR) / (rightR - leftR)).plus(leftU);
     }
 
     @Override

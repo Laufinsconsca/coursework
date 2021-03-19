@@ -49,6 +49,8 @@ public class ImplicitDifferenceScheme extends BaseMethod implements Method {
                 U.set(α.get(1, j + 1).multiply(U.get(j + 2, k + 1)).add(β.get(1, j + 1)), j + 1, k + 1);
             }
         }
-        return getTabulatedFunction(U, Math.round((float) (z * K / L)));
+        TabulatedFunction implicitSchemeSolution = getTabulatedFunction(U, Math.round((float) (z * K / L)));
+        implicitSchemeSolution.setName("неявная\nсхема");
+        return implicitSchemeSolution;
     }
 }
