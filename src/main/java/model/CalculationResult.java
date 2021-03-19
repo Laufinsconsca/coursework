@@ -1,9 +1,9 @@
 package model;
 
 import lombok.*;
+import tabulatedFunctions.TabulatedFunction;
 
 import java.util.Date;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,13 +16,13 @@ public class CalculationResult {
     private Integer idCalculationResult;
     private String name;
     private Date date;
-    private Integer numberPoint;
-    private Integer numberOfMembers;
-    private double lambda;
+    private Integer J;
+    private Integer K;
+    private double λ;
     private double nRefraction;
-    private double length;
-    private double radius;
-    private List<Point> analyticalSolution;
-    private List<Point> implicitSchemaSolution;
-    private List<Point> solutionByTheCrankNicholsonScheme;
+    private double L;
+    private double R;
+    private TabulatedFunction analyticalSolution;
+    private TabulatedFunction implicitSchemaSolution;
+    private TabulatedFunction solutionByTheCrankNicholsonScheme;
 }

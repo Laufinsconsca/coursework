@@ -1,3 +1,5 @@
+package ui;
+
 import org.atteo.classindex.IndexAnnotated;
 
 import java.lang.annotation.ElementType;

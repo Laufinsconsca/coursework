@@ -1,24 +1,37 @@
+package ui;
+
+import complex.Complex;
+import dto.CalculationResultDto;
+import dto.InputDataDto;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.Point;
+import method.MethodHelper;
 
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class InitController implements Initializable, aWindow {
-    private Stage stage;
-    private double L, R, n, k, r, z;
-    private Complex u;
-    private long N;
     @FXML
-    private TextField LTextField, RTextField, nTextField, kTextField, NTextField, xTextField, uTextField, zTextField;
-    private Map<String, aWindow> controllerMap = new HashMap<>();
+    AnchorPane mainPane;
+    private Stage stage;
+    private double L, R, n, λ, r, z;
+    private Complex u;
+    private Integer J, K;
+    private InputDataDto inputDataDto;
+    private CalculationResultDto calculationResultDto;
+    @FXML
+    private TextField LTextField, RTextField, nTextField, λTextField, JTextField, KTextField, rTextField, uTextField, zTextField;
+    private final Map<String, aWindow> controllerMap = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         new Initializer(stage).initializeWindowControllers(controllerMap);
+        mainPane.setStyle("-fx-background-color: #cde0cd");
     }
 
     @Override
@@ -55,17 +68,20 @@ public class InitController implements Initializable, aWindow {
         L = Double.parseDouble(LTextField.getText());
         R = Double.parseDouble(RTextField.getText());
         n = Double.parseDouble(nTextField.getText());
-        k = Double.parseDouble(kTextField.getText());
+        λ = Double.parseDouble(λTextField.getText());
         z = Double.parseDouble(zTextField.getText());
-        N = Long.parseLong(NTextField.getText());
+        J = Integer.parseInt(JTextField.getText());
+        K = Integer.parseInt(KTextField.getText());
+        inputDataDto = new InputDataDto("", J, K, λ, n, L, R, z);
     }
 
     @FXML
     private void uTheory() {
         try {
             readInitialConditions();
-            r = Double.parseDouble(xTextField.getText());
-            uTextField.setText(uExp(r, z) + "");
+            r = Double.parseDouble(rTextField.getText());
+            calculationResultDto = MethodHelper.doCalculation(inputDataDto);
+            uTextField.setText(calculationResultDto.getAnalyticalSolution().apply(r).abs() + "");
         } catch (NumberFormatException e) {
             WarningWindows.showWarning("Ошибка ввода начальных условий");
         }
@@ -80,19 +96,12 @@ public class InitController implements Initializable, aWindow {
         try {
             readInitialConditions();
             PlotController controller = (PlotController) getController();
-            //todo
-            //controller.setSeries(getSeries(z), "тестовый график");
+            calculationResultDto = MethodHelper.doCalculation(inputDataDto);
+            controller.setSeries(calculationResultDto.getAnalyticalSolution(), "аналитическое\nрешение");
+            controller.addSeries(calculationResultDto.getSolutionByTheCrankNicholsonScheme(), "метод\nКранка-Николсона");
             controller.getStage().show();
         } catch (NumberFormatException e) {
             WarningWindows.showWarning("Ошибка ввода начальных условий");
         }
-    }
-
-    private List<Point> getSeries(double t) {
-        List<Point> list = new ArrayList<>();
-        for (double i = 0; i < L; i += L/N) {
-            //list.add(new Point(i, uExp(i, t)));
-        }
-        return list;
     }
 }

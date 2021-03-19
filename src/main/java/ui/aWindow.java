@@ -1,3 +1,5 @@
+package ui;
+
 import javafx.stage.Stage;
 
 interface aWindow {

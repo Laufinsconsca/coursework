@@ -1,56 +1,51 @@
 package model;
 
+import complex.Complex;
 
-import lombok.Data;
-
-import java.math.BigInteger;
-
-@Data
 public class Point {
 
-    private BigInteger idPoint;
-    private double x;
-    private double y;
-    private double u;
+    //    private BigInteger idPoint;
+    private double r;
+    private double z;
+    private Complex u;
 
-    public Point(double x, double y, double u) {
-        this.x = x;
-        this.y = y;
+    public Point(double r, double z, Complex u) {
+        this.r = r;
         this.u = u;
     }
 
     public Point() {
     }
 
-    public BigInteger getIdPoint() {
-        return idPoint;
+//    public BigInteger getIdPoint() {
+//        return idPoint;
+//    }
+//
+//    public void setIdPoint(BigInteger idPoint) {
+//        this.idPoint = idPoint;
+//    }
+
+    public double getR() {
+        return r;
     }
 
-    public void setIdPoint(BigInteger idPoint) {
-        this.idPoint = idPoint;
+    public void setR(double r) {
+        this.r = r;
     }
 
-    public double getX() {
-        return x;
+    public double getZ() {
+        return z;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public void setZ(double z) {
+        this.z = z;
     }
 
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public double getU() {
+    public Complex getU() {
         return u;
     }
 
-    public void setU(double u) {
-        this.u = u;
+    public void setU(Complex y) {
+        this.u = y;
     }
 }

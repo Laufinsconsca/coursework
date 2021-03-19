@@ -2,15 +2,14 @@ package method.impl;
 
 import dto.InputDataDto;
 import method.Method;
-import model.Point;
-
-import java.util.List;
+import tabulatedFunctions.ArrayTabulatedFunction;
+import tabulatedFunctions.TabulatedFunction;
 
 public class ImplicitDifferenceScheme extends BaseMethod implements Method {
     @Override
-    public List<Point> makeCalculation(InputDataDto inputDataDto) {
+    public TabulatedFunction doCalculation(InputDataDto inputDataDto) {
         init(inputDataDto);
         //calculation
-        return points;
+        return ArrayTabulatedFunction.getIdentity();
     }
 }

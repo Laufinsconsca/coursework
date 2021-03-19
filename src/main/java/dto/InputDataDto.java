@@ -1,6 +1,9 @@
 package dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -9,11 +12,11 @@ import lombok.*;
 public class InputDataDto {
 
     private String name;
-    private Integer numberPoint;
-    private Integer numberOfMembers;
-    private double lambda;
+    private Integer J;
+    private Integer K;
+    private double λ;
     private double nRefraction;
-    private double length;
-    private double radius;
-
+    private double L;
+    private double R;
+    private double z;
 }

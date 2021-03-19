@@ -2,10 +2,10 @@ package service.impl;
 
 
 import dto.InputDataDto;
-import method.impl.AnalyticalMethod;
-import method.impl.CrankNicholsonScheme;
-import method.impl.ImplicitDifferenceScheme;
 import method.Method;
+import method.impl.AnalyticalMethod;
+import method.impl.CrankNicolsonScheme;
+import method.impl.ImplicitDifferenceScheme;
 import model.CalculationResult;
 import service.PlotService;
 
@@ -16,21 +16,19 @@ public class PlotServiceImpl implements PlotService {
         try {
 
             Method analyticalMethod = new AnalyticalMethod();
-            Method crankNicholsonScheme = new CrankNicholsonScheme();
+            Method crankNicolsonScheme = new CrankNicolsonScheme();
             Method implicitDifferenceScheme = new ImplicitDifferenceScheme();
 
             CalculationResult calculationResult = CalculationResult.builder()
                     .name(inputDataDto.getName())
                     .date(null)//Todo add current Time
-                    .lambda(inputDataDto.getLambda())
-                    .length(inputDataDto.getLength())
-                    .radius(inputDataDto.getRadius())
+                    .λ(inputDataDto.getK())
+                    .L(inputDataDto.getL())
+                    .R(inputDataDto.getR())
                     .nRefraction(inputDataDto.getNRefraction())
-                    .numberPoint(inputDataDto.getNumberPoint())
-                    .numberOfMembers(inputDataDto.getNumberOfMembers())
-                    .analyticalSolution(analyticalMethod.makeCalculation(inputDataDto))
-                    .implicitSchemaSolution(implicitDifferenceScheme.makeCalculation(inputDataDto))
-                    .solutionByTheCrankNicholsonScheme(crankNicholsonScheme.makeCalculation(inputDataDto))
+                    .analyticalSolution(analyticalMethod.doCalculation(inputDataDto))
+                    .implicitSchemaSolution(implicitDifferenceScheme.doCalculation(inputDataDto))
+                    .solutionByTheCrankNicholsonScheme(crankNicolsonScheme.doCalculation(inputDataDto))
                     .build();
 
 

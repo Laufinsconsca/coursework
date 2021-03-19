@@ -1,3 +1,5 @@
+package ui;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,9 +15,9 @@ import java.util.stream.StreamSupport;
 
 public class Initializer {
     static final String FXML_PATH = "fxml/";
-    private Stage ownerStage;
     private static final Class<AutoInitializableController> annotationClass = AutoInitializableController.class;
-    private Function<Class<?>, aWindow> initializeWindowController = new Function<>() {
+    private final Stage ownerStage;
+    private final Function<Class<?>, aWindow> initializeWindowController = new Function<>() {
         @Override
         public aWindow apply(Class<?> clazz) {
             aWindow controller = null;

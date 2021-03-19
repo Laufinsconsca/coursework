@@ -2,10 +2,8 @@ package method;
 
 
 import dto.InputDataDto;
-import model.Point;
-
-import java.util.List;
+import tabulatedFunctions.TabulatedFunction;
 
 public interface Method {
-    List<Point> makeCalculation(InputDataDto inputDataDto);
+    TabulatedFunction doCalculation(InputDataDto inputDataDto);
 }

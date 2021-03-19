@@ -1,12 +1,9 @@
 package dto;
 
 import lombok.*;
-import model.Point;
+import tabulatedFunctions.TabulatedFunction;
 
 import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,13 +16,14 @@ public class CalculationResultDto {
     private Integer idCalculationResult;
     private String name;
     private Time date;
-    private Integer numberPoint;
-    private Integer numberOfMembers;
-    private double lambda;
+    private Integer J;
+    private Integer K;
+    private double λ;
     private double nRefraction;
     private double length;
     private double radius;
-    private List<Point> analyticalSolution;
-    private List<Point> implicitSchemaSolution;
-    private List<Point> solutionByTheCrankNicholsonScheme;
+    private double z;
+    private TabulatedFunction analyticalSolution;
+    private TabulatedFunction implicitSchemaSolution;
+    private TabulatedFunction solutionByTheCrankNicholsonScheme;
 }
