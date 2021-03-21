@@ -27,6 +27,7 @@ import model.Point;
 import org.gillius.jfxutils.chart.ChartPanManager;
 import org.gillius.jfxutils.chart.JFXChartUtil;
 import tabulatedFunctions.TabulatedFunction;
+import ui.warnings.WarningWindows;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -37,6 +38,7 @@ import java.util.*;
 public class PlotController implements Initializable, aWindow {
     private final Map<TabulatedFunction, Color> functionColorMap = new HashMap<>();
     private final double strokeWidth = 0.5;
+    private double z = Double.NaN;
     private Stage stage;
     @FXML
     private StackPane stackPane;
@@ -85,8 +87,9 @@ public class PlotController implements Initializable, aWindow {
             data.add(new XYChart.Data<>(point.getR(), point.getU().abs()));
         }
         XYChart.Series<Double, Double> series = new XYChart.Series<>();
-        if (Objects.isNull(lineChart.getXAxis().getLabel())) {
-            lineChart.getXAxis().setLabel("r, радиус (при z = " + function.getZ() + ")");
+        if (z != function.getZ() || Objects.isNull(lineChart.getXAxis().getLabel())) {
+            z = function.getZ();
+            lineChart.getXAxis().setLabel("r, радиус (при z = " + z + ")");
         }
         series.setData(data);
         series.setName(function.getName());

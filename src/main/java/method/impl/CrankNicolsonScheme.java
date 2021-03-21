@@ -3,12 +3,13 @@ package method.impl;
 import complex.Complex;
 import dto.InputDataDto;
 import matrices.matrix.Matrix;
-import method.Method;
+import method.ComprehensiveCalculated;
 import tabulatedFunctions.TabulatedFunction;
 
-public class CrankNicolsonScheme extends BaseMethod implements Method {
+public class CrankNicolsonScheme extends BaseMethod implements ComprehensiveCalculated {
+
     @Override
-    public TabulatedFunction doCalculation(InputDataDto inputDataDto) {
+    public Matrix<Complex> comprehensiveCalculate(InputDataDto inputDataDto) {
         init(inputDataDto);
         double h_r = R / J;
         double h_z = L / K;
@@ -21,12 +22,12 @@ public class CrankNicolsonScheme extends BaseMethod implements Method {
         Matrix<Complex> F = new Matrix<>(1, J, Complex.class);
         Matrix<Complex> U = new Matrix<>(J + 1, K + 1, Complex.class);
         A.set(0, 1, 1);
-        B.set(η.scale(-2).plus(1), 1, 1);
-        C.set(η.scale(2), 1, 1);
+        B.set(η.scaleOn(-2).add(1), 1, 1);
+        C.set(η.scaleOn(2), 1, 1);
         for (int j = 1; j < J; j++) {
-            A.set(η.scale((1 - 1. / (2 * j)) / 2), 1, j + 1);
-            B.set(η.negate().plus(1), 1, j + 1);
-            C.set(η.scale((1 + 1. / (2 * j)) / 2), 1, j + 1);
+            A.set(η.scaleOn((1 - 1. / (2 * j)) / 2), 1, j + 1);
+            B.set(η.negate().add(1), 1, j + 1);
+            C.set(η.scaleOn((1 + 1. / (2 * j)) / 2), 1, j + 1);
         }
         C.set(0, 1, J);
         for (int j = 0; j <= J; j++) {
@@ -57,7 +58,12 @@ public class CrankNicolsonScheme extends BaseMethod implements Method {
                 U.set(α.get(1, j + 1).multiply(U.get(j + 2, k + 1)).add(β.get(1, j + 1)), j + 1, k + 1);
             }
         }
-        TabulatedFunction crankNicolsonSchemeSolution = getTabulatedFunction(U, Math.round((float) (z * K / L)));
+        return U;
+    }
+
+    @Override
+    public TabulatedFunction crossSectionCalculate(InputDataDto inputDataDto) {
+        TabulatedFunction crankNicolsonSchemeSolution = getTabulatedFunction(comprehensiveCalculate(inputDataDto), Math.round((float) (z * K / L)));
         crankNicolsonSchemeSolution.setName("схема\nКранка-Николсона");
         return crankNicolsonSchemeSolution;
     }

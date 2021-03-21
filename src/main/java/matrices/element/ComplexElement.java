@@ -22,12 +22,12 @@ public class ComplexElement implements Element<Complex> {
 
     @Override
     public Element<Complex> add(Element<Complex> element) {
-        return new ComplexElement(this.element.plus(element.get()));
+        return new ComplexElement(this.element.add(element.get()));
     }
 
     @Override
     public Element<Complex> add(double num) {
-        return new ComplexElement(this.element.plus(num));
+        return new ComplexElement(this.element.add(num));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ComplexElement implements Element<Complex> {
 
     @Override
     public Element<Complex> multiply(double num) {
-        return new ComplexElement(this.element.scale(num));
+        return new ComplexElement(this.element.scaleOn(num));
     }
 
     @Override

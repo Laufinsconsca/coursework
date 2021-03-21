@@ -1,4 +1,4 @@
-package ui;
+package ui.warnings;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;

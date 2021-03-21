@@ -24,14 +24,10 @@ public class Complex implements Serializable {
     }
 
     // a static version of plus
-    public static Complex plus(Complex a, Complex b) {
+    public static Complex add(Complex a, Complex b) {
         double real = a.re + b.re;
         double imag = a.im + b.im;
         return new Complex(real, imag);
-    }
-
-    static Complex add(Complex first, Complex second) {
-        return first.plus(second);
     }
 
     public static Double[] parseStringToComplex(String text) {
@@ -58,16 +54,16 @@ public class Complex implements Serializable {
     }
 
     // return a new firstLab.complex.Complex object whose value is (this + b)
-    public Complex plus(Complex b) {
+    public Complex add(Complex b) {
         return new Complex(re + b.re, im + b.im);
     }
 
-    public Complex plus(double b) {
+    public Complex add(double b) {
         return new Complex(re + b, im);
     }
 
     // return a new firstLab.complex.Complex object whose value is (this - b)
-    public Complex minus(Complex b) {
+    public Complex subtract(Complex b) {
         return new Complex(re - b.re, im - b.im);
     }
 
@@ -81,7 +77,7 @@ public class Complex implements Serializable {
     }
 
     // return a new object whose value is (this * alpha)
-    public Complex scale(double alpha) {
+    public Complex scaleOn(double alpha) {
         return new Complex(alpha * re, alpha * im);
     }
 
@@ -114,9 +110,12 @@ public class Complex implements Serializable {
     }
 
     // return a / b
-    public Complex divides(Complex b) {
+    public Complex divide(Complex b) {
         Complex a = this;
         return a.times(b.reciprocal());
+    }
+    public Complex divide(double a) {
+        return this.scaleOn(1/a);
     }
 
     // return a new firstLab.complex.Complex object whose value is the firstLab.complex exponential of this
@@ -136,7 +135,7 @@ public class Complex implements Serializable {
 
     // return a new firstLab.complex.Complex object whose value is the firstLab.complex tangent of this
     public Complex tan() {
-        return sin().divides(cos());
+        return sin().divide(cos());
     }
 
     public boolean equals(Object x) {

@@ -141,7 +141,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         int j = 0;
         Complex shift = index == 0 ? new Complex("0") : uValues[index - 1];
         for (Point point : function) {
-            uValues[j + index] = point.getU().plus(shift);
+            uValues[j + index] = point.getU().add(shift);
             j++;
         }
     }

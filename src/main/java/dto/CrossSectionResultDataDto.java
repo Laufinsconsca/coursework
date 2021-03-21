@@ -1,6 +1,9 @@
 package dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import tabulatedFunctions.TabulatedFunction;
 
 import java.sql.Time;
@@ -9,7 +12,7 @@ import java.sql.Time;
 @AllArgsConstructor
 @Builder
 @Data
-public class ResultDataDto {
+public class CrossSectionResultDataDto {
 
     private Integer idCalculationResult;
     private String name;

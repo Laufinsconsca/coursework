@@ -17,7 +17,7 @@ public @interface AutoInitializableController {
      */
     String name();
 
-    int priority() default 0;
+    String parentController() default "InitController";
 
     Item type();
 

@@ -43,7 +43,7 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <Button layoutX="21.0" layoutY="560.0" mnemonicParsing="false" onAction="#calculate" prefHeight="31.0" prefWidth="330.0" text="Вычислить" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="560.0" />
+        <Button layoutX="21.0" layoutY="560.0" mnemonicParsing="false" onAction="#calculate" prefHeight="31.0" prefWidth="193.0" text="Вычислить" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="560.0" />
         <TextField fx:id="rTextField" layoutX="270.0" layoutY="398.0" prefHeight="30.0" prefWidth="150.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="398.0" />
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="358.0" prefHeight="40.0" prefWidth="378.0" text="Вычисление значения |u(r, z)|, r ∈ [0, R], z ∈ [0, L]" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="358.0">
          <font>
@@ -80,5 +80,6 @@
          </font>
       </Label>
       <TextField fx:id="uCrankNicolsonSchemeTextField" editable="false" layoutX="270.0" layoutY="518.0" prefHeight="30.0" prefWidth="150.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="518.0" />
+      <Button layoutX="84.0" layoutY="560.0" mnemonicParsing="false" onAction="#epsTable" prefHeight="31.0" prefWidth="193.0" text="Таблица погрешностей" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="560.0" />
     </children>
 </AnchorPane>

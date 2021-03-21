@@ -4,7 +4,7 @@ import complex.Complex;
 import dto.InputDataDto;
 import javafx.collections.FXCollections;
 import matrices.matrix.Matrix;
-import method.Method;
+import method.CrossSectionCalculated;
 import model.Point;
 import org.apache.commons.math3.special.BesselJ;
 import tabulatedFunctions.ArrayTabulatedFunction;
@@ -13,9 +13,7 @@ import tabulatedFunctions.TabulatedFunction;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseMethod implements Method {
-    protected static final double ksi_0_1 = 2.404825557695773;
-    protected static final double ksi_0_2 = 5.5200781102863115;
+public abstract class BaseMethod implements CrossSectionCalculated {
     protected TabulatedFunction tabulatedFunction;
     protected Integer J;
     protected Integer K;
@@ -36,7 +34,7 @@ public abstract class BaseMethod implements Method {
     }
 
     protected double ψ(double r, double R) {
-        return BesselJ.value(0, ksi_0_1 * r / R);
+        return BesselJ.value(0, AnalyticalMethod.ksi_0_1 * r / R);
         //double a = 0.1*R;
         //return Math.exp(-r*r/a*a);
     }
