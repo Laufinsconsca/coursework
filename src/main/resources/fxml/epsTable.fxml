@@ -12,10 +12,10 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <TableView fx:id="implicitSchemeTableView" prefHeight="362.0" prefWidth="579.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <TableView fx:id="implicitSchemeTableView" prefHeight="362.0" prefWidth="578.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <columns>
-                                        <TableColumn fx:id="implicitSchemeTableColumnJ" prefWidth="75.0" text="J" />
-                                        <TableColumn fx:id="implicitSchemeTableColumnK" prefWidth="75.0" text="K" />
+                                        <TableColumn fx:id="implicitSchemeTableColumnJ" prefWidth="74.0" text="J" />
+                                        <TableColumn fx:id="implicitSchemeTableColumnK" prefWidth="74.0" text="K" />
                                         <TableColumn fx:id="implicitSchemeTableColumnΕ_2h_r_4h_z" prefWidth="143.0" text="ε(2*h_r,4*h_z)" />
                                         <TableColumn fx:id="implicitSchemeTableColumnΕ_h_r_h_z" prefWidth="143.0" text="ε(h_r,h_z)" />
                                         <TableColumn fx:id="implicitSchemeTableColumnΔ_h_r_h_z" prefWidth="143.0" text="δ(h_r,h_z)" />
@@ -29,10 +29,10 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <TableView fx:id="crankNicolsonSchemeTableView" prefHeight="362.0" prefWidth="579.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <TableView fx:id="crankNicolsonSchemeTableView" prefHeight="362.0" prefWidth="578.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <columns>
-                                        <TableColumn fx:id="crankNicolsonSchemeTableColumnJ" prefWidth="75.0" text="J" />
-                                        <TableColumn fx:id="crankNicolsonSchemeTableColumnK" prefWidth="75.0" text="K" />
+                                        <TableColumn fx:id="crankNicolsonSchemeTableColumnJ" prefWidth="74.0" text="J" />
+                                        <TableColumn fx:id="crankNicolsonSchemeTableColumnK" prefWidth="74.0" text="K" />
                                         <TableColumn fx:id="crankNicolsonSchemeTableColumnΕ_2h_r_2h_z" prefWidth="143.0" text="ε(2*h_r,2*h_z)" />
                                         <TableColumn fx:id="crankNicolsonSchemeTableColumnΕ_h_r_h_z" prefWidth="143.0" text="ε(h_r,h_z)" />
                                         <TableColumn fx:id="crankNicolsonSchemeTableColumnΔ_h_r_h_z" prefWidth="143.0" text="δ(h_r,h_z)" />

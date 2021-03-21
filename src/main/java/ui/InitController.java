@@ -25,9 +25,9 @@ public class InitController extends AbstractParentController implements Initiali
     @FXML
     AnchorPane mainPane;
     @FXML
-    private TextField LTextField, RTextField, nTextField, λTextField, JTextField, KTextField, rTextField, zTextField;
+    private TextField LTextField, RTextField, nTextField, λTextField, JTextField, KTextField, rTextField, zTextField, nEigenfunctionTextField;
     private double L, R, n, λ, r, z;
-    private Integer J, K;
+    private Integer J, K, nEigenfunction;
     private InputDataDto inputDataDto;
     private CrossSectionResultDataDto crossSectionResultDataDto;
     @FXML
@@ -41,6 +41,12 @@ public class InitController extends AbstractParentController implements Initiali
         zTextField.setText("5");
         nTextField.setText("1.4");
         λTextField.setText("1");
+        nEigenfunctionTextField.setText("1");
+//        LTextField.setText("15");
+//        RTextField.setText("10");
+//        zTextField.setText("15");
+//        nTextField.setText("1");
+//        λTextField.setText("2");
         JTextField.setText("10");
         KTextField.setText("10");
         mainPane.setStyle("-fx-background-color: #cde0cd");
@@ -54,7 +60,8 @@ public class InitController extends AbstractParentController implements Initiali
         z = Double.parseDouble(zTextField.getText());
         J = Integer.parseInt(JTextField.getText());
         K = Integer.parseInt(KTextField.getText());
-        inputDataDto = new InputDataDto("", J, K, λ, n, L, R, z);
+        nEigenfunction = Integer.parseInt(nEigenfunctionTextField.getText());
+        inputDataDto = new InputDataDto("", J, K, nEigenfunction, λ, n, L, R, z);
     }
 
     @FXML

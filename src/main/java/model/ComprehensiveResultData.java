@@ -21,6 +21,7 @@ public class ComprehensiveResultData {
     private Date date;
     private Integer J;
     private Integer K;
+    private Integer nEigenfunction;
     private double λ;
     private double nRefraction;
     private double L;

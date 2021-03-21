@@ -89,7 +89,7 @@ public class PlotController implements Initializable, aWindow {
         XYChart.Series<Double, Double> series = new XYChart.Series<>();
         if (z != function.getZ() || Objects.isNull(lineChart.getXAxis().getLabel())) {
             z = function.getZ();
-            lineChart.getXAxis().setLabel("r, радиус (при z = " + z + ")");
+            lineChart.getXAxis().setLabel("r, радиус (срез при z = " + z + ")");
         }
         series.setData(data);
         series.setName(function.getName());
@@ -267,7 +267,7 @@ public class PlotController implements Initializable, aWindow {
         }
 
         private double normalizeYValue(LineChart<Double, Double> lineChart, double value) {
-            return lineChart.getYAxis().getValueForDisplay(value).doubleValue();
+            return lineChart.getYAxis().getValueForDisplay(value);
         }
 
         private boolean isMouseNearLine(Double realYValue, Double yValueUnderMouse, Double tolerance) {

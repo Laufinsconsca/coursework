@@ -12,14 +12,20 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Pair;
 import matrices.matrix.Matrix;
 import method.Calculator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.BiFunction;
 
 @AutoInitializableController(name = "Таблица погрешностей", type = Item.CONTROLLER, pathFXML = "epsTable.fxml")
@@ -41,6 +47,7 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
     private Stage stage;
     private InputDataDto inputDataDto;
     private double R, L;
+    private Map<Integer, Integer> kj;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,12 +72,14 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
     public void setStage(Stage stage) {
         stage.setResizable(false);
         stage.setOnShown(windowEvent -> {
+            kj = getKJ();
             R = inputDataDto.getR();
             L = inputDataDto.getL();
             List<ImplicitSchemeEpsTableRow> implicitSchemeEpsTableRows = new ArrayList<>();
             List<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeEpsTableRows = new ArrayList<>();
-            for (int i = 1; i < Math.pow(2,12); i*=2) {
-                Pair<ImplicitSchemeEpsTableRow, CrankNicolsonSchemeEpsTableRow> rows = populateRow(inputDataDto.toBuilder().J(2*i).K(2*i).build());
+
+            for (Map.Entry<Integer, Integer> kjEntry : kj.entrySet()) {
+                Pair<ImplicitSchemeEpsTableRow, CrankNicolsonSchemeEpsTableRow> rows = populateRow(inputDataDto.toBuilder().J(kjEntry.getKey()).K(kjEntry.getValue()).build());
                 implicitSchemeEpsTableRows.add(rows.getKey());
                 crankNicolsonSchemeEpsTableRows.add(rows.getValue());
             }
@@ -105,10 +114,10 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
         implicitSchemeEpsTableRow.setΕ_h_r_h_z(maxEps(comprehensiveResultDataDto.getImplicitSchemeSolution(), comprehensiveResultDataDto.getAnalyticalSolution()));
         crankNicolsonSchemeEpsTableRow.setΕ_h_r_h_z(maxEps(comprehensiveResultDataDto.getCrankNicolsonSchemeSolution(), comprehensiveResultDataDto.getAnalyticalSolution()));
 
-        comprehensiveResultDataDto = Calculator.calculate(inputDataDto.toBuilder().K((inputDataDto.getK()-1)/4+1).J((inputDataDto.getJ()-1)/2+1).build());
+        comprehensiveResultDataDto = Calculator.calculate(inputDataDto.toBuilder().K(inputDataDto.getK()/4).J(inputDataDto.getJ()/2).build());
         implicitSchemeEpsTableRow.setΕ_2h_r_4h_z(maxEps(comprehensiveResultDataDto.getImplicitSchemeSolution(), analyticalSolution));
 
-        comprehensiveResultDataDto = Calculator.calculate(inputDataDto.toBuilder().K((inputDataDto.getK()-1)/2+1).J((inputDataDto.getJ()-1)/2+1).build());
+        comprehensiveResultDataDto = Calculator.calculate(inputDataDto.toBuilder().K(inputDataDto.getK()/2).J(inputDataDto.getJ()/2).build());
         crankNicolsonSchemeEpsTableRow.setΕ_2h_r_2h_z(maxEps(comprehensiveResultDataDto.getCrankNicolsonSchemeSolution(), analyticalSolution));
 
         implicitSchemeEpsTableRow.setΔ_h_r_h_z(implicitSchemeEpsTableRow.getΕ_2h_r_4h_z()/implicitSchemeEpsTableRow.getΕ_h_r_h_z());
@@ -129,5 +138,26 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
             }
         }
         return max;
+    }
+
+    private static Map<Integer, Integer> getKJ(){
+        FileInputStream file = null;
+        try {
+            file = new FileInputStream(new File("src/main/resources/k_j.xlsx"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        XSSFWorkbook workbook = null;
+        try {
+            workbook = new XSSFWorkbook(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        Map<Integer, Integer> kj = new TreeMap<>();
+        Iterator<Row> iterator = sheet.iterator();
+        iterator.next();
+        iterator.forEachRemaining(row -> kj.put((int)row.getCell(0).getNumericCellValue(),(int)row.getCell(1).getNumericCellValue()));
+        return kj;
     }
 }
