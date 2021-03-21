@@ -15,6 +15,7 @@ import java.util.function.BiFunction;
 @Data
 @Builder
 public class ComprehensiveResultDataDto {
+
     private Integer idCalculationResult;
     private String name;
     private Time date;
@@ -22,9 +23,8 @@ public class ComprehensiveResultDataDto {
     private Integer K;
     private double λ;
     private double nRefraction;
-    private double length;
-    private double radius;
-    private double z;
+    private double L;
+    private double R;
     private BiFunction<Double, Double, Complex> analyticalSolution;
     private Matrix<Complex> implicitSchemeSolution;
     private Matrix<Complex> crankNicolsonSchemeSolution;

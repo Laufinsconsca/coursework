@@ -1,15 +1,18 @@
 package model;
 
-import lombok.*;
-import tabulatedFunctions.TabulatedFunction;
+import complex.Complex;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import matrices.matrix.Matrix;
 
 import java.util.Date;
+import java.util.function.BiFunction;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
 @Data
 public class ComprehensiveResultData {
 
@@ -22,7 +25,8 @@ public class ComprehensiveResultData {
     private double nRefraction;
     private double L;
     private double R;
-    private TabulatedFunction analyticalSolution;
-    private TabulatedFunction implicitSchemaSolution;
-    private TabulatedFunction solutionByTheCrankNicholsonScheme;
+    private BiFunction<Double, Double, Complex> analyticalSolution;
+    private Matrix<Complex> implicitSchemeSolution;
+    private Matrix<Complex> crankNicolsonSchemeSolution;
 }
+

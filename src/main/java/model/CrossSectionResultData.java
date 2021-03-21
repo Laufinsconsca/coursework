@@ -1,4 +1,4 @@
-package dto;
+package model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,17 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import tabulatedFunctions.TabulatedFunction;
 
-import java.sql.Time;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class CrossSectionResultDataDto {
+public class CrossSectionResultData {
 
     private Integer idCalculationResult;
     private String name;
-    private Time date;
+    private Date date;
     private Integer J;
     private Integer K;
     private double λ;
@@ -25,6 +25,6 @@ public class CrossSectionResultDataDto {
     private double R;
     private double z;
     private TabulatedFunction analyticalSolution;
-    private TabulatedFunction implicitSchemeSolution;
+    private TabulatedFunction implicitSchemaSolution;
     private TabulatedFunction crankNicolsonSchemeSolution;
 }

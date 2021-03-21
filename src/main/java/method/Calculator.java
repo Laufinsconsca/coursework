@@ -50,7 +50,6 @@ public class Calculator {
                 .λ(inputDataDto.getΛ())
                 .nRefraction(inputDataDto.getNRefraction())
                 .radius(inputDataDto.getR())
-                .z(inputDataDto.getZ())
                 .analyticalSolution(analyticalMethod.calculate(inputDataDto))
                 .crankNicolsonSchemeSolution(crankNicolsonScheme.comprehensiveCalculate(inputDataDto))
                 .implicitSchemeSolution(implicitDifferenceScheme.comprehensiveCalculate(inputDataDto))
