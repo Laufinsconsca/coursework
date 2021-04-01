@@ -1,9 +1,8 @@
 package solution;
 
-import complex.Complex;
 import dto.InputDataDto;
-import matrices.matrix.Matrix;
+import matrix.ComplexMatrix;
 
 public interface ComprehensiveCalculated {
-    Matrix<Complex> comprehensiveCalculate(InputDataDto inputDataDto);
+    ComplexMatrix comprehensiveCalculate(InputDataDto inputDataDto);
 }

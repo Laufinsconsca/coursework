@@ -39,19 +39,18 @@ public class Complex implements Serializable {
     }
 
     // return a new firstLab.complex.Complex object whose value is (this * b)
-    public Complex times(Complex b) {
+    public Complex multiply(Complex b) {
         return new Complex(re * b.re - im * b.im, re * b.im + im * b.re);
+    }
+
+    public Complex divide(Complex b) {
+        double scale = b.re * b.re + b.im * b.im;
+        return new Complex(re * b.re / scale + im * b.im / scale, -re * b.im / scale + im * b.re / scale);
     }
 
     // return a new object whose value is (this * alpha)
     public Complex scaleOn(double alpha) {
         return new Complex(alpha * re, alpha * im);
-    }
-
-    // return a new firstLab.complex.Complex object whose value is the reciprocal of this
-    public Complex reciprocal() {
-        double scale = re * re + im * im;
-        return new Complex(re / scale, -im / scale);
     }
 
     // return a new firstLab.complex.Complex object whose value is the firstLab.complex exponential of this

@@ -3,7 +3,7 @@
 }
 
 .chart-legend {
-    -fx-background-color:  transparent;
+    -fx-background-color: transparent;
 }
 
 .default-color0.chart-series-line {
@@ -38,11 +38,34 @@
     -fx-stroke: #00ffc4;
 }
 
-.default-color0.chart-line-symbol { -fx-background-color: green, white; }
-.default-color1.chart-line-symbol { -fx-background-color: blue, white; }
-.default-color2.chart-line-symbol { -fx-background-color: red, white; }
-.default-color3.chart-line-symbol { -fx-background-color: black, white; }
-.default-color4.chart-line-symbol { -fx-background-color: #bb00ff, white; }
-.default-color5.chart-line-symbol { -fx-background-color: #fc6500, white; }
-.default-color6.chart-line-symbol { -fx-background-color: brown, white; }
-.default-color7.chart-line-symbol { -fx-background-color: #00ffc4, white; }
+.default-color0.chart-line-symbol {
+    -fx-background-color: green, white;
+}
+
+.default-color1.chart-line-symbol {
+    -fx-background-color: blue, white;
+}
+
+.default-color2.chart-line-symbol {
+    -fx-background-color: red, white;
+}
+
+.default-color3.chart-line-symbol {
+    -fx-background-color: black, white;
+}
+
+.default-color4.chart-line-symbol {
+    -fx-background-color: #bb00ff, white;
+}
+
+.default-color5.chart-line-symbol {
+    -fx-background-color: #fc6500, white;
+}
+
+.default-color6.chart-line-symbol {
+    -fx-background-color: brown, white;
+}
+
+.default-color7.chart-line-symbol {
+    -fx-background-color: #00ffc4, white;
+}

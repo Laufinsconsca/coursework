@@ -4,7 +4,7 @@ import complex.Complex;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import matrices.matrix.Matrix;
+import matrix.ComplexMatrix;
 
 import java.util.function.BiFunction;
 
@@ -24,6 +24,6 @@ public class ComprehensiveResultDataDto {
 //    private double L;
 //    private double R;
     private final BiFunction<Double, Double, Complex> analyticalSolution;
-    private final Matrix<Complex> implicitSchemeSolution;
-    private final Matrix<Complex> crankNicolsonSchemeSolution;
+    private final ComplexMatrix implicitSchemeSolution;
+    private final ComplexMatrix crankNicolsonSchemeSolution;
 }

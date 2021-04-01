@@ -26,4 +26,6 @@ public @interface AutoInitializableController {
      * @return controller parameters
      */
     String pathFXML() default "";
+
+    boolean isPlotAccessible() default false;
 }

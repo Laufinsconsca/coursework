@@ -2,7 +2,7 @@ package ui;
 
 import javafx.stage.Stage;
 
-interface aWindow {
+public interface aWindow {
     Stage getStage();
 
     void setStage(Stage stage);

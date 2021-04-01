@@ -13,37 +13,44 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import matrices.matrix.Matrix;
+import matrix.ComplexMatrix;
+import model.Point;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import solution.Calculator;
+import tabulatedFunctions.ArrayTabulatedFunction;
+import tabulatedFunctions.TabulatedFunction;
 import ui.epsTableRows.CrankNicolsonSchemeEpsTableRow;
 import ui.epsTableRows.ImplicitSchemeEpsTableRow;
+import ui.plot.PlotAccessible;
+import ui.plot.PlotController;
+import ui.plot.PlotControllerConfiguration;
 
 import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
-@AutoInitializableController(name = "Таблица погрешностей аппроксимации", type = Item.CONTROLLER, pathFXML = "epsTable.fxml")
-public class EpsTableController implements Initializable, aWindow, InputDataDtoHolder {
+@AutoInitializableController(name = "Таблица погрешностей аппроксимации", type = Item.CONTROLLER, pathFXML = "epsTable.fxml", isPlotAccessible = true)
+public class EpsTableController implements Initializable, aWindow, InputDataDtoHolder, PlotAccessible {
     private static final FileChooser.ExtensionFilter xlsxExtensionFilter =
             new FileChooser.ExtensionFilter("XSLX files (*.xlsx)", "*.xlsx");
+    private final PlotControllerConfiguration configuration = new PlotControllerConfiguration("J", "δ", "J", "δ(h_r,h_z)");
     public TableView<ImplicitSchemeEpsTableRow> implicitSchemeTableView;
     public TableView<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeTableView;
     public TableColumn<ImplicitSchemeEpsTableRow, Integer> implicitSchemeTableColumnJ, implicitSchemeTableColumnK;
     public TableColumn<ImplicitSchemeEpsTableRow, Double> implicitSchemeTableColumnΕ_1_2h_r_1_4h_z, implicitSchemeTableColumnΕ_h_r_h_z, implicitSchemeTableColumnΔ_h_r_h_z;
     public TableColumn<CrankNicolsonSchemeEpsTableRow, Integer> crankNicolsonSchemeTableColumnJ, crankNicolsonSchemeTableColumnK;
     public TableColumn<CrankNicolsonSchemeEpsTableRow, Double> crankNicolsonSchemeTableColumnΕ_1_2h_r_1_2h_z, crankNicolsonSchemeTableColumnΕ_h_r_h_z, crankNicolsonSchemeTableColumnΔ_h_r_h_z;
-    private ObservableList<ImplicitSchemeEpsTableRow> implicitSchemeEpsTableObservableRows;
-    private ObservableList<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeEpsTableObservableRows;
     private Stage stage;
     private InputDataDto inputDataDto;
     private double R, L;
-    private List<Map<Integer, Integer>> kj;
+    private List<Map<Integer, Integer>> jk;
     private List<ImplicitSchemeEpsTableRow> implicitSchemeEpsTableRows;
     private List<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeEpsTableRows;
+    private PlotController plotController;
 
     private static List<Map<Integer, Integer>> getJK(String source) {
         FileInputStream file = null;
@@ -117,11 +124,11 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
             L = inputDataDto.getL();
             implicitSchemeEpsTableRows = new ArrayList<>();
             crankNicolsonSchemeEpsTableRows = new ArrayList<>();
-            kj = getJK("src/main/resources/k_j.xlsx");
-            kj.get(0).forEach((key, value) -> implicitSchemeEpsTableRows.add(populateImplicitSchemeEpsTableRow(inputDataDto.toBuilder().J(key).K(value).build())));
-            kj.get(1).forEach((key, value) -> crankNicolsonSchemeEpsTableRows.add(populateCrankNicolsonSchemeEpsTableRow(inputDataDto.toBuilder().J(key).K(value).build())));
-            implicitSchemeEpsTableObservableRows = FXCollections.observableList(implicitSchemeEpsTableRows);
-            crankNicolsonSchemeEpsTableObservableRows = FXCollections.observableList(crankNicolsonSchemeEpsTableRows);
+            jk = getJK("src/main/resources/j_k.xlsx");
+            jk.get(0).forEach((key, value) -> implicitSchemeEpsTableRows.add(populateImplicitSchemeEpsTableRow(inputDataDto.toBuilder().J(key).K(value).build())));
+            jk.get(1).forEach((key, value) -> crankNicolsonSchemeEpsTableRows.add(populateCrankNicolsonSchemeEpsTableRow(inputDataDto.toBuilder().J(key).K(value).build())));
+            ObservableList<ImplicitSchemeEpsTableRow> implicitSchemeEpsTableObservableRows = FXCollections.observableList(implicitSchemeEpsTableRows);
+            ObservableList<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeEpsTableObservableRows = FXCollections.observableList(crankNicolsonSchemeEpsTableRows);
             implicitSchemeTableView.setItems(implicitSchemeEpsTableObservableRows);
             crankNicolsonSchemeTableView.setItems(crankNicolsonSchemeEpsTableObservableRows);
         });
@@ -168,13 +175,13 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
         return crankNicolsonSchemeEpsTableRow;
     }
 
-    private double maxEps(Matrix<Complex> schemeSolution, BiFunction<Double, Double, Complex> analyticalSolution) {
+    private double maxEps(ComplexMatrix schemeSolution, BiFunction<Double, Double, Complex> analyticalSolution) {
         double max = 0;
         double h_r = R / (schemeSolution.getCountRows() - 1);
         double h_z = L / (schemeSolution.getCountColumns() - 1);
         for (int j = 0; j < schemeSolution.getCountRows(); j++) {
             for (int k = 0; k < schemeSolution.getCountColumns(); k++) {
-                double temp = schemeSolution.get(j + 1, k + 1).get().subtract(analyticalSolution.apply(j * h_r, k * h_z)).abs();
+                double temp = schemeSolution.get(j + 1, k + 1).subtract(analyticalSolution.apply(j * h_r, k * h_z)).abs();
                 if (temp > max) {
                     max = temp;
                 }
@@ -225,5 +232,56 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
         fileChooser.setTitle("Сохранить таблицы погрешностей в файл");
         fileChooser.getExtensionFilters().add(xlsxExtensionFilter);
         return fileChooser.showSaveDialog(stage);
+    }
+
+    @Override
+    public PlotController getPlotController() {
+        return plotController;
+    }
+
+    @Override
+    public void setPlotController(PlotController plotController) {
+        this.plotController = plotController;
+    }
+
+    @FXML
+    public void plot() {
+        List<ImplicitSchemeEpsTableRow> implicitSchemeEpsTableRows = new ArrayList<>();
+        List<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeEpsTableRows = new ArrayList<>();
+        plotController.setConfiguration(configuration);
+        List<Map<Integer, Integer>> jk = getJK("src/main/resources/plot/j_k.xlsx");
+        jk.get(0).forEach((key, value) -> implicitSchemeEpsTableRows.add(populateImplicitSchemeEpsTableRow(inputDataDto.toBuilder().J(key).K(value).build())));
+        jk.get(1).forEach((key, value) -> crankNicolsonSchemeEpsTableRows.add(populateCrankNicolsonSchemeEpsTableRow(inputDataDto.toBuilder().J(key).K(value).build())));
+        TabulatedFunction implicitSchemeFunction = getImplicitSchemeFunction(implicitSchemeEpsTableRows);
+        implicitSchemeFunction.setName("Неявная схема");
+        TabulatedFunction crankNicolsonSchemeFunction = getCrankNicolsonSchemeFunction(crankNicolsonSchemeEpsTableRows);
+        crankNicolsonSchemeFunction.setName("Схема Кранка-Николсона");
+        List<Point> points = List.of(new Point(implicitSchemeEpsTableRows.get(0).getJ(), 0, new Complex(4, 0)), new Point(implicitSchemeEpsTableRows.get(implicitSchemeEpsTableRows.size() - 1).getJ(), 0, new Complex(4, 0)));
+        TabulatedFunction function = new ArrayTabulatedFunction(FXCollections.observableList(points), 0);
+        function.setName("Теоретический предел");
+        plotController.setSeries(function);
+        plotController.addSeries(implicitSchemeFunction);
+        plotController.addSeries(crankNicolsonSchemeFunction);
+        plotController.getStage().show();
+    }
+
+    private TabulatedFunction getImplicitSchemeFunction(List<ImplicitSchemeEpsTableRow> implicitSchemeEpsTableRows) {
+        List<Point> implicitSchemePoints = implicitSchemeEpsTableRows.stream()
+                .map(implicitSchemeEpsTableRow ->
+                        new Point(implicitSchemeEpsTableRow.getJ(),
+                                implicitSchemeEpsTableRow.getK(),
+                                new Complex(implicitSchemeEpsTableRow.getΔ_h_r_h_z(), 0)))
+                .collect(Collectors.toList());
+        return new ArrayTabulatedFunction(FXCollections.observableList(implicitSchemePoints), 0);
+    }
+
+    private TabulatedFunction getCrankNicolsonSchemeFunction(List<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeEpsTableRows) {
+        List<Point> crankNicolsonSchemePoints = crankNicolsonSchemeEpsTableRows.stream()
+                .map(crankNicolsonSchemeEpsTableRow ->
+                        new Point(crankNicolsonSchemeEpsTableRow.getJ(),
+                                crankNicolsonSchemeEpsTableRow.getK(),
+                                new Complex(crankNicolsonSchemeEpsTableRow.getΔ_h_r_h_z(), 0)))
+                .collect(Collectors.toList());
+        return new ArrayTabulatedFunction(FXCollections.observableList(crankNicolsonSchemePoints), 0);
     }
 }

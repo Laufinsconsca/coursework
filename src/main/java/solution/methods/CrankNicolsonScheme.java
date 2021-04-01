@@ -1,9 +1,8 @@
 package solution.methods;
 
-import complex.Complex;
 import dto.InputDataDto;
 import enums.FixedVariableType;
-import matrices.matrix.Matrix;
+import matrix.ComplexMatrix;
 import solution.ComprehensiveCalculated;
 import tabulatedFunctions.TabulatedFunction;
 
@@ -12,9 +11,9 @@ import java.util.List;
 public class CrankNicolsonScheme extends BaseMethod implements ComprehensiveCalculated {
 
     @Override
-    public Matrix<Complex> comprehensiveCalculate(InputDataDto inputDataDto) {
+    public ComplexMatrix comprehensiveCalculate(InputDataDto inputDataDto) {
         init(inputDataDto);
-        Matrix<Complex> F = new Matrix<>(1, J, Complex.class);
+        ComplexMatrix F = new ComplexMatrix(1, J);
         A.set(0, 1, 1);
         B.set(α.scaleOn(-2).add(1), 1, 1);
         C.set(α.scaleOn(2), 1, 1);

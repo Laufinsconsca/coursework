@@ -12,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import solution.Calculator;
 import tabulatedFunctions.TabulatedFunction;
+import ui.plot.PlotController;
+import ui.plot.PlotControllerConfiguration;
 import ui.warnings.WarningWindows;
 
 import java.net.URL;
@@ -34,6 +36,9 @@ public class InitController extends AbstractParentController implements Initiali
     private Integer J, K, nEigenfunction;
     private InputDataDto inputDataDto;
     private CrossSectionResultDataDto crossSectionResultDataDto;
+    private PlotControllerConfiguration rConstPlotConfiguration;
+    private PlotControllerConfiguration zConstPlotConfiguration;
+    private PlotControllerConfiguration currentPlotConfiguration;
 
     @FXML
     private CheckBox analyticalSolutionCheckBox, implicitSchemeCheckBox, crankNicolsonSchemeCheckBox;
@@ -51,6 +56,8 @@ public class InitController extends AbstractParentController implements Initiali
         JTextField.setText("10");
         KTextField.setText("10");
         mainPane.setStyle("-fx-background-color: #cde0cd");
+        rConstPlotConfiguration = new PlotControllerConfiguration("z", "u", "r, расстояние вдоль радиуса (мкм)", "|u(r,z)|");
+        zConstPlotConfiguration = new PlotControllerConfiguration("r", "u", "z, расстояние вдоль волновода (мкм)", "|u(r,z)|");
     }
 
     private void readInitialConditions() throws NumberFormatException {
@@ -65,8 +72,10 @@ public class InitController extends AbstractParentController implements Initiali
         nEigenfunction = Integer.parseInt(nEigenfunctionTextField.getText());
         if (fixedVariableType.equals(FixedVariableType.r)) {
             inputDataDto = new InputDataDto(J, K, nEigenfunction, λ, n, L, R, r, fixedVariableType);
+            currentPlotConfiguration = rConstPlotConfiguration;
         } else {
             inputDataDto = new InputDataDto(J, K, nEigenfunction, λ, n, L, R, z, fixedVariableType);
+            currentPlotConfiguration = zConstPlotConfiguration;
         }
     }
 
@@ -115,8 +124,8 @@ public class InitController extends AbstractParentController implements Initiali
     public void plot() {
         try {
             readInitialConditions();
-            PlotController controller = (PlotController) getController();
-            controller.setInputDataDto(inputDataDto);
+            PlotController plotController = (PlotController) getController();
+            plotController.setConfiguration(currentPlotConfiguration);
             crossSectionResultDataDto = Calculator.crossSectionCalculate(inputDataDto);
             List<TabulatedFunction> functions = new ArrayList<>();
             if (analyticalSolutionCheckBox.isSelected()) {
@@ -134,13 +143,13 @@ public class InitController extends AbstractParentController implements Initiali
             boolean isFirst = true;
             for (TabulatedFunction function : functions) {
                 if (isFirst) {
-                    controller.setSeries(function);
+                    plotController.setSeries(function);
                     isFirst = false;
                 } else {
-                    controller.addSeries(function);
+                    plotController.addSeries(function);
                 }
             }
-            controller.getStage().show();
+            plotController.getStage().show();
         } catch (NumberFormatException e) {
             WarningWindows.showWarning("Ошибка ввода начальных условий");
         } catch (NoGraphsToPlotException ex) {

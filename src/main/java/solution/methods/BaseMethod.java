@@ -4,7 +4,7 @@ import complex.Complex;
 import dto.InputDataDto;
 import enums.FixedVariableType;
 import javafx.collections.FXCollections;
-import matrices.matrix.Matrix;
+import matrix.ComplexMatrix;
 import model.Point;
 import org.apache.commons.math3.special.BesselJ;
 import org.apache.poi.ss.usermodel.Row;
@@ -35,12 +35,12 @@ public abstract class BaseMethod implements CrossSectionCalculated {
     protected double[] fixedVariable;
     protected FixedVariableType fixedVariableType;
     protected Complex α;
-    Matrix<Complex> A;
-    Matrix<Complex> B;
-    Matrix<Complex> C;
-    Matrix<Complex> p;
-    Matrix<Complex> q;
-    Matrix<Complex> U;
+    ComplexMatrix A;
+    ComplexMatrix B;
+    ComplexMatrix C;
+    ComplexMatrix p;
+    ComplexMatrix q;
+    ComplexMatrix U;
 
     private static List<Double> besselZeros() {
         FileInputStream file = null;
@@ -73,19 +73,19 @@ public abstract class BaseMethod implements CrossSectionCalculated {
         fixedVariableType = inputDataDto.getFixedVariableType();
         nEigenfunction = inputDataDto.getNEigenfunction();
         α = new Complex(0, L * λ / (4 * K * Math.PI * n * Math.pow(R / J, 2)));
-        A = new Matrix<>(1, J, Complex.class);
-        B = new Matrix<>(1, J, Complex.class);
-        C = new Matrix<>(1, J, Complex.class);
-        p = new Matrix<>(1, J, Complex.class);
-        q = new Matrix<>(1, J, Complex.class);
-        U = new Matrix<>(J + 1, K + 1, Complex.class);
+        A = new ComplexMatrix(1, J);
+        B = new ComplexMatrix(1, J);
+        C = new ComplexMatrix(1, J);
+        p = new ComplexMatrix(1, J);
+        q = new ComplexMatrix(1, J);
+        U = new ComplexMatrix(J + 1, K + 1);
     }
 
     protected double ψ(double r, double R) {
         return BesselJ.value(0, besselZeros.get(nEigenfunction - 1) * r / R);
     }
 
-    protected List<TabulatedFunction> getTabulatedFunction(Matrix<Complex> U) {
+    protected List<TabulatedFunction> getTabulatedFunction(ComplexMatrix U) {
         List<TabulatedFunction> array = new ArrayList<>();
         for (int j = 0; j < fixedVariable.length; j++) {
             List<Point> points = new ArrayList<>();
@@ -100,9 +100,9 @@ public abstract class BaseMethod implements CrossSectionCalculated {
             double I = fixedVariableType.equals(FixedVariableType.r) ? K : J;
             for (int i = 0; i < I + 1; i++) {
                 if (fixedVariableType.equals(FixedVariableType.r)) {
-                    points.add(new Point(h_z * i, h_r * layer, U.get(layer + 1, i + 1).get()));
+                    points.add(new Point(h_z * i, h_r * layer, U.get(layer + 1, i + 1)));
                 } else {
-                    points.add(new Point(h_r * i, h_z * layer, U.get(i + 1, layer + 1).get()));
+                    points.add(new Point(h_r * i, h_z * layer, U.get(i + 1, layer + 1)));
                 }
             }
             array.add(new ArrayTabulatedFunction(FXCollections.observableList(points), fixedVariable[j]));

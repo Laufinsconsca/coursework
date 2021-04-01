@@ -1,9 +1,8 @@
 package solution.methods;
 
-import complex.Complex;
 import dto.InputDataDto;
 import enums.FixedVariableType;
-import matrices.matrix.Matrix;
+import matrix.ComplexMatrix;
 import solution.ComprehensiveCalculated;
 import tabulatedFunctions.TabulatedFunction;
 
@@ -12,7 +11,7 @@ import java.util.List;
 public class ImplicitDifferenceScheme extends BaseMethod implements ComprehensiveCalculated {
 
     @Override
-    public Matrix<Complex> comprehensiveCalculate(InputDataDto inputDataDto) {
+    public ComplexMatrix comprehensiveCalculate(InputDataDto inputDataDto) {
         init(inputDataDto);
         A.set(0, 1, 1);
         B.set(α.scaleOn(-4).add(1), 1, 1);

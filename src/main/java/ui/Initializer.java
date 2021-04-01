@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.atteo.classindex.ClassIndex;
+import ui.plot.PlotAccessible;
+import ui.plot.PlotController;
 import ui.warnings.WarningWindows;
 
 import java.io.IOException;
@@ -24,6 +26,7 @@ public class Initializer {
                 .filter(f -> f.getDeclaredAnnotation(annotationClass).parentController().equals(parentController.getSimpleName()))
                 .forEach(clazz -> controllerMap.put(clazz.getDeclaredAnnotation(annotationClass).pathFXML(),
                         initializeWindowController(clazz, ownerStage)));
+        postProcessing(controllerMap);
     }
 
     private static aWindow initializeWindowController(Class<?> clazz, Stage ownerStage) {
@@ -55,5 +58,13 @@ public class Initializer {
             WarningWindows.showError(e);
         }
         return modalityWindow;
+    }
+
+    private static void postProcessing(Map<String, aWindow> controllerMap) {
+        controllerMap.forEach((key, value) -> {
+            if (value.getClass().getDeclaredAnnotation(annotationClass).isPlotAccessible()) {
+                ((PlotAccessible) value).setPlotController((PlotController) controllerMap.get("plot.fxml"));
+            }
+        });
     }
 }

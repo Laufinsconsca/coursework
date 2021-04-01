@@ -1,8 +1,5 @@
-package ui;
+package ui.plot;
 
-import com.sun.javafx.charts.Legend;
-import dto.InputDataDto;
-import enums.FixedVariableType;
 import enums.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +27,8 @@ import model.Point;
 import org.gillius.jfxutils.chart.ChartPanManager;
 import org.gillius.jfxutils.chart.JFXChartUtil;
 import tabulatedFunctions.TabulatedFunction;
+import ui.AutoInitializableController;
+import ui.aWindow;
 import ui.warnings.WarningWindows;
 
 import java.lang.reflect.InvocationTargetException;
@@ -38,10 +37,9 @@ import java.net.URL;
 import java.util.*;
 
 @AutoInitializableController(name = "Построение графика", type = Item.CONTROLLER, pathFXML = "plot.fxml")
-public class PlotController implements Initializable, aWindow, InputDataDtoHolder {
+public class PlotController implements Initializable, aWindow {
     private final Map<TabulatedFunction, Color> functionColorMap = new HashMap<>();
     private final double strokeWidth = 0.5;
-    private InputDataDto inputDataDto;
     private Stage stage;
     @FXML
     private StackPane stackPane;
@@ -49,16 +47,12 @@ public class PlotController implements Initializable, aWindow, InputDataDtoHolde
     private LineChart<Double, Double> lineChart;
     private AnchorPane detailsWindow;
     private PlotController.DetailsPopup detailsPopup;
-
-    public static void removeLegend(LineChart<Double, Double> lineChart) {
-        ((Legend) lineChart.lookup(".chart-legend")).getItems().clear();
-    }
+    private PlotControllerConfiguration configuration;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         detailsWindow = new AnchorPane();
         lineChart.setCreateSymbols(false);
-        lineChart.getYAxis().setLabel("|u(r,z)|");
         bindMouseEvents(lineChart, this.strokeWidth);
         ChartPanManager panner = new ChartPanManager(lineChart);
         panner.setMouseFilter(mouseEvent -> {
@@ -90,15 +84,11 @@ public class PlotController implements Initializable, aWindow, InputDataDtoHolde
         for (Point point : function) {
             data.add(new XYChart.Data<>(point.getX(), point.getU().abs()));
         }
-        if (inputDataDto.getFixedVariableType().equals(FixedVariableType.r)) {
-            lineChart.getXAxis().setLabel("z, расстояние вдоль волновода (мкм)");
-        } else {
-            lineChart.getXAxis().setLabel("r, радиус (мкм)");
-        }
+        lineChart.getXAxis().setLabel(configuration.getXAxisName());
+        lineChart.getYAxis().setLabel(configuration.getYAxisName());
         series.setData(data);
         series.setName(function.getName());
         lineChart.getData().add(series);
-        //removeLegend(lineChart);
         functionColorMap.putIfAbsent(function, getColorFromCSS(series));
         detailsPopup.addPopupRow(function);
     }
@@ -222,14 +212,22 @@ public class PlotController implements Initializable, aWindow, InputDataDtoHolde
         });
     }
 
-    @Override
-    public InputDataDto getInputDataDto() {
-        return inputDataDto;
+//    @Override
+//    public InputDataDto getInputDataDto() {
+//        return inputDataDto;
+//    }
+//
+//    @Override
+//    public void setInputDataDto(InputDataDto inputDataDto) {
+//        this.inputDataDto = inputDataDto;
+//    }
+
+    public PlotControllerConfiguration getConfiguration() {
+        return configuration;
     }
 
-    @Override
-    public void setInputDataDto(InputDataDto inputDataDto) {
-        this.inputDataDto = inputDataDto;
+    public void setConfiguration(PlotControllerConfiguration configuration) {
+        this.configuration = configuration;
     }
 
     private class DetailsPopup extends VBox {
@@ -277,7 +275,7 @@ public class PlotController implements Initializable, aWindow, InputDataDtoHolde
                 seriesName.setStyle("-fx-font-weight: bold");
             }
 
-            return new HBox(10, seriesName, new Label("r: [" + r + "]\nu: [" + u + "]"));
+            return new HBox(10, seriesName, new Label(configuration.getXVariableName() + ": [" + r + "]\n" + configuration.getYVariableName() + ": [" + u + "]"));
         }
 
         private double normalizeYValue(LineChart<Double, Double> lineChart, double value) {
