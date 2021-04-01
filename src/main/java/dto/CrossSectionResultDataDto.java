@@ -2,30 +2,29 @@ package dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import tabulatedFunctions.TabulatedFunction;
 
-import java.sql.Time;
+import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
 public class CrossSectionResultDataDto {
 
-    private Integer idCalculationResult;
-    private String name;
-    private Time date;
-    private Integer J;
-    private Integer K;
-    private Integer nEigenfunction;
-    private double λ;
-    private double nRefraction;
-    private double L;
-    private double R;
-    private double z;
-    private TabulatedFunction analyticalSolution;
-    private TabulatedFunction implicitSchemeSolution;
-    private TabulatedFunction crankNicolsonSchemeSolution;
+    //    private Integer idCalculationResult;
+//    private String name;
+//    private Time date;
+//    private Integer J;
+//    private Integer K;
+//    private Integer nEigenfunction;
+//    private double λ;
+//    private double nRefraction;
+//    private double L;
+//    private double R;
+//    private double[] fixedVariable;
+//    private FixedVariableType fixedVariableType;
+    private final List<TabulatedFunction> analyticalSolution;
+    private final List<TabulatedFunction> implicitSchemeSolution;
+    private final List<TabulatedFunction> crankNicolsonSchemeSolution;
 }

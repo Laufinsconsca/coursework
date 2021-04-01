@@ -1,35 +1,40 @@
 package ui;
 
-import dto.InputDataDto;
 import dto.CrossSectionResultDataDto;
+import dto.InputDataDto;
+import enums.FixedVariableType;
+import exceptions.InvalidArrayLengthException;
 import exceptions.NoGraphsToPlotException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import method.Calculator;
-import method.impl.AnalyticalMethod;
+import solution.Calculator;
 import tabulatedFunctions.TabulatedFunction;
 import ui.warnings.WarningWindows;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class InitController extends AbstractParentController implements Initializable, InputDataDtoHolder {
+public class InitController extends AbstractParentController implements Initializable {
     public TextField uImplicitSchemeTextField;
     public TextField uCrankNicolsonSchemeTextField;
     public TextField uAnalyticalSolutionTextField;
     @FXML
     AnchorPane mainPane;
+    private FixedVariableType fixedVariableType = FixedVariableType.z;
     @FXML
     private TextField LTextField, RTextField, nTextField, λTextField, JTextField, KTextField, rTextField, zTextField, nEigenfunctionTextField;
-    private double L, R, n, λ, r, z;
+    private double L, R, n, λ;
+    private double[] r, z;
     private Integer J, K, nEigenfunction;
     private InputDataDto inputDataDto;
     private CrossSectionResultDataDto crossSectionResultDataDto;
+
     @FXML
     private CheckBox analyticalSolutionCheckBox, implicitSchemeCheckBox, crankNicolsonSchemeCheckBox;
 
@@ -38,15 +43,11 @@ public class InitController extends AbstractParentController implements Initiali
         Initializer.initializeWindowControllers(this.getClass(), stage, controllerMap);
         LTextField.setText("5");
         RTextField.setText("6");
-        zTextField.setText("5");
         nTextField.setText("1.4");
         λTextField.setText("1");
+        rTextField.setText("3");
+        zTextField.setText("5");
         nEigenfunctionTextField.setText("1");
-//        LTextField.setText("15");
-//        RTextField.setText("10");
-//        zTextField.setText("15");
-//        nTextField.setText("1");
-//        λTextField.setText("2");
         JTextField.setText("10");
         KTextField.setText("10");
         mainPane.setStyle("-fx-background-color: #cde0cd");
@@ -57,24 +58,33 @@ public class InitController extends AbstractParentController implements Initiali
         R = Double.parseDouble(RTextField.getText());
         n = Double.parseDouble(nTextField.getText());
         λ = Double.parseDouble(λTextField.getText());
-        z = Double.parseDouble(zTextField.getText());
+        r = Arrays.stream(rTextField.getText().split(";")).mapToDouble(Double::parseDouble).toArray();
+        z = Arrays.stream(zTextField.getText().split(";")).mapToDouble(Double::parseDouble).toArray();
         J = Integer.parseInt(JTextField.getText());
         K = Integer.parseInt(KTextField.getText());
         nEigenfunction = Integer.parseInt(nEigenfunctionTextField.getText());
-        inputDataDto = new InputDataDto("", J, K, nEigenfunction, λ, n, L, R, z);
+        if (fixedVariableType.equals(FixedVariableType.r)) {
+            inputDataDto = new InputDataDto(J, K, nEigenfunction, λ, n, L, R, r, fixedVariableType);
+        } else {
+            inputDataDto = new InputDataDto(J, K, nEigenfunction, λ, n, L, R, z, fixedVariableType);
+        }
     }
 
     @FXML
     private void calculate() {
         try {
             readInitialConditions();
-            r = Double.parseDouble(rTextField.getText());
+            if (r.length != 1 || z.length != 1) {
+                throw new InvalidArrayLengthException();
+            }
             crossSectionResultDataDto = Calculator.crossSectionCalculate(inputDataDto);
-            uAnalyticalSolutionTextField.setText(crossSectionResultDataDto.getAnalyticalSolution().apply(r).abs() + "");
-            uImplicitSchemeTextField.setText(crossSectionResultDataDto.getImplicitSchemeSolution().apply(r).abs() + "");
-            uCrankNicolsonSchemeTextField.setText(crossSectionResultDataDto.getCrankNicolsonSchemeSolution().apply(r).abs() + "");
+            uAnalyticalSolutionTextField.setText(crossSectionResultDataDto.getAnalyticalSolution().get(0).apply(r[0]).abs() + "");
+            uImplicitSchemeTextField.setText(crossSectionResultDataDto.getImplicitSchemeSolution().get(0).apply(r[0]).abs() + "");
+            uCrankNicolsonSchemeTextField.setText(crossSectionResultDataDto.getCrankNicolsonSchemeSolution().get(0).apply(r[0]).abs() + "");
         } catch (NumberFormatException e) {
             WarningWindows.showWarning("Ошибка ввода начальных условий");
+        } catch (InvalidArrayLengthException ex) {
+            WarningWindows.showWarning("Слишком много входных переменных");
         }
     }
 
@@ -91,20 +101,32 @@ public class InitController extends AbstractParentController implements Initiali
     }
 
     @FXML
+    public void plotRConst() {
+        fixedVariableType = FixedVariableType.r;
+        plot();
+    }
+
+    @FXML
+    public void plotZConst() {
+        fixedVariableType = FixedVariableType.z;
+        plot();
+    }
+
     public void plot() {
         try {
             readInitialConditions();
             PlotController controller = (PlotController) getController();
+            controller.setInputDataDto(inputDataDto);
             crossSectionResultDataDto = Calculator.crossSectionCalculate(inputDataDto);
             List<TabulatedFunction> functions = new ArrayList<>();
             if (analyticalSolutionCheckBox.isSelected()) {
-                functions.add(crossSectionResultDataDto.getAnalyticalSolution());
+                functions.addAll(crossSectionResultDataDto.getAnalyticalSolution());
             }
             if (implicitSchemeCheckBox.isSelected()) {
-                functions.add(crossSectionResultDataDto.getImplicitSchemeSolution());
+                functions.addAll(crossSectionResultDataDto.getImplicitSchemeSolution());
             }
             if (crankNicolsonSchemeCheckBox.isSelected()) {
-                functions.add(crossSectionResultDataDto.getCrankNicolsonSchemeSolution());
+                functions.addAll(crossSectionResultDataDto.getCrankNicolsonSchemeSolution());
             }
             if (functions.isEmpty()) {
                 throw new NoGraphsToPlotException();
@@ -124,15 +146,5 @@ public class InitController extends AbstractParentController implements Initiali
         } catch (NoGraphsToPlotException ex) {
             WarningWindows.showWarning("К построению не выбран ни один из графиков");
         }
-    }
-
-    @Override
-    public InputDataDto getInputDataDto() {
-        return inputDataDto;
-    }
-
-    @Override
-    public void setInputDataDto(InputDataDto inputDataDto) {
-        this.inputDataDto = inputDataDto;
     }
 }

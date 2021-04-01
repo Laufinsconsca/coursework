@@ -1,14 +1,11 @@
-package method;
+package solution;
 
 import dto.ComprehensiveResultDataDto;
 import dto.CrossSectionResultDataDto;
 import dto.InputDataDto;
-import method.impl.AnalyticalMethod;
-import method.impl.CrankNicolsonScheme;
-import method.impl.ImplicitDifferenceScheme;
-
-import java.sql.Time;
-import java.time.LocalTime;
+import solution.methods.AnalyticalMethod;
+import solution.methods.CrankNicolsonScheme;
+import solution.methods.ImplicitDifferenceScheme;
 
 public class Calculator {
     private static final int i = 0;
@@ -19,17 +16,17 @@ public class Calculator {
         CrossSectionCalculated crankNicolsonScheme = new CrankNicolsonScheme();
         CrossSectionCalculated implicitDifferenceScheme = new ImplicitDifferenceScheme();
         return CrossSectionResultDataDto.builder()
-                .idCalculationResult(i)
-                .name("Calc№ " + i)
-                .date(Time.valueOf(LocalTime.now()))
-                .L(inputDataDto.getL())
-                .K(inputDataDto.getK())
-                .J(inputDataDto.getJ())
-                .nEigenfunction(inputDataDto.getNEigenfunction())
-                .λ(inputDataDto.getΛ())
-                .nRefraction(inputDataDto.getNRefraction())
-                .R(inputDataDto.getR())
-                .z(inputDataDto.getZ())
+//                .idCalculationResult(i)
+//                .name("Calc№ " + i)
+//                .date(Time.valueOf(LocalTime.now()))
+//                .L(inputDataDto.getL())
+//                .K(inputDataDto.getK())
+//                .J(inputDataDto.getJ())
+//                .nEigenfunction(inputDataDto.getNEigenfunction())
+//                .λ(inputDataDto.getΛ())
+//                .nRefraction(inputDataDto.getNRefraction())
+//                .R(inputDataDto.getR())
+//                .fixedVariable(inputDataDto.getFixedVariable())
                 .analyticalSolution(analyticalMethod.crossSectionCalculate(inputDataDto))
                 .crankNicolsonSchemeSolution(crankNicolsonScheme.crossSectionCalculate(inputDataDto))
                 .implicitSchemeSolution(implicitDifferenceScheme.crossSectionCalculate(inputDataDto))
@@ -42,16 +39,16 @@ public class Calculator {
         ComprehensiveCalculated crankNicolsonScheme = new CrankNicolsonScheme();
         ComprehensiveCalculated implicitDifferenceScheme = new ImplicitDifferenceScheme();
         return ComprehensiveResultDataDto.builder()
-                .idCalculationResult(i)
-                .name("Calc№ " + i)
-                .date(Time.valueOf(LocalTime.now()))
-                .L(inputDataDto.getL())
-                .K(inputDataDto.getK())
-                .J(inputDataDto.getJ())
-                .nEigenfunction(inputDataDto.getNEigenfunction())
-                .λ(inputDataDto.getΛ())
-                .nRefraction(inputDataDto.getNRefraction())
-                .R(inputDataDto.getR())
+//                .idCalculationResult(i)
+//                .name("Calc№ " + i)
+//                .date(Time.valueOf(LocalTime.now()))
+//                .L(inputDataDto.getL())
+//                .K(inputDataDto.getK())
+//                .J(inputDataDto.getJ())
+//                .nEigenfunction(inputDataDto.getNEigenfunction())
+//                .λ(inputDataDto.getΛ())
+//                .nRefraction(inputDataDto.getNRefraction())
+//                .R(inputDataDto.getR())
                 .analyticalSolution(analyticalMethod.calculate(inputDataDto))
                 .crankNicolsonSchemeSolution(crankNicolsonScheme.comprehensiveCalculate(inputDataDto))
                 .implicitSchemeSolution(implicitDifferenceScheme.comprehensiveCalculate(inputDataDto))

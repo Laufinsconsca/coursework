@@ -5,35 +5,19 @@ import model.Point;
 
 public interface TabulatedFunction extends Iterable<Point> {
 
-    int getCount();
-
-    Complex apply(double r);
-
-    double getR(int index);
-
-    double getZ();
+    Complex apply(double x);
 
     Complex getU(int index);
 
-    void setU(int index, Complex value);
-
-    void setU(TabulatedFunction function);
-
-    int indexOfR(double r);
-
-    int indexOfU(Complex u);
+    int indexOfX(double x);
 
     double leftBound();
 
     double rightBound();
 
-    int floorIndexOfR(double r);
+    int floorIndexOfX(double x);
 
-    default String getName() {
-        return "TF(x)";
-    }
+    String getName();
 
     void setName(String name);
-
-    TabulatedFunction copy();
 }

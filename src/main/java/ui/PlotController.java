@@ -1,6 +1,9 @@
 package ui;
 
 import com.sun.javafx.charts.Legend;
+import dto.InputDataDto;
+import enums.FixedVariableType;
+import enums.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -35,10 +38,10 @@ import java.net.URL;
 import java.util.*;
 
 @AutoInitializableController(name = "Построение графика", type = Item.CONTROLLER, pathFXML = "plot.fxml")
-public class PlotController implements Initializable, aWindow {
+public class PlotController implements Initializable, aWindow, InputDataDtoHolder {
     private final Map<TabulatedFunction, Color> functionColorMap = new HashMap<>();
     private final double strokeWidth = 0.5;
-    private double z = Double.NaN;
+    private InputDataDto inputDataDto;
     private Stage stage;
     @FXML
     private StackPane stackPane;
@@ -83,13 +86,14 @@ public class PlotController implements Initializable, aWindow {
 
     public void addSeries(TabulatedFunction function) {
         ObservableList<XYChart.Data<Double, Double>> data = FXCollections.observableArrayList();
-        for (Point point : function) {
-            data.add(new XYChart.Data<>(point.getR(), point.getU().abs()));
-        }
         XYChart.Series<Double, Double> series = new XYChart.Series<>();
-        if (z != function.getZ() || Objects.isNull(lineChart.getXAxis().getLabel())) {
-            z = function.getZ();
-            lineChart.getXAxis().setLabel("r, радиус (срез при z = " + z + ")");
+        for (Point point : function) {
+            data.add(new XYChart.Data<>(point.getX(), point.getU().abs()));
+        }
+        if (inputDataDto.getFixedVariableType().equals(FixedVariableType.r)) {
+            lineChart.getXAxis().setLabel("z, расстояние вдоль волновода (мкм)");
+        } else {
+            lineChart.getXAxis().setLabel("r, радиус (мкм)");
         }
         series.setData(data);
         series.setName(function.getName());
@@ -216,6 +220,16 @@ public class PlotController implements Initializable, aWindow {
                 AnchorPane.setLeftAnchor(detailsPopup, x - a - detailsPopup.getWidth());
             }
         });
+    }
+
+    @Override
+    public InputDataDto getInputDataDto() {
+        return inputDataDto;
+    }
+
+    @Override
+    public void setInputDataDto(InputDataDto inputDataDto) {
+        this.inputDataDto = inputDataDto;
     }
 
     private class DetailsPopup extends VBox {

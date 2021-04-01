@@ -1,4 +1,4 @@
-package ui;
+package enums;
 
 public enum Item {
     CONTROLLER

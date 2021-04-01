@@ -1,5 +1,6 @@
 package ui;
 
+import enums.Item;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

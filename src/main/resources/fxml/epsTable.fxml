@@ -6,7 +6,7 @@
 
 <AnchorPane minHeight="400.0" minWidth="549.0" prefHeight="400.0" prefWidth="579.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.EpsTableController">
     <children>
-        <TabPane minHeight="400.0" minWidth="579.0" prefHeight="400.0" prefWidth="579.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <TabPane minHeight="400.0" minWidth="579.0" prefHeight="400.0" prefWidth="578.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <tabs>
                 <Tab text="Неявная схема">
                     <content>
@@ -16,8 +16,8 @@
                                     <columns>
                                         <TableColumn fx:id="implicitSchemeTableColumnJ" prefWidth="74.0" text="J" />
                                         <TableColumn fx:id="implicitSchemeTableColumnK" prefWidth="74.0" text="K" />
-                                        <TableColumn fx:id="implicitSchemeTableColumnΕ_2h_r_4h_z" prefWidth="143.0" text="ε(2*h_r,4*h_z)" />
                                         <TableColumn fx:id="implicitSchemeTableColumnΕ_h_r_h_z" prefWidth="143.0" text="ε(h_r,h_z)" />
+                                        <TableColumn fx:id="implicitSchemeTableColumnΕ_1_2h_r_1_4h_z" prefWidth="143.0" text="ε(h_r/2,h_z/4)" />
                                         <TableColumn fx:id="implicitSchemeTableColumnΔ_h_r_h_z" prefWidth="143.0" text="δ(h_r,h_z)" />
                                     </columns>
                                 </TableView>
@@ -33,8 +33,8 @@
                                     <columns>
                                         <TableColumn fx:id="crankNicolsonSchemeTableColumnJ" prefWidth="74.0" text="J" />
                                         <TableColumn fx:id="crankNicolsonSchemeTableColumnK" prefWidth="74.0" text="K" />
-                                        <TableColumn fx:id="crankNicolsonSchemeTableColumnΕ_2h_r_2h_z" prefWidth="143.0" text="ε(2*h_r,2*h_z)" />
                                         <TableColumn fx:id="crankNicolsonSchemeTableColumnΕ_h_r_h_z" prefWidth="143.0" text="ε(h_r,h_z)" />
+                                        <TableColumn fx:id="crankNicolsonSchemeTableColumnΕ_1_2h_r_1_2h_z" prefWidth="143.0" text="ε(h_r/2,h_z/2)" />
                                         <TableColumn fx:id="crankNicolsonSchemeTableColumnΔ_h_r_h_z" prefWidth="143.0" text="δ(h_r,h_z)" />
                                     </columns>
                                 </TableView>
@@ -44,5 +44,6 @@
                 </Tab>
             </tabs>
         </TabPane>
+      <Button layoutX="49.0" layoutY="371.0" mnemonicParsing="false" onAction="#export" text="Экспорт таблиц в файл" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="370.0" />
     </children>
 </AnchorPane>

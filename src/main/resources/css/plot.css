@@ -1,5 +1,5 @@
 .chart-series-line {
-    -fx-stroke-width: 0.5;
+    -fx-stroke-width: 0.7;
 }
 
 .chart-legend {
@@ -19,15 +19,15 @@
 }
 
 .default-color3.chart-series-line {
-    -fx-stroke: pink;
+    -fx-stroke: black;
 }
 
 .default-color4.chart-series-line {
-    -fx-stroke: yellow;
+    -fx-stroke: #bb00ff;
 }
 
 .default-color5.chart-series-line {
-    -fx-stroke: khaki;
+    -fx-stroke: #fc6500;
 }
 
 .default-color6.chart-series-line {
@@ -35,14 +35,14 @@
 }
 
 .default-color7.chart-series-line {
-    -fx-stroke: black;
+    -fx-stroke: #00ffc4;
 }
 
 .default-color0.chart-line-symbol { -fx-background-color: green, white; }
 .default-color1.chart-line-symbol { -fx-background-color: blue, white; }
 .default-color2.chart-line-symbol { -fx-background-color: red, white; }
-.default-color3.chart-line-symbol { -fx-background-color: pink, white; }
-.default-color4.chart-line-symbol { -fx-background-color: yellow, white; }
-.default-color5.chart-line-symbol { -fx-background-color: khaki, white; }
+.default-color3.chart-line-symbol { -fx-background-color: black, white; }
+.default-color4.chart-line-symbol { -fx-background-color: #bb00ff, white; }
+.default-color5.chart-line-symbol { -fx-background-color: #fc6500, white; }
 .default-color6.chart-line-symbol { -fx-background-color: brown, white; }
-.default-color7.chart-line-symbol { -fx-background-color: black, white; }
+.default-color7.chart-line-symbol { -fx-background-color: #00ffc4, white; }

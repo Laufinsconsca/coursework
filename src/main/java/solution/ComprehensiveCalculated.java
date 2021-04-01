@@ -1,4 +1,4 @@
-package method;
+package solution;
 
 import complex.Complex;
 import dto.InputDataDto;

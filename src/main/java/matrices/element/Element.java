@@ -19,15 +19,5 @@ public interface Element<T> {
         return this.multiply(-1);
     }
 
-    Element<T> reciprocal();
-
-    boolean equals(Element<T> element);
-
-    int compareTo(Element<T> element);
-
-    void set(Element<T> element);
-
-    void set(T element);
-
     T get();
 }
