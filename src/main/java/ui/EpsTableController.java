@@ -204,9 +204,9 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
         Row row = implicitSchemeSheet.createRow(rowNum);
         row.createCell(0).setCellValue("J");
         row.createCell(1).setCellValue("K");
-        row.createCell(2).setCellValue("ε_1_2h_r_1_4h_z");
-        row.createCell(3).setCellValue("ε_h_r_h_z");
-        row.createCell(4).setCellValue("δ_h_r_h_z");
+        row.createCell(2).setCellValue("ε(h_r,h_z)");
+        row.createCell(3).setCellValue("ε(h_r/2,h_z/4)");
+        row.createCell(4).setCellValue("δ(h_r,h_z)");
         for (ImplicitSchemeEpsTableRow dataModel : implicitSchemeEpsTableRows) {
             fillImplicitSchemeSheet(implicitSchemeSheet, ++rowNum, dataModel);
         }
@@ -214,9 +214,9 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
         row = crankNicolsonSchemeSheet.createRow(rowNum);
         row.createCell(0).setCellValue("J");
         row.createCell(1).setCellValue("K");
-        row.createCell(2).setCellValue("ε_1_2h_r_1_2h_z");
-        row.createCell(3).setCellValue("ε_h_r_h_z");
-        row.createCell(4).setCellValue("δ_h_r_h_z");
+        row.createCell(2).setCellValue("ε(h_r,h_z)");
+        row.createCell(3).setCellValue("ε(h_r/2,h_z/2)");
+        row.createCell(4).setCellValue("δ(h_r,h_z)");
         for (CrankNicolsonSchemeEpsTableRow dataModel : crankNicolsonSchemeEpsTableRows) {
             fillCrankNicolsonSchemeSheet(crankNicolsonSchemeSheet, ++rowNum, dataModel);
         }
