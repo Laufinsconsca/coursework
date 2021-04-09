@@ -91,6 +91,7 @@ public class PlotController implements Initializable, aWindow {
         lineChart.getData().add(series);
         functionColorMap.putIfAbsent(function, getColorFromCSS(series));
         detailsPopup.addPopupRow(function);
+        //lineChart.lookup(".series0").setStyle("-fx-stroke-dash-array: 1.2 3.0; ");
     }
 
     public void setSeries(TabulatedFunction function) {

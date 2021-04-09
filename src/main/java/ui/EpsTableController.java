@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -24,8 +23,6 @@ import java.util.*;
 
 @AutoInitializableController(name = "Таблица погрешностей аппроксимации", type = Item.CONTROLLER, pathFXML = "epsTable.fxml")
 public class EpsTableController implements Initializable, aWindow, InputDataDtoHolder {
-    public static final FileChooser.ExtensionFilter xlsxExtensionFilter =
-            new FileChooser.ExtensionFilter("XSLX files (*.xlsx)", "*.xlsx");
     public TableView<ImplicitSchemeEpsTableRow> implicitSchemeTableView;
     public TableView<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeTableView;
     public TableColumn<ImplicitSchemeEpsTableRow, Integer> implicitSchemeTableColumnJ, implicitSchemeTableColumnK;
@@ -105,7 +102,7 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
         row.createCell(3).setCellValue("ε(h_r/2,h_z/4)");
         row.createCell(4).setCellValue("δ(h_r,h_z)");
         for (ImplicitSchemeEpsTableRow dataModel : implicitSchemeEpsTableRows) {
-            fillImplicitSchemeSheet(implicitSchemeSheet, ++rowNum, dataModel);
+            fillImplicitSchemeRow(implicitSchemeSheet, ++rowNum, dataModel);
         }
         rowNum = 0;
         row = crankNicolsonSchemeSheet.createRow(rowNum);
@@ -115,16 +112,16 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
         row.createCell(3).setCellValue("ε(h_r/2,h_z/2)");
         row.createCell(4).setCellValue("δ(h_r,h_z)");
         for (CrankNicolsonSchemeEpsTableRow dataModel : crankNicolsonSchemeEpsTableRows) {
-            fillCrankNicolsonSchemeSheet(crankNicolsonSchemeSheet, ++rowNum, dataModel);
+            fillCrankNicolsonSchemeRow(crankNicolsonSchemeSheet, ++rowNum, dataModel);
         }
-        try (FileOutputStream out = new FileOutputStream(save())) {
+        try (FileOutputStream out = new FileOutputStream(SetJKController.save(stage))) {
             workbook.write(out);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void fillImplicitSchemeSheet(XSSFSheet sheet, int rowNum, ImplicitSchemeEpsTableRow dataModel) {
+    private static void fillImplicitSchemeRow(XSSFSheet sheet, int rowNum, ImplicitSchemeEpsTableRow dataModel) {
         Row row = sheet.createRow(rowNum);
         row.createCell(0).setCellValue(dataModel.getJ());
         row.createCell(1).setCellValue(dataModel.getK());
@@ -133,20 +130,13 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
         row.createCell(4).setCellValue(dataModel.getΔ_h_r_h_z());
     }
 
-    private static void fillCrankNicolsonSchemeSheet(XSSFSheet sheet, int rowNum, CrankNicolsonSchemeEpsTableRow dataModel) {
+    private static void fillCrankNicolsonSchemeRow(XSSFSheet sheet, int rowNum, CrankNicolsonSchemeEpsTableRow dataModel) {
         Row row = sheet.createRow(rowNum);
         row.createCell(0).setCellValue(dataModel.getJ());
         row.createCell(1).setCellValue(dataModel.getK());
         row.createCell(2).setCellValue(dataModel.getΕ_h_r_h_z());
         row.createCell(3).setCellValue(dataModel.getΕ_1_2h_r_1_2h_z());
         row.createCell(4).setCellValue(dataModel.getΔ_h_r_h_z());
-    }
-
-    private File save() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Сохранить таблицы погрешностей в файл");
-        fileChooser.getExtensionFilters().add(xlsxExtensionFilter);
-        return fileChooser.showSaveDialog(stage);
     }
 
     public void setJKConfiguration(List<ObservableList<JKTableRow>> JKConfiguration) {

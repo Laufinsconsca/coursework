@@ -110,7 +110,7 @@
          <font>
             <Font size="16.0" />
          </font></Button>
-        <Button layoutX="255.0" layoutY="597.0" mnemonicParsing="false" onAction="#calculate" prefHeight="31.0" prefWidth="193.0" text="Вычислить" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="595.0">
+        <Button layoutX="255.0" layoutY="597.0" mnemonicParsing="false" onAction="#calculate" prefHeight="31.0" prefWidth="193.0" text="Вычислить |u(r, z)| в точке (r,z)" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="595.0">
          <font>
             <Font size="16.0" />
          </font></Button>

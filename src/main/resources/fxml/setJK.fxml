@@ -56,7 +56,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0">
                      <children>
-                        <TabPane fx:id="tabPane2" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TabPane fx:id="tabPane2" prefHeight="465.0" prefWidth="530.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <tabs>
                               <Tab text="Неявная схема">
                                  <content>
@@ -94,20 +94,31 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Button mnemonicParsing="false" onAction="#add" prefHeight="35.0" prefWidth="50.0" text="Добавить" AnchorPane.bottomAnchor="56.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="10.0" />
-      <Button mnemonicParsing="false" onAction="#importFromFile" prefWidth="50.0" text="Импорт из Excel файла" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Button mnemonicParsing="false" onAction="#add" prefHeight="35.0" prefWidth="50.0" text="Добавить" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="10.0">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
       <Button layoutX="583.0" layoutY="213.0" mnemonicParsing="false" onAction="#delete" prefWidth="50.0" text="—" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="540.0" AnchorPane.topAnchor="10.0" />
-      <TextField fx:id="j" layoutX="45.0" layoutY="319.0" prefHeight="35.0" prefWidth="170.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="45.0" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="505.0" prefHeight="35.0" prefWidth="30.0" text="J" textAlignment="CENTER" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="12.0">
+      <TextField fx:id="j" layoutX="45.0" layoutY="319.0" prefHeight="37.0" prefWidth="170.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="45.0" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="505.0" prefHeight="37.0" prefWidth="30.0" text="J" textAlignment="CENTER" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="12.0">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="515.0" prefHeight="31.0" prefWidth="30.0" text="K" textAlignment="CENTER" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="230.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="515.0" prefHeight="37.0" prefWidth="30.0" text="K" textAlignment="CENTER" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="230.0">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <TextField fx:id="k" layoutX="252.0" layoutY="514.0" prefHeight="35.0" prefWidth="170.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="265.0" />
+      <TextField fx:id="k" layoutX="252.0" layoutY="514.0" prefHeight="37.0" prefWidth="170.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="265.0" />
+      <Button mnemonicParsing="false" onAction="#importFromFile" prefHeight="37.0" prefWidth="50.0" text="Импорт из Excel файла" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="305.0">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Button layoutX="410.0" layoutY="553.0" mnemonicParsing="false" onAction="#export" prefHeight="37.0" prefWidth="50.0" text="Сохранить текущую конфигурацию" AnchorPane.leftAnchor="305.0" AnchorPane.rightAnchor="10.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
