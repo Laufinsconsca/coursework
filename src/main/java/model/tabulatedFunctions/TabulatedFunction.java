@@ -1,6 +1,6 @@
-package tabulatedFunctions;
+package model.tabulatedFunctions;
 
-import complex.Complex;
+import model.complex.Complex;
 import model.Point;
 
 public interface TabulatedFunction extends Iterable<Point> {

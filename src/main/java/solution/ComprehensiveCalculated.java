@@ -1,7 +1,7 @@
 package solution;
 
 import dto.InputDataDto;
-import matrix.ComplexMatrix;
+import model.matrix.ComplexMatrix;
 
 public interface ComprehensiveCalculated {
     ComplexMatrix comprehensiveCalculate(InputDataDto inputDataDto);

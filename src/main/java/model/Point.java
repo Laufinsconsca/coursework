@@ -1,6 +1,6 @@
 package model;
 
-import complex.Complex;
+import model.complex.Complex;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

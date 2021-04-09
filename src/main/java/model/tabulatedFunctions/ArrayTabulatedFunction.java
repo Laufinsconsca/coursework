@@ -1,6 +1,6 @@
-package tabulatedFunctions;
+package model.tabulatedFunctions;
 
-import complex.Complex;
+import model.complex.Complex;
 import exceptions.InterpolationException;
 import exceptions.NaNException;
 import javafx.collections.ObservableList;

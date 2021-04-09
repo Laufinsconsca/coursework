@@ -1,18 +1,18 @@
 package solution.methods;
 
-import complex.Complex;
+import model.complex.Complex;
 import dto.InputDataDto;
 import enums.FixedVariableType;
 import javafx.collections.FXCollections;
-import matrix.ComplexMatrix;
+import model.matrix.ComplexMatrix;
 import model.Point;
 import org.apache.commons.math3.special.BesselJ;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import solution.CrossSectionCalculated;
-import tabulatedFunctions.ArrayTabulatedFunction;
-import tabulatedFunctions.TabulatedFunction;
+import model.tabulatedFunctions.ArrayTabulatedFunction;
+import model.tabulatedFunctions.TabulatedFunction;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,7 +24,6 @@ import java.util.List;
 
 public abstract class BaseMethod implements CrossSectionCalculated {
     protected static final List<Double> besselZeros = besselZeros();
-    protected TabulatedFunction tabulatedFunction;
     protected Integer J;
     protected Integer K;
     protected Integer nEigenfunction;

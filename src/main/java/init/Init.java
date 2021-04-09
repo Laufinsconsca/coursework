@@ -42,6 +42,7 @@ public class Init extends Application {
 
         primaryStage.setTitle("Курсовая работа 12 вариант");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(true);
         primaryStage.show();
     }
 

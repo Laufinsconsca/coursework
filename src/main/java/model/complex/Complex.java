@@ -1,4 +1,4 @@
-package complex;
+package model.complex;
 
 import java.io.Serializable;
 
@@ -20,7 +20,7 @@ public class Complex implements Serializable {
         return Math.hypot(re, im);
     }
 
-    // return a new firstLab.complex.Complex object whose value is (this + b)
+    // return a new firstLab.model.complex.Complex object whose value is (this + b)
     public Complex add(Complex b) {
         return new Complex(re + b.re, im + b.im);
     }
@@ -29,7 +29,7 @@ public class Complex implements Serializable {
         return new Complex(re + b, im);
     }
 
-    // return a new firstLab.complex.Complex object whose value is (this - b)
+    // return a new firstLab.model.complex.Complex object whose value is (this - b)
     public Complex subtract(Complex b) {
         return new Complex(re - b.re, im - b.im);
     }
@@ -38,7 +38,7 @@ public class Complex implements Serializable {
         return new Complex(-re, -im);
     }
 
-    // return a new firstLab.complex.Complex object whose value is (this * b)
+    // return a new firstLab.model.complex.Complex object whose value is (this * b)
     public Complex multiply(Complex b) {
         return new Complex(re * b.re - im * b.im, re * b.im + im * b.re);
     }
@@ -53,7 +53,7 @@ public class Complex implements Serializable {
         return new Complex(alpha * re, alpha * im);
     }
 
-    // return a new firstLab.complex.Complex object whose value is the firstLab.complex exponential of this
+    // return a new firstLab.model.complex.Complex object whose value is the firstLab.model.complex exponential of this
     public Complex exp() {
         return new Complex(Math.exp(re) * Math.cos(im), Math.exp(re) * Math.sin(im));
     }

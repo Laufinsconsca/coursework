@@ -1,6 +1,6 @@
-package matrix;
+package model.matrix;
 
-import complex.Complex;
+import model.complex.Complex;
 
 public class ComplexMatrix {
     private final int rows;

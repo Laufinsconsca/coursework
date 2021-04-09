@@ -2,7 +2,7 @@ package solution;
 
 
 import dto.InputDataDto;
-import tabulatedFunctions.TabulatedFunction;
+import model.tabulatedFunctions.TabulatedFunction;
 
 import java.util.List;
 

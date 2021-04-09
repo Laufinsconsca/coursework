@@ -2,9 +2,9 @@ package solution.methods;
 
 import dto.InputDataDto;
 import enums.FixedVariableType;
-import matrix.ComplexMatrix;
+import model.matrix.ComplexMatrix;
 import solution.ComprehensiveCalculated;
-import tabulatedFunctions.TabulatedFunction;
+import model.tabulatedFunctions.TabulatedFunction;
 
 import java.util.List;
 

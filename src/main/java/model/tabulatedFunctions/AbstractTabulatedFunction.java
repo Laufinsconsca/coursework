@@ -1,6 +1,6 @@
-package tabulatedFunctions;
+package model.tabulatedFunctions;
 
-import complex.Complex;
+import model.complex.Complex;
 
 public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 

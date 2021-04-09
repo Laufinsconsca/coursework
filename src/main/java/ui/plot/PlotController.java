@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 import model.Point;
 import org.gillius.jfxutils.chart.ChartPanManager;
 import org.gillius.jfxutils.chart.JFXChartUtil;
-import tabulatedFunctions.TabulatedFunction;
+import model.tabulatedFunctions.TabulatedFunction;
 import ui.AutoInitializableController;
 import ui.aWindow;
 import ui.warnings.WarningWindows;

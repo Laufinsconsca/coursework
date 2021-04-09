@@ -4,23 +4,29 @@ import dto.CrossSectionResultDataDto;
 import dto.InputDataDto;
 import enums.FixedVariableType;
 import exceptions.InvalidArrayLengthException;
+import exceptions.JKConfigurationException;
 import exceptions.NoGraphsToPlotException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import model.Point;
+import model.complex.Complex;
+import model.tabulatedFunctions.ArrayTabulatedFunction;
 import solution.Calculator;
-import tabulatedFunctions.TabulatedFunction;
+import model.tabulatedFunctions.TabulatedFunction;
+import ui.tableRows.CrankNicolsonSchemeEpsTableRow;
+import ui.tableRows.ImplicitSchemeEpsTableRow;
 import ui.plot.PlotController;
 import ui.plot.PlotControllerConfiguration;
+import ui.tableRows.JKTableRow;
 import ui.warnings.WarningWindows;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class InitController extends AbstractParentController implements Initializable {
     public TextField uImplicitSchemeTextField;
@@ -39,6 +45,8 @@ public class InitController extends AbstractParentController implements Initiali
     private PlotControllerConfiguration rConstPlotConfiguration;
     private PlotControllerConfiguration zConstPlotConfiguration;
     private PlotControllerConfiguration currentPlotConfiguration;
+    private PlotControllerConfiguration epsConfiguration;
+    private List<ObservableList<JKTableRow>> JKConfiguration;
 
     @FXML
     private CheckBox analyticalSolutionCheckBox, implicitSchemeCheckBox, crankNicolsonSchemeCheckBox;
@@ -58,6 +66,7 @@ public class InitController extends AbstractParentController implements Initiali
         mainPane.setStyle("-fx-background-color: #cde0cd");
         rConstPlotConfiguration = new PlotControllerConfiguration("z", "u", "r, расстояние вдоль радиуса (мкм)", "|u(r,z)|");
         zConstPlotConfiguration = new PlotControllerConfiguration("r", "u", "z, расстояние вдоль волновода (мкм)", "|u(r,z)|");
+        epsConfiguration = new PlotControllerConfiguration("J", "δ", "J", "δ(h_r,h_z)");
     }
 
     private void readInitialConditions() throws NumberFormatException {
@@ -77,6 +86,7 @@ public class InitController extends AbstractParentController implements Initiali
             inputDataDto = new InputDataDto(J, K, nEigenfunction, λ, n, L, R, z, fixedVariableType);
             currentPlotConfiguration = zConstPlotConfiguration;
         }
+        JKConfiguration = ((SetJKController) getController("setJK")).getJKConfiguration();
     }
 
     @FXML
@@ -102,10 +112,19 @@ public class InitController extends AbstractParentController implements Initiali
         try {
             readInitialConditions();
             EpsTableController controller = (EpsTableController) getController();
+            if (JKConfiguration.isEmpty() || (JKConfiguration.get(0).isEmpty() && JKConfiguration.get(1).isEmpty())) {
+                throw new JKConfigurationException("Не заданы J и K");
+            } else if (JKConfiguration.get(0).isEmpty() || JKConfiguration.get(1).isEmpty()) {
+                throw new JKConfigurationException("J и K заданы только для одной схемы");
+            } else {
+                controller.setJKConfiguration(JKConfiguration);
+            }
             controller.setInputDataDto(inputDataDto);
             controller.getStage().show();
         } catch (NumberFormatException e) {
             WarningWindows.showWarning("Ошибка ввода начальных условий");
+        } catch (JKConfigurationException re) {
+            WarningWindows.showWarning(re.getMessage());
         }
     }
 
@@ -121,6 +140,12 @@ public class InitController extends AbstractParentController implements Initiali
         plot();
     }
 
+    @FXML
+    private void setJK(){
+        open(false);
+    }
+
+    @FXML
     public void plot() {
         try {
             readInitialConditions();
@@ -156,4 +181,38 @@ public class InitController extends AbstractParentController implements Initiali
             WarningWindows.showWarning("К построению не выбран ни один из графиков");
         }
     }
+
+    @FXML
+    public void plotEpsTable() {
+        try {
+            readInitialConditions();
+            if (JKConfiguration.isEmpty() || (JKConfiguration.get(2).isEmpty() && JKConfiguration.get(3).isEmpty())) {
+                throw new JKConfigurationException("Не заданы J и K");
+            } else if (JKConfiguration.get(2).isEmpty() || JKConfiguration.get(3).isEmpty()) {
+                throw new JKConfigurationException("J и K заданы только для одной схемы");
+            }
+            PlotController plotController = (PlotController) getController("plot");
+            List<ImplicitSchemeEpsTableRow> implicitSchemeEpsTableRows = new ArrayList<>();
+            List<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeEpsTableRows = new ArrayList<>();
+            plotController.setConfiguration(epsConfiguration);
+            JKConfiguration.get(2).forEach(value -> implicitSchemeEpsTableRows.add(ImplicitSchemeEpsTableRow.populateImplicitSchemeEpsTableRow(inputDataDto.toBuilder().J(value.getJ()).K(value.getK()).build())));
+            JKConfiguration.get(3).forEach(value -> crankNicolsonSchemeEpsTableRows.add(CrankNicolsonSchemeEpsTableRow.populateCrankNicolsonSchemeEpsTableRow(inputDataDto.toBuilder().J(value.getJ()).K(value.getK()).build())));
+            TabulatedFunction implicitSchemeFunction = ImplicitSchemeEpsTableRow.getImplicitSchemeFunction(implicitSchemeEpsTableRows);
+            implicitSchemeFunction.setName("Неявная схема");
+            TabulatedFunction crankNicolsonSchemeFunction = CrankNicolsonSchemeEpsTableRow.getCrankNicolsonSchemeFunction(crankNicolsonSchemeEpsTableRows);
+            crankNicolsonSchemeFunction.setName("Схема Кранка-Николсона");
+            List<Point> points = List.of(new Point(implicitSchemeEpsTableRows.get(0).getJ(), 0, new Complex(4, 0)), new Point(implicitSchemeEpsTableRows.get(implicitSchemeEpsTableRows.size() - 1).getJ(), 0, new Complex(4, 0)));
+            TabulatedFunction function = new ArrayTabulatedFunction(FXCollections.observableList(points), 0);
+            function.setName("Теоретический предел");
+            plotController.setSeries(function);
+            plotController.addSeries(implicitSchemeFunction);
+            plotController.addSeries(crankNicolsonSchemeFunction);
+            plotController.getStage().show();
+        } catch (NumberFormatException e) {
+            WarningWindows.showWarning("Ошибка ввода начальных условий");
+        } catch (JKConfigurationException re) {
+            WarningWindows.showWarning(re.getMessage());
+        }
+    }
+
 }

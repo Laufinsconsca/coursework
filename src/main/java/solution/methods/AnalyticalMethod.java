@@ -1,23 +1,22 @@
 package solution.methods;
 
-import complex.Complex;
+import model.complex.Complex;
 import dto.InputDataDto;
 import enums.FixedVariableType;
 import javafx.collections.FXCollections;
 import model.Point;
 import org.apache.commons.math3.special.BesselJ;
 import solution.ContinuousFunction;
-import solution.CrossSectionCalculated;
-import tabulatedFunctions.ArrayTabulatedFunction;
-import tabulatedFunctions.TabulatedFunction;
+import model.tabulatedFunctions.ArrayTabulatedFunction;
+import model.tabulatedFunctions.TabulatedFunction;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import static complex.Complex.I;
+import static model.complex.Complex.I;
 
-public class AnalyticalMethod extends BaseMethod implements CrossSectionCalculated, ContinuousFunction {
+public class AnalyticalMethod extends BaseMethod implements ContinuousFunction {
 
     public static Complex u(double r, double z, double λ, double n, double R, double besselRoot) {
         return I.scaleOn(λ * z * besselRoot * besselRoot / (4 * Math.PI * R * R * n)).exp().scaleOn(BesselJ.value(0, besselRoot * r / R));
@@ -28,7 +27,7 @@ public class AnalyticalMethod extends BaseMethod implements CrossSectionCalculat
         init(inputDataDto);
         List<TabulatedFunction> array = new ArrayList<>();
         for (int j = 0; j < fixedVariable.length; j++) {
-            double N = 1000; //количество разбиений аналитического решения для построения графика
+            double N = 10000; //количество разбиений аналитического решения для построения графика
             double h;
             if (fixedVariableType.equals(FixedVariableType.r)) {
                 h = L / N;
