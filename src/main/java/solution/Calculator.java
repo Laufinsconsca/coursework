@@ -8,8 +8,6 @@ import solution.methods.CrankNicolsonScheme;
 import solution.methods.ImplicitDifferenceScheme;
 
 public class Calculator {
-    private static final int i = 0;
-
     public static CrossSectionResultDataDto crossSectionCalculate(InputDataDto inputDataDto) {
 
         CrossSectionCalculated analyticalMethod = new AnalyticalMethod();

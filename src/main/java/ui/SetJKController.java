@@ -2,7 +2,6 @@ package ui;
 
 import enums.Item;
 import exceptions.JKConfigurationException;
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,40 +10,28 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import ui.tableRows.ImplicitSchemeEpsTableRow;
 import ui.tableRows.JKTableRow;
 import ui.warnings.WarningWindows;
 
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @AutoInitializableController(name = "Настройка J и K", type = Item.CONTROLLER, pathFXML = "setJK.fxml")
 public class SetJKController implements Initializable, aWindow {
+    public static final FileChooser.ExtensionFilter xlsxExtensionFilter =
+            new FileChooser.ExtensionFilter("XSLX files (*.xlsx)", "*.xlsx");
+    static final String DEFAULT_DIRECTORY = System.getProperty("user.home");
     private final List<Integer> implicitEpsTableExistingPoints = new ArrayList<>();
     private final List<Integer> implicitEpsPlotExistingPoints = new ArrayList<>();
     private final List<Integer> crankNicolsonEpsTableExistingPoints = new ArrayList<>();
     private final List<Integer> crankNicolsonEpsPlotExistingPoints = new ArrayList<>();
-    private List<ObservableList<JKTableRow>> JKConfiguration = new ArrayList<>();
-    public static final FileChooser.ExtensionFilter xlsxExtensionFilter =
-            new FileChooser.ExtensionFilter("XSLX files (*.xlsx)", "*.xlsx");
-
-    static final String DEFAULT_DIRECTORY = "src/main/resources";
-    @FXML
-    private TabPane tabPane, tabPane1, tabPane2;
-    private Stage stage;
-    @FXML
-    private TextField j, k;
-    @FXML
-    private TableView<JKTableRow> implicitEpsTable, implicitPlotTable, crankNicolsonEpsTable, crankNicolsonPlotTable;
     @FXML
     TableColumn<JKTableRow, String> epsTableJColumn1, epsTableJColumn2;
     @FXML
@@ -53,6 +40,33 @@ public class SetJKController implements Initializable, aWindow {
     TableColumn<JKTableRow, String> epsPlotJColumn1, epsPlotJColumn2;
     @FXML
     TableColumn<JKTableRow, String> epsPlotKColumn1, epsPlotKColumn2;
+    private final List<ObservableList<JKTableRow>> JKConfiguration = new ArrayList<>();
+    @FXML
+    private TabPane tabPane, tabPane1, tabPane2;
+    private Stage stage;
+    @FXML
+    private TextField j, k;
+    @FXML
+    private TableView<JKTableRow> implicitEpsTable, implicitPlotTable, crankNicolsonEpsTable, crankNicolsonPlotTable;
+
+    private static void fillSheet(XSSFSheet sheet, TableView<JKTableRow> table) {
+        int rowNum = 0;
+        Row row = sheet.createRow(rowNum);
+        row.createCell(0).setCellValue("J");
+        row.createCell(1).setCellValue("K");
+        for (JKTableRow dataModel : table.getItems()) {
+            row = sheet.createRow(++rowNum);
+            row.createCell(0).setCellValue(dataModel.getJ());
+            row.createCell(1).setCellValue(dataModel.getK());
+        }
+    }
+
+    public static File save(Stage stage) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Сохранить таблицы погрешностей в файл");
+        fileChooser.getExtensionFilters().add(xlsxExtensionFilter);
+        return fileChooser.showSaveDialog(stage);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -66,7 +80,7 @@ public class SetJKController implements Initializable, aWindow {
         epsPlotKColumn2.setCellValueFactory(new PropertyValueFactory<>("K"));
     }
 
-    private TableView<JKTableRow> currentTable(){
+    private TableView<JKTableRow> currentTable() {
         if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
             if (tabPane1.getSelectionModel().getSelectedIndex() == 0) {
                 return implicitEpsTable;
@@ -82,7 +96,7 @@ public class SetJKController implements Initializable, aWindow {
         }
     }
 
-    private List<Integer> currentExistingPoints(){
+    private List<Integer> currentExistingPoints() {
         if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
             if (tabPane1.getSelectionModel().getSelectedIndex() == 0) {
                 return implicitEpsTableExistingPoints;
@@ -115,7 +129,7 @@ public class SetJKController implements Initializable, aWindow {
     }
 
     @FXML
-    private void add(){
+    private void add() {
         TableView<JKTableRow> table = currentTable();
         List<Integer> existingPoints = currentExistingPoints();
         try {
@@ -136,40 +150,46 @@ public class SetJKController implements Initializable, aWindow {
     }
 
     public void importFromFile() {
-        List<List<JKTableRow>> jkTableRowList = getJK();
-        switch (jkTableRowList.size()) {
-            case 1 -> {
-                currentTable().getItems().addAll(jkTableRowList.get(0));
-                currentExistingPoints().addAll(jkTableRowList.get(0).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-            }
-            case 2 -> {
-                if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
+        try {
+            List<List<JKTableRow>> jkTableRowList = getJK();
+            switch (jkTableRowList.size()) {
+                case 1 -> {
+                    currentTable().getItems().addAll(jkTableRowList.get(0));
+                    currentExistingPoints().addAll(jkTableRowList.get(0).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
+                }
+                case 2 -> {
+                    if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
+                        implicitEpsTable.getItems().addAll(jkTableRowList.get(0));
+                        implicitEpsTableExistingPoints.addAll(jkTableRowList.get(0).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
+                        crankNicolsonEpsTable.getItems().addAll(jkTableRowList.get(1));
+                        crankNicolsonEpsTableExistingPoints.addAll(jkTableRowList.get(1).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
+                    } else {
+                        implicitPlotTable.getItems().addAll(jkTableRowList.get(0));
+                        implicitEpsPlotExistingPoints.addAll(jkTableRowList.get(0).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
+                        crankNicolsonPlotTable.getItems().addAll(jkTableRowList.get(1));
+                        crankNicolsonEpsPlotExistingPoints.addAll(jkTableRowList.get(1).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
+                    }
+                }
+                case 4 -> {
                     implicitEpsTable.getItems().addAll(jkTableRowList.get(0));
                     implicitEpsTableExistingPoints.addAll(jkTableRowList.get(0).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
                     crankNicolsonEpsTable.getItems().addAll(jkTableRowList.get(1));
                     crankNicolsonEpsTableExistingPoints.addAll(jkTableRowList.get(1).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                } else {
-                    implicitPlotTable.getItems().addAll(jkTableRowList.get(0));
-                    implicitEpsPlotExistingPoints.addAll(jkTableRowList.get(0).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                    crankNicolsonPlotTable.getItems().addAll(jkTableRowList.get(1));
-                    crankNicolsonEpsPlotExistingPoints.addAll(jkTableRowList.get(1).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
+                    implicitPlotTable.getItems().addAll(jkTableRowList.get(2));
+                    implicitEpsPlotExistingPoints.addAll(jkTableRowList.get(2).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
+                    crankNicolsonPlotTable.getItems().addAll(jkTableRowList.get(3));
+                    crankNicolsonEpsPlotExistingPoints.addAll(jkTableRowList.get(3).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
                 }
             }
-            case 4 -> {
-                implicitEpsTable.getItems().addAll(jkTableRowList.get(0));
-                implicitEpsTableExistingPoints.addAll(jkTableRowList.get(0).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                crankNicolsonEpsTable.getItems().addAll(jkTableRowList.get(1));
-                crankNicolsonEpsTableExistingPoints.addAll(jkTableRowList.get(1).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                implicitPlotTable.getItems().addAll(jkTableRowList.get(2));
-                implicitEpsPlotExistingPoints.addAll(jkTableRowList.get(2).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                crankNicolsonPlotTable.getItems().addAll(jkTableRowList.get(3));
-                crankNicolsonEpsPlotExistingPoints.addAll(jkTableRowList.get(3).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-            }
+        } catch (FileNotFoundException e) {
+            WarningWindows.showWarning("Ошибка открытия файла");
+        } catch (NullPointerException npe) {
+
         }
     }
 
     @FXML
-    private void export(){
+    private void export() {
         XSSFWorkbook workbook = new XSSFWorkbook();
         fillSheet(workbook.createSheet("ТП;Неявная схема"), implicitEpsTable);
         fillSheet(workbook.createSheet("ТП;Схема Кранка-Николсона"), crankNicolsonEpsTable);
@@ -182,18 +202,6 @@ public class SetJKController implements Initializable, aWindow {
         }
     }
 
-    private static void fillSheet(XSSFSheet sheet, TableView<JKTableRow> table) {
-        int rowNum = 0;
-        Row row = sheet.createRow(rowNum);
-        row.createCell(0).setCellValue("J");
-        row.createCell(1).setCellValue("K");
-        for (JKTableRow dataModel : table.getItems()) {
-            row = sheet.createRow(++rowNum);
-            row.createCell(0).setCellValue(dataModel.getJ());
-            row.createCell(1).setCellValue(dataModel.getK());
-        }
-    }
-
     public void delete() {
         TableView<JKTableRow> table = currentTable();
         if (table.getItems().size() != 0) {
@@ -203,13 +211,8 @@ public class SetJKController implements Initializable, aWindow {
         }
     }
 
-    public List<List<JKTableRow>> getJK() {
-        FileInputStream file = null;
-        try {
-            file = new FileInputStream(load());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public List<List<JKTableRow>> getJK() throws FileNotFoundException, NullPointerException {
+        FileInputStream file = new FileInputStream(load());
         XSSFWorkbook workbook = null;
         try {
             assert file != null;
@@ -276,13 +279,6 @@ public class SetJKController implements Initializable, aWindow {
         fileChooser.setInitialDirectory(new File(DEFAULT_DIRECTORY));
         fileChooser.getExtensionFilters().add(xlsxExtensionFilter);
         return fileChooser.showOpenDialog(stage);
-    }
-
-    public static File save(Stage stage) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Сохранить таблицы погрешностей в файл");
-        fileChooser.getExtensionFilters().add(xlsxExtensionFilter);
-        return fileChooser.showSaveDialog(stage);
     }
 
     public List<ObservableList<JKTableRow>> getJKConfiguration() {

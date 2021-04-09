@@ -26,7 +26,7 @@ public class Init extends Application {
             Field logger = cls.getDeclaredField("logger");
             u.putObjectVolatile(cls, u.staticFieldOffset(logger), null);
         } catch (Exception e) {
-            // ignore
+
         }
     }
 

@@ -1,8 +1,7 @@
 package solution;
 
-
 import dto.InputDataDto;
-import model.tabulatedFunctions.TabulatedFunction;
+import model.tabulatedFunction.TabulatedFunction;
 
 import java.util.List;
 

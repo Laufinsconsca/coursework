@@ -115,7 +115,7 @@
          <font>
             <Font size="16.0" />
          </font></Button>
-      <Button layoutX="410.0" layoutY="553.0" mnemonicParsing="false" onAction="#export" prefHeight="37.0" prefWidth="50.0" text="Сохранить текущую конфигурацию" AnchorPane.leftAnchor="305.0" AnchorPane.rightAnchor="10.0">
+      <Button layoutX="410.0" layoutY="553.0" mnemonicParsing="false" onAction="#export" prefHeight="37.0" prefWidth="50.0" text="Сохранить текущую конфигурацию" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="305.0" AnchorPane.rightAnchor="10.0">
          <font>
             <Font size="16.0" />
          </font>

@@ -1,14 +1,14 @@
 package solution.methods;
 
-import model.complex.Complex;
 import dto.InputDataDto;
 import enums.FixedVariableType;
 import javafx.collections.FXCollections;
 import model.Point;
+import model.complex.Complex;
+import model.tabulatedFunction.ArrayTabulatedFunction;
+import model.tabulatedFunction.TabulatedFunction;
 import org.apache.commons.math3.special.BesselJ;
 import solution.ContinuousFunction;
-import model.tabulatedFunctions.ArrayTabulatedFunction;
-import model.tabulatedFunctions.TabulatedFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,12 @@ import static model.complex.Complex.I;
 public class AnalyticalMethod extends BaseMethod implements ContinuousFunction {
 
     public static Complex u(double r, double z, double λ, double n, double R, double besselRoot) {
-        return I.scaleOn(λ * z * besselRoot * besselRoot / (4 * Math.PI * R * R * n)).exp().scaleOn(BesselJ.value(0, besselRoot * r / R));
+        return I.multiply(λ * z * besselRoot * besselRoot / (4 * Math.PI * R * R * n)).exp().multiply(BesselJ.value(0, besselRoot * r / R));
+    }
+
+    @Override
+    public BiFunction<Double, Double, Complex> calculate(InputDataDto inputDataDto) {
+        return (r, z) -> u(r, z, inputDataDto.getΛ(), inputDataDto.getNRefraction(), inputDataDto.getR(), besselZeros.get(inputDataDto.getNEigenfunction() - 1));
     }
 
     @Override
@@ -51,10 +56,5 @@ public class AnalyticalMethod extends BaseMethod implements ContinuousFunction {
             array.add(analyticalSolution);
         }
         return array;
-    }
-
-    @Override
-    public BiFunction<Double, Double, Complex> calculate(InputDataDto inputDataDto) {
-        return (r, z) -> u(r, z, inputDataDto.getΛ(), inputDataDto.getNRefraction(), inputDataDto.getR(), besselZeros.get(inputDataDto.getNEigenfunction() - 1));
     }
 }

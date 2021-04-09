@@ -17,12 +17,15 @@ import ui.tableRows.CrankNicolsonSchemeEpsTableRow;
 import ui.tableRows.ImplicitSchemeEpsTableRow;
 import ui.tableRows.JKTableRow;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 @AutoInitializableController(name = "Таблица погрешностей аппроксимации", type = Item.CONTROLLER, pathFXML = "epsTable.fxml")
-public class EpsTableController implements Initializable, aWindow, InputDataDtoHolder {
+public class EpsTableController implements Initializable, aWindow, InputDataDtoHolder, JKConfigurationHolder {
     public TableView<ImplicitSchemeEpsTableRow> implicitSchemeTableView;
     public TableView<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeTableView;
     public TableColumn<ImplicitSchemeEpsTableRow, Integer> implicitSchemeTableColumnJ, implicitSchemeTableColumnK;
@@ -31,11 +34,27 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
     public TableColumn<CrankNicolsonSchemeEpsTableRow, Double> crankNicolsonSchemeTableColumnΕ_1_2h_r_1_2h_z, crankNicolsonSchemeTableColumnΕ_h_r_h_z, crankNicolsonSchemeTableColumnΔ_h_r_h_z;
     private Stage stage;
     private InputDataDto inputDataDto;
-    private double R, L;
-    private List<Map<Integer, Integer>> jk;
     private List<ImplicitSchemeEpsTableRow> implicitSchemeEpsTableRows;
     private List<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeEpsTableRows;
     private List<ObservableList<JKTableRow>> JKConfiguration;
+
+    private static void fillImplicitSchemeRow(XSSFSheet sheet, int rowNum, ImplicitSchemeEpsTableRow dataModel) {
+        Row row = sheet.createRow(rowNum);
+        row.createCell(0).setCellValue(dataModel.getJ());
+        row.createCell(1).setCellValue(dataModel.getK());
+        row.createCell(2).setCellValue(dataModel.getΕ_h_r_h_z());
+        row.createCell(3).setCellValue(dataModel.getΕ_1_2h_r_1_4h_z());
+        row.createCell(4).setCellValue(dataModel.getΔ_h_r_h_z());
+    }
+
+    private static void fillCrankNicolsonSchemeRow(XSSFSheet sheet, int rowNum, CrankNicolsonSchemeEpsTableRow dataModel) {
+        Row row = sheet.createRow(rowNum);
+        row.createCell(0).setCellValue(dataModel.getJ());
+        row.createCell(1).setCellValue(dataModel.getK());
+        row.createCell(2).setCellValue(dataModel.getΕ_h_r_h_z());
+        row.createCell(3).setCellValue(dataModel.getΕ_1_2h_r_1_2h_z());
+        row.createCell(4).setCellValue(dataModel.getΔ_h_r_h_z());
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,8 +79,6 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
     public void setStage(Stage stage) {
         stage.setResizable(false);
         stage.setOnShown(windowEvent -> {
-            R = inputDataDto.getR();
-            L = inputDataDto.getL();
             implicitSchemeEpsTableRows = new ArrayList<>();
             crankNicolsonSchemeEpsTableRows = new ArrayList<>();
             JKConfiguration.get(0).forEach(value -> implicitSchemeEpsTableRows.add(ImplicitSchemeEpsTableRow.populateImplicitSchemeEpsTableRow(inputDataDto.toBuilder().J(value.getJ()).K(value.getK()).build())));
@@ -121,24 +138,7 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
         }
     }
 
-    private static void fillImplicitSchemeRow(XSSFSheet sheet, int rowNum, ImplicitSchemeEpsTableRow dataModel) {
-        Row row = sheet.createRow(rowNum);
-        row.createCell(0).setCellValue(dataModel.getJ());
-        row.createCell(1).setCellValue(dataModel.getK());
-        row.createCell(2).setCellValue(dataModel.getΕ_h_r_h_z());
-        row.createCell(3).setCellValue(dataModel.getΕ_1_2h_r_1_4h_z());
-        row.createCell(4).setCellValue(dataModel.getΔ_h_r_h_z());
-    }
-
-    private static void fillCrankNicolsonSchemeRow(XSSFSheet sheet, int rowNum, CrankNicolsonSchemeEpsTableRow dataModel) {
-        Row row = sheet.createRow(rowNum);
-        row.createCell(0).setCellValue(dataModel.getJ());
-        row.createCell(1).setCellValue(dataModel.getK());
-        row.createCell(2).setCellValue(dataModel.getΕ_h_r_h_z());
-        row.createCell(3).setCellValue(dataModel.getΕ_1_2h_r_1_2h_z());
-        row.createCell(4).setCellValue(dataModel.getΔ_h_r_h_z());
-    }
-
+    @Override
     public void setJKConfiguration(List<ObservableList<JKTableRow>> JKConfiguration) {
         this.JKConfiguration = JKConfiguration;
     }

@@ -7,8 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.Point;
 import model.complex.Complex;
-import model.tabulatedFunctions.ArrayTabulatedFunction;
-import model.tabulatedFunctions.TabulatedFunction;
+import model.tabulatedFunction.ArrayTabulatedFunction;
+import model.tabulatedFunction.TabulatedFunction;
 import solution.Calculator;
 
 import java.util.List;

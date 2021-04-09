@@ -1,23 +1,21 @@
 package solution.methods;
 
-import model.complex.Complex;
 import dto.InputDataDto;
 import enums.FixedVariableType;
 import javafx.collections.FXCollections;
-import model.matrix.ComplexMatrix;
 import model.Point;
+import model.complex.Complex;
+import model.matrix.ComplexMatrix;
+import model.tabulatedFunction.ArrayTabulatedFunction;
+import model.tabulatedFunction.TabulatedFunction;
 import org.apache.commons.math3.special.BesselJ;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import solution.CrossSectionCalculated;
-import model.tabulatedFunctions.ArrayTabulatedFunction;
-import model.tabulatedFunctions.TabulatedFunction;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,12 +40,7 @@ public abstract class BaseMethod implements CrossSectionCalculated {
     ComplexMatrix U;
 
     private static List<Double> besselZeros() {
-        FileInputStream file = null;
-        try {
-            file = new FileInputStream(new File("src/main/resources/bessel_zeros.xlsx"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        InputStream file = BaseMethod.class.getResourceAsStream("/bessel_zeros.xlsx");
         XSSFWorkbook workbook = null;
         try {
             workbook = new XSSFWorkbook(file);

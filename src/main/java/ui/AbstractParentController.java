@@ -1,7 +1,6 @@
 package ui;
 
 import javafx.stage.Stage;
-import ui.plot.PlotController;
 
 import java.util.HashMap;
 import java.util.Map;

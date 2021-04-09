@@ -1,9 +1,9 @@
 package dto;
 
-import model.complex.Complex;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import model.complex.Complex;
 import model.matrix.ComplexMatrix;
 
 import java.util.function.BiFunction;

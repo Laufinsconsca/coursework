@@ -3,7 +3,7 @@ package dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import model.tabulatedFunctions.TabulatedFunction;
+import model.tabulatedFunction.TabulatedFunction;
 
 import java.util.List;
 

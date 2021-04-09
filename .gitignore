@@ -2,8 +2,4 @@
 /target/
 /.idea/
 coursework-project.iml
-!/src/main/resources/j_k_2_1.xlsx
-!/src/main/resources/j_k_4.xlsx
-!/src/main/resources/j_k_1.xlsx
-!/src/main/resources/j_k_2_2.xlsx
 src/test/

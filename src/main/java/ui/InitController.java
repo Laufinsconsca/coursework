@@ -15,18 +15,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import model.Point;
 import model.complex.Complex;
-import model.tabulatedFunctions.ArrayTabulatedFunction;
+import model.tabulatedFunction.ArrayTabulatedFunction;
+import model.tabulatedFunction.TabulatedFunction;
 import solution.Calculator;
-import model.tabulatedFunctions.TabulatedFunction;
-import ui.tableRows.CrankNicolsonSchemeEpsTableRow;
-import ui.tableRows.ImplicitSchemeEpsTableRow;
 import ui.plot.PlotController;
 import ui.plot.PlotControllerConfiguration;
+import ui.tableRows.CrankNicolsonSchemeEpsTableRow;
+import ui.tableRows.ImplicitSchemeEpsTableRow;
 import ui.tableRows.JKTableRow;
 import ui.warnings.WarningWindows;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class InitController extends AbstractParentController implements Initializable {
     public TextField uImplicitSchemeTextField;
@@ -141,7 +144,7 @@ public class InitController extends AbstractParentController implements Initiali
     }
 
     @FXML
-    private void setJK(){
+    private void setJK() {
         open(false);
     }
 

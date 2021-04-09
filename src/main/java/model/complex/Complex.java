@@ -49,7 +49,7 @@ public class Complex implements Serializable {
     }
 
     // return a new object whose value is (this * alpha)
-    public Complex scaleOn(double alpha) {
+    public Complex multiply(double alpha) {
         return new Complex(alpha * re, alpha * im);
     }
 

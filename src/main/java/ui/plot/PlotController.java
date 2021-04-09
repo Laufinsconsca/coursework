@@ -24,9 +24,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import model.Point;
+import model.tabulatedFunction.TabulatedFunction;
 import org.gillius.jfxutils.chart.ChartPanManager;
 import org.gillius.jfxutils.chart.JFXChartUtil;
-import model.tabulatedFunctions.TabulatedFunction;
 import ui.AutoInitializableController;
 import ui.aWindow;
 import ui.warnings.WarningWindows;
@@ -91,7 +91,7 @@ public class PlotController implements Initializable, aWindow {
         lineChart.getData().add(series);
         functionColorMap.putIfAbsent(function, getColorFromCSS(series));
         detailsPopup.addPopupRow(function);
-        //lineChart.lookup(".series0").setStyle("-fx-stroke-dash-array: 1.2 3.0; ");
+        //lineChart.lookup(".series0").setStyle("-fx-stroke-dash-array: 1.2 3.0; "); for dashed line
     }
 
     public void setSeries(TabulatedFunction function) {
@@ -211,20 +211,6 @@ public class PlotController implements Initializable, aWindow {
                 AnchorPane.setLeftAnchor(detailsPopup, x - a - detailsPopup.getWidth());
             }
         });
-    }
-
-//    @Override
-//    public InputDataDto getInputDataDto() {
-//        return inputDataDto;
-//    }
-//
-//    @Override
-//    public void setInputDataDto(InputDataDto inputDataDto) {
-//        this.inputDataDto = inputDataDto;
-//    }
-
-    public PlotControllerConfiguration getConfiguration() {
-        return configuration;
     }
 
     public void setConfiguration(PlotControllerConfiguration configuration) {

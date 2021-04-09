@@ -1,17 +1,16 @@
-package model.tabulatedFunctions;
+package model.tabulatedFunction;
 
-import model.complex.Complex;
 import exceptions.InterpolationException;
 import exceptions.NaNException;
 import javafx.collections.ObservableList;
 import model.Point;
-import org.jetbrains.annotations.NotNull;
+import model.complex.Complex;
 
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Serializable {
+public class ArrayTabulatedFunction implements Serializable, TabulatedFunction {
     private static final long serialVersionUID = 3990511369369675738L;
     private final double[] xValues;
     private final Complex[] uValues;
@@ -39,6 +38,16 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     }
 
     @Override
+    public Complex apply(double x) {
+        if (x > rightBound() || x < leftBound()) {
+            return new Complex(Double.NaN, 0);
+        } else if (indexOfX(x) != -1) {
+            return getU(indexOfX(x));
+        } else {
+            return interpolate(x, floorIndexOfX(x));
+        }
+    }
+
     public int floorIndexOfX(double x) {
         if (x < xValues[0]) {
             throw new IllegalArgumentException("Argument x less than minimal x in tabulated function");
@@ -61,7 +70,6 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         this.name = name;
     }
 
-    @Override
     protected Complex interpolate(double x, int floorIndex) {
         if (x < xValues[floorIndex] || xValues[floorIndex + 1] < x) {
             throw new InterpolationException();
@@ -69,12 +77,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         return interpolate(x, xValues[floorIndex], xValues[floorIndex + 1], uValues[floorIndex], uValues[floorIndex + 1]);
     }
 
-    @Override
     public Complex getU(int index) throws ArrayIndexOutOfBoundsException {
         return uValues[index];
     }
 
-    @Override
     public int indexOfX(double x) {
         int i;
         for (i = 0; i < count; i++) {
@@ -85,18 +91,15 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         return -1;
     }
 
-    @Override
     public double leftBound() {
         return xValues[0];
     }
 
-    @Override
     public double rightBound() {
         return xValues[count - 1];
     }
 
     @Override
-    @NotNull
     public Iterator<Point> iterator() {
         return new Iterator<>() {
             int i = 0;
@@ -112,5 +115,9 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
                 return new Point(xValues[i], fixedVariable, uValues[i++]);
             }
         };
+    }
+
+    protected Complex interpolate(double x, double leftX, double rightX, Complex leftU, Complex rightU) {
+        return rightU.subtract(leftU).multiply((x - leftX) / (rightX - leftX)).add(leftU);
     }
 }

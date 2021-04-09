@@ -1,7 +1,7 @@
 package solution;
 
-import model.complex.Complex;
 import dto.InputDataDto;
+import model.complex.Complex;
 
 import java.util.function.BiFunction;
 

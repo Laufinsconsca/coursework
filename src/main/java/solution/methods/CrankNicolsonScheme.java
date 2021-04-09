@@ -3,8 +3,8 @@ package solution.methods;
 import dto.InputDataDto;
 import enums.FixedVariableType;
 import model.matrix.ComplexMatrix;
+import model.tabulatedFunction.TabulatedFunction;
 import solution.ComprehensiveCalculated;
-import model.tabulatedFunctions.TabulatedFunction;
 
 import java.util.List;
 
@@ -15,12 +15,12 @@ public class CrankNicolsonScheme extends BaseMethod implements ComprehensiveCalc
         init(inputDataDto);
         ComplexMatrix F = new ComplexMatrix(1, J);
         A.set(0, 1, 1);
-        B.set(α.scaleOn(-2).add(1), 1, 1);
-        C.set(α.scaleOn(2), 1, 1);
+        B.set(α.multiply(-2).add(1), 1, 1);
+        C.set(α.multiply(2), 1, 1);
         for (int j = 1; j < J; j++) {
-            A.set(α.scaleOn((1 - 1. / (2 * j)) / 2), 1, j + 1);
+            A.set(α.multiply((1 - 1. / (2 * j)) / 2), 1, j + 1);
             B.set(α.negate().add(1), 1, j + 1);
-            C.set(α.scaleOn((1 + 1. / (2 * j)) / 2), 1, j + 1);
+            C.set(α.multiply((1 + 1. / (2 * j)) / 2), 1, j + 1);
         }
         C.set(0, 1, J);
         for (int j = 0; j <= J; j++) {

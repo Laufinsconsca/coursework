@@ -18,11 +18,11 @@ public class ComplexMatrix {
         }
     }
 
-    public int getCountRows() {
+    public int getRowDimension() {
         return rows;
     }
 
-    public int getCountColumns() {
+    public int getColumnDimension() {
         return columns;
     }
 

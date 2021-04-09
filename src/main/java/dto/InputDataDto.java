@@ -9,8 +9,6 @@ import lombok.Getter;
 @Getter
 @Builder(toBuilder = true)
 public class InputDataDto {
-
-    //    private String name;
     private final Integer J;
     private final Integer K;
     private final Integer nEigenfunction;
