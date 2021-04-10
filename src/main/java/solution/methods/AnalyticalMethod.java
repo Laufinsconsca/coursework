@@ -31,7 +31,7 @@ public class AnalyticalMethod extends BaseMethod implements ContinuousFunction {
     public List<TabulatedFunction> crossSectionCalculate(InputDataDto inputDataDto) {
         init(inputDataDto);
         List<TabulatedFunction> array = new ArrayList<>();
-        for (int j = 0; j < fixedVariable.length; j++) {
+        for (double v : fixedVariable) {
             double N = 10000; //количество разбиений аналитического решения для построения графика
             double h;
             if (fixedVariableType.equals(FixedVariableType.r)) {
@@ -42,16 +42,16 @@ public class AnalyticalMethod extends BaseMethod implements ContinuousFunction {
             List<Point> points = new ArrayList<>();
             for (double i = 0; i <= N; i++) {
                 if (fixedVariableType.equals(FixedVariableType.r)) {
-                    points.add(new Point(i * h, fixedVariable[j], u(fixedVariable[j], i * h, λ, n, R, besselZeros.get(nEigenfunction - 1))));
+                    points.add(new Point(i * h, v, u(v, i * h, λ, n, R, besselZeros.get(nEigenfunction - 1))));
                 } else {
-                    points.add(new Point(i * h, fixedVariable[j], u(i * h, fixedVariable[j], λ, n, R, besselZeros.get(nEigenfunction - 1))));
+                    points.add(new Point(i * h, v, u(i * h, v, λ, n, R, besselZeros.get(nEigenfunction - 1))));
                 }
             }
-            TabulatedFunction analyticalSolution = new ArrayTabulatedFunction(FXCollections.observableList(points), fixedVariable[j]);
+            TabulatedFunction analyticalSolution = new ArrayTabulatedFunction(FXCollections.observableList(points), v);
             if (fixedVariableType.equals(FixedVariableType.r)) {
-                analyticalSolution.setName("аналитическое\nрешение,\nr = " + fixedVariable[j]);
+                analyticalSolution.setName("аналитическое\nрешение,\nr = " + v);
             } else {
-                analyticalSolution.setName("аналитическое\nрешение,\nz = " + fixedVariable[j]);
+                analyticalSolution.setName("аналитическое\nрешение,\nz = " + v);
             }
             array.add(analyticalSolution);
         }

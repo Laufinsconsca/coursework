@@ -39,7 +39,7 @@ import java.util.*;
 @AutoInitializableController(name = "Построение графика", type = Item.CONTROLLER, pathFXML = "plot.fxml")
 public class PlotController implements Initializable, aWindow {
     private final Map<TabulatedFunction, Color> functionColorMap = new HashMap<>();
-    private final double strokeWidth = 0.5;
+    private final double crosshairLineWidth = 0.5;
     private Stage stage;
     @FXML
     private StackPane stackPane;
@@ -53,7 +53,7 @@ public class PlotController implements Initializable, aWindow {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         detailsWindow = new AnchorPane();
         lineChart.setCreateSymbols(false);
-        bindMouseEvents(lineChart, this.strokeWidth);
+        bindMouseEvents(lineChart, crosshairLineWidth);
         ChartPanManager panner = new ChartPanManager(lineChart);
         panner.setMouseFilter(mouseEvent -> {
             if (mouseEvent.getButton() != MouseButton.SECONDARY) {
@@ -136,7 +136,7 @@ public class PlotController implements Initializable, aWindow {
         return color;
     }
 
-    private void bindMouseEvents(LineChart<Double, Double> baseChart, Double strokeWidth) {
+    private void bindMouseEvents(LineChart<Double, Double> baseChart, Double crosshairLineWidth) {
         detailsPopup = new PlotController.DetailsPopup();
         stackPane.getChildren().add(detailsWindow);
         detailsWindow.getChildren().add(detailsPopup);
@@ -155,8 +155,8 @@ public class PlotController implements Initializable, aWindow {
 
         yLine.setFill(Color.GRAY);
         xLine.setFill(Color.GRAY);
-        yLine.setStrokeWidth(strokeWidth / 2);
-        xLine.setStrokeWidth(strokeWidth / 2);
+        yLine.setStrokeWidth(crosshairLineWidth / 2);
+        xLine.setStrokeWidth(crosshairLineWidth / 2);
         xLine.setVisible(false);
         yLine.setVisible(false);
 

@@ -79,13 +79,13 @@ public abstract class BaseMethod implements CrossSectionCalculated {
 
     protected List<TabulatedFunction> getTabulatedFunction(ComplexMatrix U) {
         List<TabulatedFunction> array = new ArrayList<>();
-        for (int j = 0; j < fixedVariable.length; j++) {
+        for (double v : fixedVariable) {
             List<Point> points = new ArrayList<>();
             int layer;
             if (fixedVariableType.equals(FixedVariableType.r)) {
-                layer = Math.round((float) (fixedVariable[j] * J / R));
+                layer = Math.round((float) (v * J / R));
             } else {
-                layer = Math.round((float) (fixedVariable[j] * K / L));
+                layer = Math.round((float) (v * K / L));
             }
             double h_r = R / J;
             double h_z = L / K;
@@ -97,7 +97,7 @@ public abstract class BaseMethod implements CrossSectionCalculated {
                     points.add(new Point(h_r * i, h_z * layer, U.get(i + 1, layer + 1)));
                 }
             }
-            array.add(new ArrayTabulatedFunction(FXCollections.observableList(points), fixedVariable[j]));
+            array.add(new ArrayTabulatedFunction(FXCollections.observableList(points), v));
         }
         return array;
     }

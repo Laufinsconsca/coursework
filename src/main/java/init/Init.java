@@ -22,11 +22,10 @@ public class Init extends Application {
             theUnsafe.setAccessible(true);
             Unsafe u = (Unsafe) theUnsafe.get(null);
 
-            Class cls = Class.forName("jdk.internal.module.IllegalAccessLogger");
+            Class<?> cls = Class.forName("jdk.internal.module.IllegalAccessLogger");
             Field logger = cls.getDeclaredField("logger");
             u.putObjectVolatile(cls, u.staticFieldOffset(logger), null);
-        } catch (Exception e) {
-
+        } catch (Exception ignored) {
         }
     }
 
@@ -42,7 +41,6 @@ public class Init extends Application {
 
         primaryStage.setTitle("Курсовая работа 12 вариант");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(true);
         primaryStage.show();
     }
 

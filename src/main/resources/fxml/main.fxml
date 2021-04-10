@@ -1,126 +1,192 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<AnchorPane fx:id="mainPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="738.0" prefWidth="465.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.InitController">
-    <children>
-        <TextField fx:id="LTextField" layoutX="267.0" layoutY="16.0" prefHeight="30.0" prefWidth="155.0" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="16.0" />
-        <TextField fx:id="RTextField" layoutX="267.0" layoutY="56.0" prefHeight="30.0" prefWidth="155.0" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="56.0" />
-        <TextField fx:id="nTextField" layoutX="267.0" layoutY="96.0" prefHeight="30.0" prefWidth="155.0" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="96.0" />
-        <TextField fx:id="λTextField" layoutX="267.0" layoutY="136.0" prefHeight="30.0" prefWidth="155.0" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="136.0" />
-        <TextField fx:id="rTextField" layoutX="267.0" layoutY="176.0" prefHeight="30.0" prefWidth="155.0" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="176.0" />
-        <TextField fx:id="zTextField" layoutX="293.0" layoutY="219.0" prefHeight="30.0" prefWidth="155.0" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="216.0" />
-        <TextField fx:id="nEigenfunctionTextField" layoutX="289.345703125" layoutY="258.0" prefHeight="30.0" prefWidth="155.0" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="258.0" />
-        <Label alignment="CENTER" layoutX="145.0" layoutY="16.0" prefHeight="31.0" prefWidth="145.0" text="длина волновода, L" textAlignment="CENTER" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="16.0">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <Label alignment="CENTER" layoutX="220.0" layoutY="59.0" prefHeight="25.0" prefWidth="70.0" text="радиус, R" textAlignment="CENTER" AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="59.0">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <Label alignment="CENTER" layoutX="87.0" layoutY="99.0" prefHeight="25.0" prefWidth="203.0" text="показатель преломления, n" textAlignment="CENTER" AnchorPane.leftAnchor="82.0" AnchorPane.topAnchor="99.0">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <Label alignment="CENTER" layoutX="174.0" layoutY="139.0" prefHeight="25.0" prefWidth="116.0" text="длина волны, λ" textAlignment="CENTER" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="139.0">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <Label alignment="CENTER" layoutX="276.0" layoutY="179.0" prefHeight="25.0" prefWidth="14.0" text="r" textAlignment="CENTER" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="179.0">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <Label alignment="CENTER" layoutX="263.0" layoutY="222.0" prefHeight="25.0" prefWidth="14.0" text="z" textAlignment="CENTER" AnchorPane.leftAnchor="272.0" AnchorPane.topAnchor="219.0">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <Label alignment="CENTER" layoutX="63.0" layoutY="219.0" prefHeight="25.0" prefWidth="216.0" text="номер собственной функции" textAlignment="CENTER" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="259.0">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <TextField fx:id="JTextField" layoutX="155.0" layoutY="294.0" prefHeight="31.0" prefWidth="75.0" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="298.0" />
-        <TextField fx:id="KTextField" layoutX="155.0" layoutY="354.0" prefHeight="31.0" prefWidth="75.0" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="354.0" />
-        <Label alignment="CENTER" layoutX="45.0" layoutY="298.0" prefHeight="31.0" prefWidth="128.0" text="разбиение по r, J" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="298.0">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <Label alignment="CENTER" layoutX="17.0" layoutY="353.0" prefHeight="31.0" prefWidth="134.0" text="разбиение по z, K" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="353.0">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <CheckBox fx:id="analyticalSolutionCheckBox" layoutX="233.0" layoutY="296.0" mnemonicParsing="false" selected="true" text="аналитическое решение" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="296.0">
-         <font>
-            <Font size="16.0" />
-         </font></CheckBox>
-        <CheckBox fx:id="implicitSchemeCheckBox" layoutX="235.0" layoutY="332.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="162.0" selected="true" text="неявная схема" AnchorPane.rightAnchor="68.0" AnchorPane.topAnchor="328.0">
-         <font>
-            <Font size="16.0" />
-         </font></CheckBox>
-        <CheckBox fx:id="crankNicolsonSchemeCheckBox" layoutX="257.0" layoutY="359.0" mnemonicParsing="false" selected="true" text="схема Кранка-Николсона" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="360.0">
-         <font>
-            <Font size="16.0" />
-         </font></CheckBox>
-        <Button layoutX="10.0" layoutY="394.0" mnemonicParsing="false" onAction="#plotRConst" prefHeight="37.0" prefWidth="216.0" text="Построить график r=const" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="394.0">
-         <font>
-            <Font size="16.0" />
-         </font>
-        </Button>
-        <Button layoutX="234.0" layoutY="394.0" mnemonicParsing="false" onAction="#plotZConst" prefHeight="37.0" prefWidth="222.0" text="Построить график z=const" AnchorPane.leftAnchor="234.0" AnchorPane.topAnchor="394.0">
-         <font>
-            <Font size="16.0" />
-         </font>
-        </Button>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="435.0" prefHeight="40.0" prefWidth="435.0" text="вычисление значения |u(r, z)|, r ∈ [0, R], z ∈ [0, L]" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="435.0">
-         <font>
-            <Font size="19.0" />
-         </font>
-        </Label>
-        <TextField fx:id="uAnalyticalSolutionTextField" editable="false" layoutX="298.0" layoutY="475.0" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="475.0" />
-        <TextField fx:id="uImplicitSchemeTextField" editable="false" layoutX="298.0" layoutY="515.0" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="515.0" />
-        <TextField fx:id="uCrankNicolsonSchemeTextField" editable="false" layoutX="298.0" layoutY="555.0" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="555.0" />
-        <Label layoutX="17.0" layoutY="475.0" prefHeight="31.0" prefWidth="187.0" text="аналитическое значение" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="475.0">
-         <font>
-            <Font size="16.0" />
-         </font>
-        </Label>
-        <Label layoutX="17.0" layoutY="515.0" prefHeight="31.0" prefWidth="110.0" text="неявная схема" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="515.0">
-         <font>
-            <Font size="16.0" />
-         </font>
-        </Label>
-        <Label layoutX="17.0" layoutY="555.0" prefHeight="31.0" prefWidth="187.0" text="схема Кранка-Николсона" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="555.0">
-         <font>
-            <Font size="16.0" />
-         </font>
-        </Label>
-        <Button layoutX="11.0" layoutY="642.0" mnemonicParsing="false" onAction="#epsTable" prefHeight="31.0" prefWidth="315.0" text="Таблица погрешностей" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="640.0">
-         <font>
-            <Font size="16.0" />
-         </font></Button>
-        <Button layoutX="255.0" layoutY="597.0" mnemonicParsing="false" onAction="#calculate" prefHeight="31.0" prefWidth="193.0" text="Вычислить |u(r, z)| в точке (r,z)" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="595.0">
-         <font>
-            <Font size="16.0" />
-         </font></Button>
-      <Button layoutX="13.0" layoutY="666.0" mnemonicParsing="false" onAction="#plotEpsTable" prefHeight="31.0" prefWidth="270.0" text="График отношения погрешностей" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="686.0">
-         <font>
-            <Font size="16.0" />
-         </font></Button>
-      <Button layoutX="289.0" layoutY="635.0" mnemonicParsing="false" onAction="#setJK" prefHeight="83.0" prefWidth="110.0" text="Задать J и K" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="640.0">
-         <font>
-            <Font size="16.0" />
-         </font></Button>
-    </children>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPane" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="739.0"
+            prefWidth="470.0" xmlns="http://javafx.com/javafx/8" fx:controller="ui.InitController">
+    <TextField fx:id="LTextField" layoutX="267.0" layoutY="16.0" prefHeight="30.0" prefWidth="150.0"
+               AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="16.0"/>
+    <TextField fx:id="RTextField" layoutX="267.0" layoutY="56.0" prefHeight="30.0" prefWidth="150.0"
+               AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="56.0"/>
+    <TextField fx:id="nTextField" layoutX="267.0" layoutY="96.0" prefHeight="30.0" prefWidth="150.0"
+               AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="96.0"/>
+    <TextField fx:id="λTextField" layoutX="267.0" layoutY="136.0" prefHeight="30.0" prefWidth="150.0"
+               AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="136.0"/>
+    <TextField fx:id="rTextField" layoutX="310.0" layoutY="225.0" prefHeight="30.0" prefWidth="150.0"
+               AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="216.0"/>
+    <TextField fx:id="zTextField" layoutX="310.0" layoutY="265.0" prefHeight="30.0" prefWidth="150.0"
+               AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="256.0"/>
+    <Label alignment="CENTER_RIGHT" layoutX="12.0" layoutY="16.0" prefHeight="31.0" prefWidth="283.0"
+           text="длина волновода, L" textAlignment="CENTER" AnchorPane.leftAnchor="15.0"
+           AnchorPane.topAnchor="16.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <Label alignment="CENTER_RIGHT" layoutX="16.0" layoutY="59.0" prefHeight="28.0" prefWidth="283.0"
+           text="радиус, R" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="59.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <Label alignment="CENTER_RIGHT" layoutX="26.0" layoutY="99.0" prefHeight="28.0" prefWidth="283.0"
+           text="показатель преломления, n" textAlignment="CENTER" AnchorPane.leftAnchor="15.0"
+           AnchorPane.topAnchor="99.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <Label alignment="CENTER_RIGHT" layoutX="68.0" layoutY="139.0" prefHeight="28.0" prefWidth="283.0"
+           text="длина волны, λ" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="139.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <Label alignment="CENTER_RIGHT" layoutX="280.0" layoutY="228.0" prefHeight="28.0" prefWidth="22.0" text="r"
+           textAlignment="CENTER" AnchorPane.leftAnchor="276.0" AnchorPane.topAnchor="216.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <Label alignment="CENTER_RIGHT" layoutX="280.0" layoutY="268.0" prefHeight="28.0" prefWidth="22.0" text="z"
+           textAlignment="CENTER" AnchorPane.leftAnchor="276.0" AnchorPane.topAnchor="256.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="JTextField" layoutX="174.0" layoutY="225.0" prefHeight="31.0" prefWidth="110.0"
+               AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="216.0"/>
+    <TextField fx:id="KTextField" layoutX="174.0" layoutY="265.0" prefHeight="31.0" prefWidth="110.0"
+               AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="256.0"/>
+    <Label layoutX="19.0" layoutY="225.0" prefHeight="31.0" prefWidth="150.0" text="разбиение по r, J"
+           textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="216.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <Label layoutX="19.0" layoutY="265.0" prefHeight="31.0" prefWidth="150.0" text="разбиение по z, K"
+           textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="256.0">
+        <font>
+            <Font size="18.0"/>
+        </font>
+    </Label>
+    <CheckBox fx:id="analyticalSolutionCheckBox" layoutX="233.0" layoutY="296.0" mnemonicParsing="false"
+              prefHeight="28.0" prefWidth="283.0" selected="true" text="аналитическое решение"
+              AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="173.0" AnchorPane.topAnchor="296.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </CheckBox>
+    <CheckBox fx:id="implicitSchemeCheckBox" layoutX="235.0" layoutY="332.0" mnemonicParsing="false"
+              prefHeight="28.0" prefWidth="283.0" selected="true" text="неявная схема" AnchorPane.leftAnchor="15.0"
+              AnchorPane.rightAnchor="173.0" AnchorPane.topAnchor="328.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </CheckBox>
+    <CheckBox fx:id="crankNicolsonSchemeCheckBox" layoutX="257.0" layoutY="359.0" mnemonicParsing="false"
+              prefHeight="28.0" prefWidth="283.0" selected="true" text="схема Кранка-Николсона"
+              AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="173.0" AnchorPane.topAnchor="360.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </CheckBox>
+    <Button layoutX="15.0" layoutY="394.0" mnemonicParsing="false" onAction="#plot" prefHeight="37.0"
+            prefWidth="441.0" text="Построить график выбранного сечения" AnchorPane.leftAnchor="15.0"
+            AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="394.0">
+        <font>
+            <Font size="16.0"/>
+        </font>
+    </Button>
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="435.0" prefHeight="40.0"
+           prefWidth="441.0" text="вычисление значения |u(r, z)|, r ∈ [0, R], z ∈ [0, L]" textAlignment="CENTER"
+           wrapText="true" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="435.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="uAnalyticalSolutionTextField" editable="false" layoutX="306.0" layoutY="475.0"
+               prefHeight="31.0" prefWidth="150.0" AnchorPane.leftAnchor="306.0" AnchorPane.rightAnchor="15.0"
+               AnchorPane.topAnchor="475.0"/>
+    <TextField fx:id="uImplicitSchemeTextField" editable="false" layoutX="306.0" layoutY="515.0" prefHeight="31.0"
+               prefWidth="150.0" AnchorPane.leftAnchor="306.0" AnchorPane.rightAnchor="15.0"
+               AnchorPane.topAnchor="515.0"/>
+    <TextField fx:id="uCrankNicolsonSchemeTextField" editable="false" layoutX="306.0" layoutY="555.0"
+               prefHeight="31.0" prefWidth="150.0" AnchorPane.leftAnchor="306.0" AnchorPane.rightAnchor="15.0"
+               AnchorPane.topAnchor="555.0"/>
+    <Label alignment="CENTER_RIGHT" layoutX="17.0" layoutY="475.0" prefHeight="31.0" prefWidth="283.0"
+           text="аналитическое значение" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="475.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <Label alignment="CENTER_RIGHT" layoutX="17.0" layoutY="515.0" prefHeight="31.0" prefWidth="283.0"
+           text="неявная схема" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="515.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <Label alignment="CENTER_RIGHT" layoutX="17.0" layoutY="555.0" prefHeight="31.0" prefWidth="283.0"
+           text="схема Кранка-Николсона" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="555.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <Button layoutX="11.0" layoutY="642.0" mnemonicParsing="false" onAction="#epsTable" prefHeight="31.0"
+            prefWidth="315.0" text="Таблица погрешностей" AnchorPane.bottomAnchor="61.0"
+            AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="15.0">
+        <font>
+            <Font size="16.0"/>
+        </font>
+    </Button>
+    <Button layoutX="255.0" layoutY="597.0" mnemonicParsing="false" onAction="#calculate" prefHeight="31.0"
+            prefWidth="193.0" text="Вычислить |u(r, z)| в точке (r,z)" AnchorPane.bottomAnchor="107.0"
+            AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+        <font>
+            <Font size="16.0"/>
+        </font>
+    </Button>
+    <Button layoutX="13.0" layoutY="666.0" mnemonicParsing="false" onAction="#plotEpsTable" prefHeight="31.0"
+            prefWidth="270.0" text="График отношения погрешностей" AnchorPane.bottomAnchor="15.0"
+            AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="15.0">
+        <font>
+            <Font size="16.0"/>
+        </font>
+    </Button>
+    <Button layoutX="289.0" layoutY="635.0" mnemonicParsing="false" onAction="#setJK" prefHeight="83.0"
+            prefWidth="110.0" text="Задать J и K" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
+        <font>
+            <Font size="16.0"/>
+        </font>
+    </Button>
+    <Label alignment="CENTER_RIGHT" layoutX="20.0" layoutY="181.0" prefHeight="30.0" prefWidth="283.0"
+           text="номер собственной функции" textAlignment="CENTER" AnchorPane.leftAnchor="15.0"
+           AnchorPane.topAnchor="176.0">
+        <font>
+            <Font size="20.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="nEigenfunctionTextField" layoutX="296.0" layoutY="220.0" prefHeight="30.0" prefWidth="150.0"
+               AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="176.0"/>
+    <CheckBox fx:id="rCheckBox" layoutX="306.0" layoutY="332.0" mnemonicParsing="false" prefHeight="21.0"
+              prefWidth="150.0" text="r = const" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="328.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </CheckBox>
+    <CheckBox fx:id="zCheckBox" layoutX="306.0" layoutY="364.0" mnemonicParsing="false" prefHeight="21.0"
+              prefWidth="150.0" selected="true" text="z = const" AnchorPane.rightAnchor="15.0"
+              AnchorPane.topAnchor="360.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </CheckBox>
+    <Label alignment="TOP_LEFT" layoutX="306.0" layoutY="296.0" prefHeight="28.0" prefWidth="150.0"
+           text="Выбор сечения" AnchorPane.topAnchor="296.0">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
 </AnchorPane>

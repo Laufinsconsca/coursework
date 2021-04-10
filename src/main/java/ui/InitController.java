@@ -6,6 +6,7 @@ import enums.FixedVariableType;
 import exceptions.InvalidArrayLengthException;
 import exceptions.JKConfigurationException;
 import exceptions.NoGraphsToPlotException;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,17 +33,17 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class InitController extends AbstractParentController implements Initializable {
+    private final String uiColor = "#cde0cd";
     public TextField uImplicitSchemeTextField;
     public TextField uCrankNicolsonSchemeTextField;
     public TextField uAnalyticalSolutionTextField;
+    public CheckBox rCheckBox, zCheckBox;
     @FXML
     AnchorPane mainPane;
     private FixedVariableType fixedVariableType = FixedVariableType.z;
     @FXML
     private TextField LTextField, RTextField, nTextField, λTextField, JTextField, KTextField, rTextField, zTextField, nEigenfunctionTextField;
-    private double L, R, n, λ;
     private double[] r, z;
-    private Integer J, K, nEigenfunction;
     private InputDataDto inputDataDto;
     private CrossSectionResultDataDto crossSectionResultDataDto;
     private PlotControllerConfiguration rConstPlotConfiguration;
@@ -56,6 +57,16 @@ public class InitController extends AbstractParentController implements Initiali
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        rCheckBox.selectedProperty()
+                .addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+                    zCheckBox.setSelected(old_val);
+                    fixedVariableType = FixedVariableType.r;
+                });
+        zCheckBox.selectedProperty()
+                .addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+                    rCheckBox.setSelected(old_val);
+                    fixedVariableType = FixedVariableType.z;
+                });
         Initializer.initializeWindowControllers(this.getClass(), stage, controllerMap);
         LTextField.setText("5");
         RTextField.setText("6");
@@ -66,27 +77,27 @@ public class InitController extends AbstractParentController implements Initiali
         nEigenfunctionTextField.setText("1");
         JTextField.setText("10");
         KTextField.setText("10");
-        mainPane.setStyle("-fx-background-color: #cde0cd");
-        rConstPlotConfiguration = new PlotControllerConfiguration("z", "u", "r, расстояние вдоль радиуса (мкм)", "|u(r,z)|");
-        zConstPlotConfiguration = new PlotControllerConfiguration("r", "u", "z, расстояние вдоль волновода (мкм)", "|u(r,z)|");
+        mainPane.setStyle("-fx-background-color:" + uiColor);
+        rConstPlotConfiguration = new PlotControllerConfiguration("z", "u", "r, расстояние вдоль радиуса волновода", "|u(r,z)|");
+        zConstPlotConfiguration = new PlotControllerConfiguration("r", "u", "z, расстояние вдоль волновода", "|u(r,z)|");
         epsConfiguration = new PlotControllerConfiguration("J", "δ", "J", "δ(h_r,h_z)");
     }
 
     private void readInitialConditions() throws NumberFormatException {
-        L = Double.parseDouble(LTextField.getText());
-        R = Double.parseDouble(RTextField.getText());
-        n = Double.parseDouble(nTextField.getText());
-        λ = Double.parseDouble(λTextField.getText());
+        double l = Double.parseDouble(LTextField.getText());
+        double r1 = Double.parseDouble(RTextField.getText());
+        double n = Double.parseDouble(nTextField.getText());
+        double λ = Double.parseDouble(λTextField.getText());
         r = Arrays.stream(rTextField.getText().split(";")).mapToDouble(Double::parseDouble).toArray();
         z = Arrays.stream(zTextField.getText().split(";")).mapToDouble(Double::parseDouble).toArray();
-        J = Integer.parseInt(JTextField.getText());
-        K = Integer.parseInt(KTextField.getText());
-        nEigenfunction = Integer.parseInt(nEigenfunctionTextField.getText());
+        Integer j = Integer.parseInt(JTextField.getText());
+        Integer k = Integer.parseInt(KTextField.getText());
+        Integer nEigenfunction = Integer.parseInt(nEigenfunctionTextField.getText());
         if (fixedVariableType.equals(FixedVariableType.r)) {
-            inputDataDto = new InputDataDto(J, K, nEigenfunction, λ, n, L, R, r, fixedVariableType);
+            inputDataDto = new InputDataDto(j, k, nEigenfunction, λ, n, l, r1, r, fixedVariableType);
             currentPlotConfiguration = rConstPlotConfiguration;
         } else {
-            inputDataDto = new InputDataDto(J, K, nEigenfunction, λ, n, L, R, z, fixedVariableType);
+            inputDataDto = new InputDataDto(j, k, nEigenfunction, λ, n, l, r1, z, fixedVariableType);
             currentPlotConfiguration = zConstPlotConfiguration;
         }
         JKConfiguration = ((SetJKController) getController("setJK")).getJKConfiguration();
@@ -129,18 +140,6 @@ public class InitController extends AbstractParentController implements Initiali
         } catch (JKConfigurationException re) {
             WarningWindows.showWarning(re.getMessage());
         }
-    }
-
-    @FXML
-    public void plotRConst() {
-        fixedVariableType = FixedVariableType.r;
-        plot();
-    }
-
-    @FXML
-    public void plotZConst() {
-        fixedVariableType = FixedVariableType.z;
-        plot();
     }
 
     @FXML
