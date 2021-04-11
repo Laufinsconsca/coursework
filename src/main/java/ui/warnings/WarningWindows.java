@@ -31,7 +31,7 @@ public class WarningWindows {
 
     private static void doOperation(String message, Alert.AlertType messageType) {
         Alert alert = new Alert(messageType);
-        alert.setTitle("Warning");
+        alert.setTitle("Предупреждение");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

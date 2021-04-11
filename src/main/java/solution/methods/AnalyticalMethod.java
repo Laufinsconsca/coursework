@@ -2,7 +2,6 @@ package solution.methods;
 
 import dto.InputDataDto;
 import enums.FixedVariableType;
-import javafx.collections.FXCollections;
 import model.Point;
 import model.complex.Complex;
 import model.tabulatedFunction.ArrayTabulatedFunction;
@@ -47,7 +46,7 @@ public class AnalyticalMethod extends BaseMethod implements ContinuousFunction {
                     points.add(new Point(i * h, v, u(i * h, v, λ, n, R, besselZeros.get(nEigenfunction - 1))));
                 }
             }
-            TabulatedFunction analyticalSolution = new ArrayTabulatedFunction(FXCollections.observableList(points), v);
+            TabulatedFunction analyticalSolution = new ArrayTabulatedFunction(points, v);
             if (fixedVariableType.equals(FixedVariableType.r)) {
                 analyticalSolution.setName("аналитическое\nрешение,\nr = " + v);
             } else {

@@ -2,4 +2,5 @@
 /target/
 /.idea/
 coursework-project.iml
+program_arguments.txt
 src/test/

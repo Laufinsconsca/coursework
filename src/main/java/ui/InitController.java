@@ -7,7 +7,6 @@ import exceptions.InvalidArrayLengthException;
 import exceptions.JKConfigurationException;
 import exceptions.NoGraphsToPlotException;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -152,6 +151,7 @@ public class InitController extends AbstractParentController implements Initiali
         try {
             readInitialConditions();
             PlotController plotController = (PlotController) getController();
+            plotController.getStage().setTitle("Построение графика");
             plotController.setConfiguration(currentPlotConfiguration);
             crossSectionResultDataDto = Calculator.crossSectionCalculate(inputDataDto);
             List<TabulatedFunction> functions = new ArrayList<>();
@@ -194,6 +194,7 @@ public class InitController extends AbstractParentController implements Initiali
                 throw new JKConfigurationException("J и K заданы только для одной схемы");
             }
             PlotController plotController = (PlotController) getController("plot");
+            plotController.getStage().setTitle("Построение графика отношения погрешностей аппроксимации");
             List<ImplicitSchemeEpsTableRow> implicitSchemeEpsTableRows = new ArrayList<>();
             List<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeEpsTableRows = new ArrayList<>();
             plotController.setConfiguration(epsConfiguration);
@@ -203,8 +204,10 @@ public class InitController extends AbstractParentController implements Initiali
             implicitSchemeFunction.setName("Неявная схема");
             TabulatedFunction crankNicolsonSchemeFunction = CrankNicolsonSchemeEpsTableRow.getCrankNicolsonSchemeFunction(crankNicolsonSchemeEpsTableRows);
             crankNicolsonSchemeFunction.setName("Схема Кранка-Николсона");
-            List<Point> points = List.of(new Point(implicitSchemeEpsTableRows.get(0).getJ(), 0, new Complex(4, 0)), new Point(implicitSchemeEpsTableRows.get(implicitSchemeEpsTableRows.size() - 1).getJ(), 0, new Complex(4, 0)));
-            TabulatedFunction function = new ArrayTabulatedFunction(FXCollections.observableList(points), 0);
+            List<Point> points = new ArrayList<>();
+            points.add(new Point(implicitSchemeEpsTableRows.get(0).getJ(), 0, new Complex(4, 0)));
+            points.add(new Point(implicitSchemeEpsTableRows.get(implicitSchemeEpsTableRows.size() - 1).getJ(), 0, new Complex(4, 0)));
+            TabulatedFunction function = new ArrayTabulatedFunction(points, 0);
             function.setName("Теоретический предел");
             plotController.setSeries(function);
             plotController.addSeries(implicitSchemeFunction);

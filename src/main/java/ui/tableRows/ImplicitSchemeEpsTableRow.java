@@ -2,7 +2,6 @@ package ui.tableRows;
 
 import dto.ComprehensiveResultDataDto;
 import dto.InputDataDto;
-import javafx.collections.FXCollections;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.Point;
@@ -39,12 +38,11 @@ public class ImplicitSchemeEpsTableRow {
     }
 
     public static TabulatedFunction getImplicitSchemeFunction(List<ImplicitSchemeEpsTableRow> implicitSchemeEpsTableRows) {
-        List<Point> implicitSchemePoints = implicitSchemeEpsTableRows.stream()
+        return new ArrayTabulatedFunction(implicitSchemeEpsTableRows.stream()
                 .map(implicitSchemeEpsTableRow ->
                         new Point(implicitSchemeEpsTableRow.getJ(),
                                 implicitSchemeEpsTableRow.getK(),
                                 new Complex(implicitSchemeEpsTableRow.getΔ_h_r_h_z(), 0)))
-                .collect(Collectors.toList());
-        return new ArrayTabulatedFunction(FXCollections.observableList(implicitSchemePoints), 0);
+                .collect(Collectors.toList()), 0);
     }
 }

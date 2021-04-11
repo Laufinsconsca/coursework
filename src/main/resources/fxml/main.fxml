@@ -4,8 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPane" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="739.0"
-            prefWidth="470.0" xmlns="http://javafx.com/javafx/8" fx:controller="ui.InitController">
+            prefHeight="740.0"
+            prefWidth="500.0" xmlns="http://javafx.com/javafx/8" fx:controller="ui.InitController">
     <TextField fx:id="LTextField" layoutX="267.0" layoutY="16.0" prefHeight="30.0" prefWidth="150.0"
                AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="16.0"/>
     <TextField fx:id="RTextField" layoutX="267.0" layoutY="56.0" prefHeight="30.0" prefWidth="150.0"
@@ -18,47 +18,46 @@
                AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="216.0"/>
     <TextField fx:id="zTextField" layoutX="310.0" layoutY="265.0" prefHeight="30.0" prefWidth="150.0"
                AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="256.0"/>
-    <Label alignment="CENTER_RIGHT" layoutX="12.0" layoutY="16.0" prefHeight="31.0" prefWidth="283.0"
-           text="длина волновода, L" textAlignment="CENTER" AnchorPane.leftAnchor="15.0"
-           AnchorPane.topAnchor="16.0">
+    <Label alignment="CENTER_RIGHT" layoutX="12.0" layoutY="16.0" prefHeight="31.0" prefWidth="310.0"
+           text="длина волновода, L" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="16.0">
         <font>
             <Font size="19.0"/>
         </font>
     </Label>
-    <Label alignment="CENTER_RIGHT" layoutX="16.0" layoutY="59.0" prefHeight="28.0" prefWidth="283.0"
-           text="радиус, R" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="59.0">
+    <Label alignment="CENTER_RIGHT" layoutX="16.0" layoutY="59.0" prefHeight="28.0" prefWidth="310.0" text="радиус, R"
+           textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="59.0">
         <font>
             <Font size="19.0"/>
         </font>
     </Label>
-    <Label alignment="CENTER_RIGHT" layoutX="26.0" layoutY="99.0" prefHeight="28.0" prefWidth="283.0"
+    <Label alignment="CENTER_RIGHT" layoutX="26.0" layoutY="99.0" prefHeight="28.0" prefWidth="310.0"
            text="показатель преломления, n" textAlignment="CENTER" AnchorPane.leftAnchor="15.0"
            AnchorPane.topAnchor="99.0">
         <font>
             <Font size="19.0"/>
         </font>
     </Label>
-    <Label alignment="CENTER_RIGHT" layoutX="68.0" layoutY="139.0" prefHeight="28.0" prefWidth="283.0"
+    <Label alignment="CENTER_RIGHT" layoutX="68.0" layoutY="139.0" prefHeight="28.0" prefWidth="310.0"
            text="длина волны, λ" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="139.0">
         <font>
             <Font size="19.0"/>
         </font>
     </Label>
-    <Label alignment="CENTER_RIGHT" layoutX="280.0" layoutY="228.0" prefHeight="28.0" prefWidth="22.0" text="r"
-           textAlignment="CENTER" AnchorPane.leftAnchor="276.0" AnchorPane.topAnchor="216.0">
+    <Label alignment="CENTER_RIGHT" layoutX="309.0" layoutY="218.0" prefHeight="28.0" prefWidth="17.0" text="r"
+           textAlignment="CENTER" AnchorPane.leftAnchor="309.0" AnchorPane.topAnchor="216.0">
         <font>
             <Font size="19.0"/>
         </font>
     </Label>
-    <Label alignment="CENTER_RIGHT" layoutX="280.0" layoutY="268.0" prefHeight="28.0" prefWidth="22.0" text="z"
-           textAlignment="CENTER" AnchorPane.leftAnchor="276.0" AnchorPane.topAnchor="256.0">
+    <Label alignment="CENTER_RIGHT" layoutX="309.0" layoutY="258.0" prefHeight="28.0" prefWidth="17.0" text="z"
+           textAlignment="CENTER" AnchorPane.leftAnchor="309.0" AnchorPane.topAnchor="258.0">
         <font>
             <Font size="19.0"/>
         </font>
     </Label>
-    <TextField fx:id="JTextField" layoutX="174.0" layoutY="225.0" prefHeight="31.0" prefWidth="110.0"
+    <TextField fx:id="JTextField" layoutX="174.0" layoutY="225.0" prefHeight="31.0" prefWidth="135.0"
                AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="216.0"/>
-    <TextField fx:id="KTextField" layoutX="174.0" layoutY="265.0" prefHeight="31.0" prefWidth="110.0"
+    <TextField fx:id="KTextField" layoutX="174.0" layoutY="265.0" prefHeight="31.0" prefWidth="135.0"
                AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="256.0"/>
     <Label layoutX="19.0" layoutY="225.0" prefHeight="31.0" prefWidth="150.0" text="разбиение по r, J"
            textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="216.0">
@@ -79,8 +78,8 @@
             <Font size="19.0"/>
         </font>
     </CheckBox>
-    <CheckBox fx:id="implicitSchemeCheckBox" layoutX="235.0" layoutY="332.0" mnemonicParsing="false"
-              prefHeight="28.0" prefWidth="283.0" selected="true" text="неявная схема" AnchorPane.leftAnchor="15.0"
+    <CheckBox fx:id="implicitSchemeCheckBox" layoutX="235.0" layoutY="332.0" mnemonicParsing="false" prefHeight="28.0"
+              prefWidth="283.0" selected="true" text="неявная схема" AnchorPane.leftAnchor="15.0"
               AnchorPane.rightAnchor="173.0" AnchorPane.topAnchor="328.0">
         <font>
             <Font size="19.0"/>
@@ -93,28 +92,28 @@
             <Font size="19.0"/>
         </font>
     </CheckBox>
-    <Button layoutX="15.0" layoutY="394.0" mnemonicParsing="false" onAction="#plot" prefHeight="37.0"
-            prefWidth="441.0" text="Построить график выбранного сечения" AnchorPane.leftAnchor="15.0"
-            AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="394.0">
+    <Button layoutX="15.0" layoutY="394.0" mnemonicParsing="false" onAction="#plot" prefHeight="37.0" prefWidth="441.0"
+            text="Построить график выбранного сечения" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0"
+            AnchorPane.topAnchor="394.0">
         <font>
             <Font size="16.0"/>
         </font>
     </Button>
-    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="435.0" prefHeight="40.0"
-           prefWidth="441.0" text="вычисление значения |u(r, z)|, r ∈ [0, R], z ∈ [0, L]" textAlignment="CENTER"
-           wrapText="true" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="435.0">
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="435.0" prefHeight="40.0" prefWidth="441.0"
+           text="вычисление значения |u(r, z)|, r ∈ [0, R], z ∈ [0, L]" textAlignment="CENTER" wrapText="true"
+           AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="435.0">
         <font>
             <Font size="19.0"/>
         </font>
     </Label>
-    <TextField fx:id="uAnalyticalSolutionTextField" editable="false" layoutX="306.0" layoutY="475.0"
-               prefHeight="31.0" prefWidth="150.0" AnchorPane.leftAnchor="306.0" AnchorPane.rightAnchor="15.0"
+    <TextField fx:id="uAnalyticalSolutionTextField" editable="false" layoutX="306.0" layoutY="475.0" prefHeight="31.0"
+               prefWidth="150.0" AnchorPane.leftAnchor="306.0" AnchorPane.rightAnchor="15.0"
                AnchorPane.topAnchor="475.0"/>
     <TextField fx:id="uImplicitSchemeTextField" editable="false" layoutX="306.0" layoutY="515.0" prefHeight="31.0"
                prefWidth="150.0" AnchorPane.leftAnchor="306.0" AnchorPane.rightAnchor="15.0"
                AnchorPane.topAnchor="515.0"/>
-    <TextField fx:id="uCrankNicolsonSchemeTextField" editable="false" layoutX="306.0" layoutY="555.0"
-               prefHeight="31.0" prefWidth="150.0" AnchorPane.leftAnchor="306.0" AnchorPane.rightAnchor="15.0"
+    <TextField fx:id="uCrankNicolsonSchemeTextField" editable="false" layoutX="306.0" layoutY="555.0" prefHeight="31.0"
+               prefWidth="150.0" AnchorPane.leftAnchor="306.0" AnchorPane.rightAnchor="15.0"
                AnchorPane.topAnchor="555.0"/>
     <Label alignment="CENTER_RIGHT" layoutX="17.0" layoutY="475.0" prefHeight="31.0" prefWidth="283.0"
            text="аналитическое значение" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="475.0">
@@ -135,8 +134,8 @@
         </font>
     </Label>
     <Button layoutX="11.0" layoutY="642.0" mnemonicParsing="false" onAction="#epsTable" prefHeight="31.0"
-            prefWidth="315.0" text="Таблица погрешностей" AnchorPane.bottomAnchor="61.0"
-            AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="15.0">
+            prefWidth="315.0" text="Таблица погрешностей" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="135.0"
+            AnchorPane.rightAnchor="15.0">
         <font>
             <Font size="16.0"/>
         </font>
@@ -148,9 +147,9 @@
             <Font size="16.0"/>
         </font>
     </Button>
-    <Button layoutX="13.0" layoutY="666.0" mnemonicParsing="false" onAction="#plotEpsTable" prefHeight="31.0"
-            prefWidth="270.0" text="График отношения погрешностей" AnchorPane.bottomAnchor="15.0"
-            AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="15.0">
+    <Button mnemonicParsing="false" onAction="#plotEpsTable" prefHeight="31.0" prefWidth="270.0"
+            text="График отношения погрешностей" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="135.0"
+            AnchorPane.rightAnchor="15.0">
         <font>
             <Font size="16.0"/>
         </font>
@@ -161,7 +160,7 @@
             <Font size="16.0"/>
         </font>
     </Button>
-    <Label alignment="CENTER_RIGHT" layoutX="20.0" layoutY="181.0" prefHeight="30.0" prefWidth="283.0"
+    <Label alignment="CENTER_RIGHT" layoutX="20.0" layoutY="181.0" prefHeight="30.0" prefWidth="310.0"
            text="номер собственной функции" textAlignment="CENTER" AnchorPane.leftAnchor="15.0"
            AnchorPane.topAnchor="176.0">
         <font>
@@ -183,8 +182,8 @@
             <Font size="19.0"/>
         </font>
     </CheckBox>
-    <Label alignment="TOP_LEFT" layoutX="306.0" layoutY="296.0" prefHeight="28.0" prefWidth="150.0"
-           text="Выбор сечения" AnchorPane.topAnchor="296.0">
+    <Label alignment="TOP_LEFT" layoutX="315.0" layoutY="296.0" prefHeight="28.0" prefWidth="150.0" text="Выбор сечения"
+           AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="296.0">
         <font>
             <Font size="19.0"/>
         </font>

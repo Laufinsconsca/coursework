@@ -2,13 +2,14 @@ package model.tabulatedFunction;
 
 import exceptions.InterpolationException;
 import exceptions.NaNException;
-import javafx.collections.ObservableList;
 import model.Point;
 import model.complex.Complex;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class ArrayTabulatedFunction implements Serializable, TabulatedFunction {
     private static final long serialVersionUID = 3990511369369675738L;
@@ -18,14 +19,15 @@ public class ArrayTabulatedFunction implements Serializable, TabulatedFunction {
     private final double fixedVariable;
     private String name;
 
-    public ArrayTabulatedFunction(ObservableList<Point> points, double fixedVariable) {
+    public ArrayTabulatedFunction(List<Point> points, double fixedVariable) {
         if (points.size() < 2) {
             throw new IllegalArgumentException("Array less than minimum length");
         }
         if (points.stream().anyMatch(point -> point.getU() != point.getU())) {
             throw new NaNException();
         }
-        points.sorted((o1, o2) -> (int) Math.signum(o1.getX() - o2.getX()));
+        points = points.stream().sorted((o1, o2) -> (int) Math.signum(o1.getX() - o2.getX())).collect(Collectors.toList());
+        //points.sorted((o1, o2) -> (int) Math.signum(o1.getX() - o2.getX()));
         xValues = new double[points.size()];
         uValues = new Complex[points.size()];
         this.fixedVariable = fixedVariable;
@@ -101,7 +103,7 @@ public class ArrayTabulatedFunction implements Serializable, TabulatedFunction {
 
     @Override
     public Iterator<Point> iterator() {
-        return new Iterator<>() {
+        return new Iterator() {
             int i = 0;
 
             public boolean hasNext() {

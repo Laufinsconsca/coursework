@@ -4,11 +4,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import sun.misc.Unsafe;
 import ui.InitController;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class Init extends Application {
 
@@ -39,7 +41,8 @@ public class Init extends Application {
 
         disableWarning();
 
-        primaryStage.setTitle("Курсовая работа 12 вариант");
+        primaryStage.setTitle("Курсовая работа 12 вариант Логачев В. И. Сергунин С. К.");
+        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/computer.png"))));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

@@ -2,7 +2,6 @@ package ui.tableRows;
 
 import dto.ComprehensiveResultDataDto;
 import dto.InputDataDto;
-import javafx.collections.FXCollections;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import model.Point;
@@ -39,12 +38,11 @@ public class CrankNicolsonSchemeEpsTableRow {
     }
 
     public static TabulatedFunction getCrankNicolsonSchemeFunction(List<CrankNicolsonSchemeEpsTableRow> crankNicolsonSchemeEpsTableRows) {
-        List<Point> crankNicolsonSchemePoints = crankNicolsonSchemeEpsTableRows.stream()
+        return new ArrayTabulatedFunction(crankNicolsonSchemeEpsTableRows.stream()
                 .map(crankNicolsonSchemeEpsTableRow ->
                         new Point(crankNicolsonSchemeEpsTableRow.getJ(),
                                 crankNicolsonSchemeEpsTableRow.getK(),
                                 new Complex(crankNicolsonSchemeEpsTableRow.getΔ_h_r_h_z(), 0)))
-                .collect(Collectors.toList());
-        return new ArrayTabulatedFunction(FXCollections.observableList(crankNicolsonSchemePoints), 0);
+                .collect(Collectors.toList()), 0);
     }
 }

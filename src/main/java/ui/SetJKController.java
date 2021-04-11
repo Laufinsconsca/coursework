@@ -137,6 +137,8 @@ public class SetJKController implements Initializable, aWindow {
                 if (!existingPoints.contains(Integer.parseInt(j.getText()))) {
                     table.getItems().add(new JKTableRow(Integer.parseInt(j.getText()), Integer.parseInt(k.getText())));
                     existingPoints.add(Integer.parseInt(j.getText()));
+                    j.setText("");
+                    k.setText("");
                 }
                 table.getItems().sort(Comparator.comparingInt(JKTableRow::getJ));
             } else if (j.getText().isEmpty()) {
@@ -202,6 +204,7 @@ public class SetJKController implements Initializable, aWindow {
             workbook.write(out);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException ignored) {
         }
     }
 

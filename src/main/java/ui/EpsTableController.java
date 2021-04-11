@@ -135,6 +135,7 @@ public class EpsTableController implements Initializable, aWindow, InputDataDtoH
             workbook.write(out);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException ignored) {
         }
     }
 

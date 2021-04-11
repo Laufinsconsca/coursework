@@ -2,7 +2,6 @@ package solution.methods;
 
 import dto.InputDataDto;
 import enums.FixedVariableType;
-import javafx.collections.FXCollections;
 import model.Point;
 import model.complex.Complex;
 import model.matrix.ComplexMatrix;
@@ -97,7 +96,7 @@ public abstract class BaseMethod implements CrossSectionCalculated {
                     points.add(new Point(h_r * i, h_z * layer, U.get(i + 1, layer + 1)));
                 }
             }
-            array.add(new ArrayTabulatedFunction(FXCollections.observableList(points), v));
+            array.add(new ArrayTabulatedFunction(points, v));
         }
         return array;
     }
