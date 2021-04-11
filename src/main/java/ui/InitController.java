@@ -204,10 +204,9 @@ public class InitController extends AbstractParentController implements Initiali
             implicitSchemeFunction.setName("Неявная схема");
             TabulatedFunction crankNicolsonSchemeFunction = CrankNicolsonSchemeEpsTableRow.getCrankNicolsonSchemeFunction(crankNicolsonSchemeEpsTableRows);
             crankNicolsonSchemeFunction.setName("Схема Кранка-Николсона");
-            List<Point> points = new ArrayList<>();
-            points.add(new Point(implicitSchemeEpsTableRows.get(0).getJ(), 0, new Complex(4, 0)));
-            points.add(new Point(implicitSchemeEpsTableRows.get(implicitSchemeEpsTableRows.size() - 1).getJ(), 0, new Complex(4, 0)));
-            TabulatedFunction function = new ArrayTabulatedFunction(points, 0);
+            TabulatedFunction function = new ArrayTabulatedFunction(List.of(
+                    new Point(implicitSchemeEpsTableRows.get(0).getJ(), 0, new Complex(4, 0)),
+                    new Point(implicitSchemeEpsTableRows.get(implicitSchemeEpsTableRows.size() - 1).getJ(), 0, new Complex(4, 0))), 0);
             function.setName("Теоретический предел");
             plotController.setSeries(function);
             plotController.addSeries(implicitSchemeFunction);

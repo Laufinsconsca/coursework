@@ -21,17 +21,16 @@ import ui.warnings.WarningWindows;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @AutoInitializableController(name = "Настройка J и K", type = Item.CONTROLLER, pathFXML = "setJK.fxml")
 public class SetJKController implements Initializable, aWindow {
     public static final FileChooser.ExtensionFilter xlsxExtensionFilter =
             new FileChooser.ExtensionFilter("XSLX files (*.xlsx)", "*.xlsx");
     static final String DEFAULT_DIRECTORY = System.getProperty("user.home");
-    private final List<Integer> implicitEpsTableExistingPoints = new ArrayList<>();
-    private final List<Integer> implicitEpsPlotExistingPoints = new ArrayList<>();
-    private final List<Integer> crankNicolsonEpsTableExistingPoints = new ArrayList<>();
-    private final List<Integer> crankNicolsonEpsPlotExistingPoints = new ArrayList<>();
+    private final Set<Integer> implicitEpsTableExistingPoints = new HashSet<>();
+    private final Set<Integer> implicitEpsPlotExistingPoints = new HashSet<>();
+    private final Set<Integer> crankNicolsonEpsTableExistingPoints = new HashSet<>();
+    private final Set<Integer> crankNicolsonEpsPlotExistingPoints = new HashSet<>();
     private final List<ObservableList<JKTableRow>> JKConfiguration = new ArrayList<>();
     @FXML
     TableColumn<JKTableRow, String> epsTableJColumn1, epsTableJColumn2;
@@ -96,7 +95,7 @@ public class SetJKController implements Initializable, aWindow {
         }
     }
 
-    private List<Integer> currentExistingPoints() {
+    private Set<Integer> currentExistingPoints() {
         if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
             if (tabPane1.getSelectionModel().getSelectedIndex() == 0) {
                 return implicitEpsTableExistingPoints;
@@ -131,7 +130,7 @@ public class SetJKController implements Initializable, aWindow {
     @FXML
     private void add() {
         TableView<JKTableRow> table = currentTable();
-        List<Integer> existingPoints = currentExistingPoints();
+        Set<Integer> existingPoints = currentExistingPoints();
         try {
             if (!j.getText().isEmpty() && !k.getText().isEmpty()) {
                 if (!existingPoints.contains(Integer.parseInt(j.getText()))) {
@@ -155,35 +154,24 @@ public class SetJKController implements Initializable, aWindow {
         try {
             List<List<JKTableRow>> jkTableRowList = getJK();
             switch (jkTableRowList.size()) {
-                case 1: {
-                    currentTable().getItems().addAll(jkTableRowList.get(0));
-                    currentExistingPoints().addAll(jkTableRowList.get(0).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                    break;
+                case 1 -> {
+                    importHelper(jkTableRowList.get(0), currentTable(), currentExistingPoints());
+                    currentTable().getItems().sort(Comparator.comparingInt(JKTableRow::getJ));
                 }
-                case 2: {
+                case 2 -> {
                     if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
-                        implicitEpsTable.getItems().addAll(jkTableRowList.get(0));
-                        implicitEpsTableExistingPoints.addAll(jkTableRowList.get(0).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                        crankNicolsonEpsTable.getItems().addAll(jkTableRowList.get(1));
-                        crankNicolsonEpsTableExistingPoints.addAll(jkTableRowList.get(1).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
+                        importHelper(jkTableRowList.get(0), implicitEpsTable, implicitEpsTableExistingPoints);
+                        importHelper(jkTableRowList.get(1), crankNicolsonEpsTable, crankNicolsonEpsTableExistingPoints);
                     } else {
-                        implicitPlotTable.getItems().addAll(jkTableRowList.get(0));
-                        implicitEpsPlotExistingPoints.addAll(jkTableRowList.get(0).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                        crankNicolsonPlotTable.getItems().addAll(jkTableRowList.get(1));
-                        crankNicolsonEpsPlotExistingPoints.addAll(jkTableRowList.get(1).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
+                        importHelper(jkTableRowList.get(0), implicitPlotTable, implicitEpsPlotExistingPoints);
+                        importHelper(jkTableRowList.get(1), crankNicolsonPlotTable, crankNicolsonEpsPlotExistingPoints);
                     }
-                    break;
                 }
-                case 4: {
-                    implicitEpsTable.getItems().addAll(jkTableRowList.get(0));
-                    implicitEpsTableExistingPoints.addAll(jkTableRowList.get(0).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                    crankNicolsonEpsTable.getItems().addAll(jkTableRowList.get(1));
-                    crankNicolsonEpsTableExistingPoints.addAll(jkTableRowList.get(1).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                    implicitPlotTable.getItems().addAll(jkTableRowList.get(2));
-                    implicitEpsPlotExistingPoints.addAll(jkTableRowList.get(2).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                    crankNicolsonPlotTable.getItems().addAll(jkTableRowList.get(3));
-                    crankNicolsonEpsPlotExistingPoints.addAll(jkTableRowList.get(3).stream().map(JKTableRow::getJ).collect(Collectors.toList()));
-                    break;
+                case 4 -> {
+                    importHelper(jkTableRowList.get(0), implicitEpsTable, implicitEpsTableExistingPoints);
+                    importHelper(jkTableRowList.get(1), crankNicolsonEpsTable, crankNicolsonEpsTableExistingPoints);
+                    importHelper(jkTableRowList.get(2), implicitPlotTable, implicitEpsPlotExistingPoints);
+                    importHelper(jkTableRowList.get(3), crankNicolsonPlotTable, crankNicolsonEpsPlotExistingPoints);
                 }
             }
         } catch (FileNotFoundException e) {
@@ -191,6 +179,16 @@ public class SetJKController implements Initializable, aWindow {
         } catch (NullPointerException ignored) {
 
         }
+    }
+
+    private void importHelper(List<JKTableRow> list, TableView<JKTableRow> table, Set<Integer> existingPoints) {
+        for (JKTableRow row : list) {
+            if (!existingPoints.contains(row.getJ())) {
+                table.getItems().add(new JKTableRow(row.getJ(), row.getK()));
+                existingPoints.add(row.getJ());
+            }
+        }
+        table.getItems().sort(Comparator.comparingInt(JKTableRow::getJ));
     }
 
     @FXML
@@ -229,7 +227,7 @@ public class SetJKController implements Initializable, aWindow {
         List<List<JKTableRow>> lists = new ArrayList<>();
         try {
             switch (workbook.getNumberOfSheets()) {
-                case 1: {
+                case 1 -> {
                     List<JKTableRow> jkList = new ArrayList<>();
                     XSSFSheet sheet = workbook.getSheetAt(0);
                     JKTableRow jk = new JKTableRow();
@@ -237,9 +235,8 @@ public class SetJKController implements Initializable, aWindow {
                     iterator.next();
                     iterator.forEachRemaining(row -> jkList.add(jk.toBuilder().J((int) row.getCell(0).getNumericCellValue()).K((int) row.getCell(1).getNumericCellValue()).build()));
                     lists.add(jkList);
-                    break;
                 }
-                case 2: {
+                case 2 -> {
                     if (!workbook.getSheetName(0).equals("Неявная схема") || !workbook.getSheetName(1).equals("Схема Кранка-Николсона")) {
                         throw new JKConfigurationException("Имена листов должны быть \"Неявная схема\" и \"Схема Кранка-Николсона\" соответственно");
                     }
@@ -252,15 +249,17 @@ public class SetJKController implements Initializable, aWindow {
                         iterator.forEachRemaining(row -> jkList.add(jk.toBuilder().J((int) row.getCell(0).getNumericCellValue()).K((int) row.getCell(1).getNumericCellValue()).build()));
                         lists.add(jkList);
                     }
-                    break;
                 }
-                case 4: {
+                case 4 -> {
                     if (!workbook.getSheetName(0).equals("ТП;Неявная схема")
                             || !workbook.getSheetName(1).equals("ТП;Схема Кранка-Николсона")
                             || !workbook.getSheetName(2).equals("ГОП;Неявная схема")
                             || !workbook.getSheetName(3).equals("ГОП;Схема Кранка-Николсона")) {
-                        throw new JKConfigurationException("Имена листов должны быть \"ТП;Неявная схема\",\n\"ТП;Схема Кранка-Николсона\",\n" +
-                                "\"ГОП;Неявная схема\"и \"ГОП;Схема Кранка-Николсона\"\nсоответственно");
+                        throw new JKConfigurationException("""
+                                Имена листов должны быть "ТП;Неявная схема",
+                                "ТП;Схема Кранка-Николсона",
+                                "ГОП;Неявная схема"и "ГОП;Схема Кранка-Николсона"
+                                соответственно""");
                     }
                     for (int i = 0; i < 4; i++) {
                         List<JKTableRow> jkList = new ArrayList<>();
@@ -271,10 +270,8 @@ public class SetJKController implements Initializable, aWindow {
                         iterator.forEachRemaining(row -> jkList.add(jk.toBuilder().J((int) row.getCell(0).getNumericCellValue()).K((int) row.getCell(1).getNumericCellValue()).build()));
                         lists.add(jkList);
                     }
-                    break;
                 }
-                default:
-                    throw new JKConfigurationException("Неверное количество листов в Excel файле");
+                default -> throw new JKConfigurationException("Неверное количество листов в Excel файле");
             }
         } catch (JKConfigurationException jke) {
             WarningWindows.showWarning(jke.getMessage());
