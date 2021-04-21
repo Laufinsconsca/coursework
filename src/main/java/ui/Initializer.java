@@ -4,6 +4,7 @@ import enums.Item;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.atteo.classindex.ClassIndex;
@@ -12,6 +13,7 @@ import ui.warnings.WarningWindows;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.StreamSupport;
 
 public class Initializer {
@@ -51,6 +53,7 @@ public class Initializer {
             modalityWindow = loader.getController();
             stage.setScene(new Scene(parent));
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.getIcons().add(new Image(Objects.requireNonNull(Initializer.class.getResourceAsStream("/computer.png"))));
             modalityWindow.setStage(stage);
         } catch (IOException e) {
             WarningWindows.showError(e);

@@ -133,9 +133,14 @@ public class SetJKController implements Initializable, aWindow {
         Set<Integer> existingPoints = currentExistingPoints();
         try {
             if (!j.getText().isEmpty() && !k.getText().isEmpty()) {
-                if (!existingPoints.contains(Integer.parseInt(j.getText()))) {
-                    table.getItems().add(new JKTableRow(Integer.parseInt(j.getText()), Integer.parseInt(k.getText())));
-                    existingPoints.add(Integer.parseInt(j.getText()));
+                int jValue = Integer.parseInt(j.getText());
+                int kValue = Integer.parseInt(k.getText());
+                if (jValue > 0 || kValue > 0) {
+                    throw new NumberFormatException();
+                }
+                if (!existingPoints.contains(jValue)) {
+                    table.getItems().add(new JKTableRow(jValue, kValue));
+                    existingPoints.add(jValue);
                     j.setText("");
                     k.setText("");
                 }
@@ -154,11 +159,12 @@ public class SetJKController implements Initializable, aWindow {
         try {
             List<List<JKTableRow>> jkTableRowList = getJK();
             switch (jkTableRowList.size()) {
-                case 1 -> {
+                case 1 : {
                     importHelper(jkTableRowList.get(0), currentTable(), currentExistingPoints());
                     currentTable().getItems().sort(Comparator.comparingInt(JKTableRow::getJ));
+                    break;
                 }
-                case 2 -> {
+                case 2 : {
                     if (tabPane.getSelectionModel().getSelectedIndex() == 0) {
                         importHelper(jkTableRowList.get(0), implicitEpsTable, implicitEpsTableExistingPoints);
                         importHelper(jkTableRowList.get(1), crankNicolsonEpsTable, crankNicolsonEpsTableExistingPoints);
@@ -166,12 +172,14 @@ public class SetJKController implements Initializable, aWindow {
                         importHelper(jkTableRowList.get(0), implicitPlotTable, implicitEpsPlotExistingPoints);
                         importHelper(jkTableRowList.get(1), crankNicolsonPlotTable, crankNicolsonEpsPlotExistingPoints);
                     }
+                    break;
                 }
-                case 4 -> {
+                case 4 : {
                     importHelper(jkTableRowList.get(0), implicitEpsTable, implicitEpsTableExistingPoints);
                     importHelper(jkTableRowList.get(1), crankNicolsonEpsTable, crankNicolsonEpsTableExistingPoints);
                     importHelper(jkTableRowList.get(2), implicitPlotTable, implicitEpsPlotExistingPoints);
                     importHelper(jkTableRowList.get(3), crankNicolsonPlotTable, crankNicolsonEpsPlotExistingPoints);
+                    break;
                 }
             }
         } catch (FileNotFoundException e) {
@@ -227,7 +235,7 @@ public class SetJKController implements Initializable, aWindow {
         List<List<JKTableRow>> lists = new ArrayList<>();
         try {
             switch (workbook.getNumberOfSheets()) {
-                case 1 -> {
+                case 1 : {
                     List<JKTableRow> jkList = new ArrayList<>();
                     XSSFSheet sheet = workbook.getSheetAt(0);
                     JKTableRow jk = new JKTableRow();
@@ -235,8 +243,9 @@ public class SetJKController implements Initializable, aWindow {
                     iterator.next();
                     iterator.forEachRemaining(row -> jkList.add(jk.toBuilder().J((int) row.getCell(0).getNumericCellValue()).K((int) row.getCell(1).getNumericCellValue()).build()));
                     lists.add(jkList);
+                    break;
                 }
-                case 2 -> {
+                case 2 : {
                     if (!workbook.getSheetName(0).equals("Неявная схема") || !workbook.getSheetName(1).equals("Схема Кранка-Николсона")) {
                         throw new JKConfigurationException("Имена листов должны быть \"Неявная схема\" и \"Схема Кранка-Николсона\" соответственно");
                     }
@@ -249,17 +258,18 @@ public class SetJKController implements Initializable, aWindow {
                         iterator.forEachRemaining(row -> jkList.add(jk.toBuilder().J((int) row.getCell(0).getNumericCellValue()).K((int) row.getCell(1).getNumericCellValue()).build()));
                         lists.add(jkList);
                     }
+                    break;
                 }
-                case 4 -> {
+                case 4 : {
                     if (!workbook.getSheetName(0).equals("ТП;Неявная схема")
                             || !workbook.getSheetName(1).equals("ТП;Схема Кранка-Николсона")
                             || !workbook.getSheetName(2).equals("ГОП;Неявная схема")
                             || !workbook.getSheetName(3).equals("ГОП;Схема Кранка-Николсона")) {
-                        throw new JKConfigurationException("""
-                                Имена листов должны быть "ТП;Неявная схема",
-                                "ТП;Схема Кранка-Николсона",
-                                "ГОП;Неявная схема"и "ГОП;Схема Кранка-Николсона"
-                                соответственно""");
+                        throw new JKConfigurationException(
+                                "Имена листов должны быть \"ТП;Неявная схема\",\n" +
+                                "\"ТП;Схема Кранка-Николсона\",\n" +
+                                "\"ГОП;Неявная схема\"и \"ГОП;Схема Кранка-Николсона\"\n" +
+                                "соответственно");
                     }
                     for (int i = 0; i < 4; i++) {
                         List<JKTableRow> jkList = new ArrayList<>();
@@ -270,8 +280,9 @@ public class SetJKController implements Initializable, aWindow {
                         iterator.forEachRemaining(row -> jkList.add(jk.toBuilder().J((int) row.getCell(0).getNumericCellValue()).K((int) row.getCell(1).getNumericCellValue()).build()));
                         lists.add(jkList);
                     }
+                    break;
                 }
-                default -> throw new JKConfigurationException("Неверное количество листов в Excel файле");
+                default : throw new JKConfigurationException("Неверное количество листов в Excel файле");
             }
         } catch (JKConfigurationException jke) {
             WarningWindows.showWarning(jke.getMessage());

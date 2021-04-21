@@ -5,7 +5,6 @@ import exceptions.NaNException;
 import model.Point;
 import model.complex.Complex;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class ArrayTabulatedFunction implements Serializable, TabulatedFunction {
-    @Serial
     private static final long serialVersionUID = 3990511369369675738L;
     private final double[] xValues;
     private final Complex[] uValues;
