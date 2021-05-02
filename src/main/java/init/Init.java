@@ -41,7 +41,7 @@ public class Init extends Application {
 
         disableWarning();
 
-        primaryStage.setTitle("Курсовая работа 12 вариант Логачев В. И. Сергунин С. К.");
+        primaryStage.setTitle("Курсовая работа 12 вариант");
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/computer.png"))));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
