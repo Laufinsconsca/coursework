@@ -78,6 +78,7 @@ public class PlotController implements Initializable, aWindow {
     @Override
     public void setStage(Stage stage) {
         this.stage = stage;
+        stage.setOnCloseRequest(windowEvent -> removeAllSeries());
     }
 
     public void addSeries(TabulatedFunction function) {
