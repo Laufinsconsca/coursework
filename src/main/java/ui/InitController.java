@@ -167,15 +167,7 @@ public class InitController extends AbstractParentController implements Initiali
             if (functions.isEmpty()) {
                 throw new NoGraphsToPlotException();
             }
-            boolean isFirst = true;
-            for (TabulatedFunction function : functions) {
-                if (isFirst) {
-                    plotController.setSeries(function);
-                    isFirst = false;
-                } else {
-                    plotController.addSeries(function);
-                }
-            }
+            functions.forEach(plotController::offerSeries);
             plotController.getStage().show();
         } catch (NumberFormatException e) {
             WarningWindows.showWarning("Ошибка ввода начальных условий");

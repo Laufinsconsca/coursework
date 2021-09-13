@@ -48,9 +48,11 @@ public class PlotController implements Initializable, aWindow {
     private AnchorPane detailsWindow;
     private PlotController.DetailsPopup detailsPopup;
     private PlotControllerConfiguration configuration;
+    private int numberOfRenderedGraphs;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        numberOfRenderedGraphs = 0;
         detailsWindow = new AnchorPane();
         lineChart.setCreateSymbols(false);
         bindMouseEvents(lineChart, crosshairLineWidth);
@@ -91,13 +93,26 @@ public class PlotController implements Initializable, aWindow {
         lineChart.getData().add(series);
         functionColorMap.putIfAbsent(function, getColorFromCSS(series));
         detailsPopup.addPopupRow(function);
-        //lineChart.lookup(".series0").setStyle("-fx-stroke-dash-array: 1.2 3.0; "); for dashed line
+        numberOfRenderedGraphs++;
     }
 
     public void setSeries(TabulatedFunction function) {
+        removeAllSeries();
+        addSeries(function);
+    }
+
+    public void offerSeries(TabulatedFunction function) {
+        if (numberOfRenderedGraphs == 0) {
+            setSeries(function);
+        } else {
+            addSeries(function);
+        }
+    }
+
+    public void removeAllSeries(){
         lineChart.getData().clear();
         detailsPopup.clear();
-        addSeries(function);
+        numberOfRenderedGraphs = 0;
     }
 
     private Color getColorFromCSS(XYChart.Series<Double, Double> series) {
@@ -220,7 +235,6 @@ public class PlotController implements Initializable, aWindow {
     private class DetailsPopup extends VBox {
 
         private final ObservableList<TabulatedFunction> functions = FXCollections.observableArrayList();
-
 
         private DetailsPopup() {
             setStyle("-fx-border-width: 1; -fx-padding: 5 5 5 5; -fx-border-color: gray; -fx-background-color: whitesmoke;");

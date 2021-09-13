@@ -8,34 +8,42 @@
 
 .default-color0.chart-series-line {
     -fx-stroke: green;
+    /*-fx-stroke-dash-array: 1.2 3.0; dashed line */
 }
 
 .default-color1.chart-series-line {
     -fx-stroke: blue;
+    /*-fx-stroke-dash-array: 1.2 3.0; dashed line */
 }
 
 .default-color2.chart-series-line {
     -fx-stroke: red;
+    /*-fx-stroke-dash-array: 1.2 3.0; dashed line */
 }
 
 .default-color3.chart-series-line {
     -fx-stroke: black;
+    /*-fx-stroke-dash-array: 1.2 3.0; dashed line */
 }
 
 .default-color4.chart-series-line {
     -fx-stroke: #bb00ff;
+    /*-fx-stroke-dash-array: 1.2 3.0; dashed line */
 }
 
 .default-color5.chart-series-line {
     -fx-stroke: #fc6500;
+    /*-fx-stroke-dash-array: 1.2 3.0; dashed line */
 }
 
 .default-color6.chart-series-line {
     -fx-stroke: brown;
+    /*-fx-stroke-dash-array: 1.2 3.0; dashed line */
 }
 
 .default-color7.chart-series-line {
     -fx-stroke: #00ffc4;
+    /*-fx-stroke-dash-array: 1.2 3.0; dashed line */
 }
 
 .default-color0.chart-line-symbol {
