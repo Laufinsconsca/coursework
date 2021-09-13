@@ -135,7 +135,7 @@ public class SetJKController implements Initializable, aWindow {
             if (!j.getText().isEmpty() && !k.getText().isEmpty()) {
                 int jValue = Integer.parseInt(j.getText());
                 int kValue = Integer.parseInt(k.getText());
-                if (jValue > 0 || kValue > 0) {
+                if (jValue <= 0 || kValue <= 0) {
                     throw new NumberFormatException();
                 }
                 if (!existingPoints.contains(jValue)) {
