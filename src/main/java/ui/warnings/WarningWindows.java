@@ -3,10 +3,13 @@ package ui.warnings;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Objects;
 
 public class WarningWindows {
     public static void showError(Exception e) {
@@ -20,6 +23,7 @@ public class WarningWindows {
         textArea.setText(stackTrace);
         dialogPaneContent.getChildren().addAll(label, textArea);
         alert.getDialogPane().setContent(dialogPaneContent);
+        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Objects.requireNonNull(WarningWindows.class.getResourceAsStream("/computer.png"))));
         alert.showAndWait();
     }
 
@@ -34,6 +38,7 @@ public class WarningWindows {
         alert.setTitle("Предупреждение");
         alert.setHeaderText(null);
         alert.setContentText(message);
+        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(Objects.requireNonNull(WarningWindows.class.getResourceAsStream("/computer.png"))));
         alert.showAndWait();
     }
 
